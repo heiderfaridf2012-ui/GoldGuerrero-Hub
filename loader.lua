@@ -2,7 +2,6 @@
 --        ⚔️ GOLD GUERRERO HUB — VERIFICADO ✅
 --  ✅ Estilo Young0x | ✅ TODO VISIBLE EN CELULAR
 --  ✅ Pestañas + Stats + Interruptores + Cerrar
---  ✅ Se superpone al juego | ✅ Sin recortes
 -- ==================================================
 
 local ScreenGui = Instance.new("ScreenGui")
@@ -11,7 +10,7 @@ ScreenGui.Parent = game.CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
 
--- 🔳 VENTANA — TAMAÑO SUFICIENTE PARA TODO
+-- 🔳 VENTANA PRINCIPAL
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
@@ -19,7 +18,7 @@ MainFrame.BackgroundColor3 = Color3.fromRGB(22, 20, 28)
 MainFrame.BorderColor3 = Color3.fromRGB(220, 50, 80)
 MainFrame.BorderSizePixel = 2
 MainFrame.Position = UDim2.new(0.02, 0, 0.15, 0)
-MainFrame.Size = UDim2.new(0, 330, 0, 430)  -- ✅ ALTA SUFICIENTE, TODO CABE
+MainFrame.Size = UDim2.new(0, 330, 0, 430)
 MainFrame.Active = true
 MainFrame.Draggable = true
 MainFrame.ClipsDescendants = false
@@ -54,7 +53,7 @@ Subtitle.Text = "Muscle Legends"
 Subtitle.TextColor3 = Color3.fromRGB(180, 180, 180)
 Subtitle.TextSize = 11
 
--- 📂 PESTAÑAS — POSICIÓN CORRECTA, NO SE CORTAN
+-- 📂 PESTAÑAS
 local TabContainer = Instance.new("Frame")
 TabContainer.Parent = MainFrame
 TabContainer.BackgroundTransparency = 1
@@ -94,7 +93,7 @@ for i, TabData in ipairs(Tabs) do
     end)
 end
 
--- 📊 ESTADÍSTICAS — TODAS VISIBLES
+-- 📊 ESTADÍSTICAS
 local StatsContainer = Instance.new("Frame")
 StatsContainer.Parent = MainFrame
 StatsContainer.BackgroundColor3 = Color3.fromRGB(28, 25, 38)
@@ -136,7 +135,7 @@ for i, Name in ipairs(Headers) do
     Val.TextSize = 12
 end
 
--- 🔘 INTERRUPTORES — TODOS VISIBLES, NO SE CORTAN
+-- 🔘 INTERRUPTORES
 local OptionsContainer = Instance.new("Frame")
 OptionsContainer.Parent = MainFrame
 OptionsContainer.BackgroundTransparency = 1
@@ -197,7 +196,7 @@ for i, Opt in ipairs(Options) do
     end)
 end
 
--- ❌ BOTÓN CERRAR — SIEMPRE VISIBLE ABAJO
+-- ❌ BOTÓN CERRAR
 local CloseBtn = Instance.new("TextButton")
 CloseBtn.Parent = MainFrame
 CloseBtn.BackgroundColor3 = Color3.fromRGB(180, 35, 55)
@@ -215,6 +214,5 @@ CloseBtn.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
 end)
 
-print("✅ Gold Guerrero Hub — VERIFICADO Y CARGADO ✅")
-print("📱 Móvil optimizado | 🎨 Estilo Young0x")
-print("⚔️ ¡Disfruta tu Hub!")
+print("✅ Gold Guerrero Hub — CARGADO CORRECTAMENTE!")
+print("🎨 Estilo Young0x | 📱 Móvil optimizado")
