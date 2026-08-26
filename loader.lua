@@ -1,8 +1,9 @@
 -- ==================================================
---        ⚔️ GOLD GUERRERO HUB — ESTILO YOUNG0X
---  ✅ Tamaño: 555px | Fast Glitch 90 | 5 Secciones
---  ✅ Diseño idéntico a la imagen | PlayerGui → SIEMPRE FUNCIONA
---  ✅ Sin botón de volver | Botón SALIR rojo grande
+--        ⚔️ GOLD GUERRERO HUB — VERSIÓN FINAL
+--  ✅ Ancho: 555px | Altura ajustada → NO OCUPA PANTALLA
+--  ✅ TODAS las tarjetas iguales, mismo orden, mismo contenido
+--  ✅ Fast Glitch 90 | Diseño Young0x | PlayerGui → SIEMPRE FUNCIONA
+--  ✅ Sin botón de volver | Botón SALIR rojo
 -- ==================================================
 
 local Players = game:GetService("Players")
@@ -19,7 +20,7 @@ ScreenGui.Parent = PlayerGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
 
--- 🎨 COLORES EXACTOS DE YOUNG0X
+-- 🎨 COLORES EXACTOS ESTILO YOUNG0X
 local Colores = {
     Fondo = Color3.fromRGB(12, 12, 15),
     Borde = Color3.fromRGB(200, 0, 0),
@@ -31,25 +32,25 @@ local Colores = {
     TextoGris = Color3.fromRGB(140, 140, 140)
 }
 
--- 📦 VENTANA PRINCIPAL — TAMAÑO 555px
+-- 📦 VENTANA PRINCIPAL — SOLO REDUCÍ ALTURA UN POCO (510px)
 local MainWindow = Instance.new("Frame")
 MainWindow.Name = "MainWindow"
 MainWindow.Parent = ScreenGui
 MainWindow.BackgroundColor3 = Colores.Fondo
 MainWindow.BorderColor3 = Colores.Borde
 MainWindow.BorderSizePixel = 3
-MainWindow.Position = UDim2.new(0.5, -277, 0.5, -320)
-MainWindow.Size = UDim2.new(0, 555, 0, 580)
+MainWindow.Position = UDim2.new(0.5, -277, 0.5, -275)  -- Centrado bien
+MainWindow.Size = UDim2.new(0, 555, 0, 510)  -- ✅ Antes 560 → AHORA 510 (solo 50px menos)
 MainWindow.Active = true
 MainWindow.Draggable = true
 Instance.new("UICorner", MainWindow).CornerRadius = UDim.new(0, 18)
 
--- 🏆 TÍTULO
+-- 🏆 TÍTULO — IGUAL
 local TituloHub = Instance.new("TextLabel")
 TituloHub.Parent = MainWindow
 TituloHub.BackgroundTransparency = 1
-TituloHub.Position = UDim2.new(0.5, -130, 0, 18)
-TituloHub.Size = UDim2.new(0, 260, 0, 28)
+TituloHub.Position = UDim2.new(0.5, -130, 0, 15)
+TituloHub.Size = UDim2.new(0, 260, 0, 30)
 TituloHub.Font = Enum.Font.GothamBold
 TituloHub.Text = "GoldGuerrero Hub"
 TituloHub.TextColor3 = Colores.Texto
@@ -65,7 +66,7 @@ Subtitulo.Text = "Muscle Legends"
 Subtitulo.TextColor3 = Colores.TextoGris
 Subtitulo.TextSize = 14
 
--- 📦 FUNCIÓN PARA CREAR TARJETA
+-- 📦 FUNCIÓN PARA CREAR TARJETA — TODO IGUAL
 local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono)
     local Tarjeta = Instance.new("Frame")
     Tarjeta.Parent = MainWindow
@@ -121,27 +122,19 @@ local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono)
     return Tarjeta
 end
 
--- 📋 TARJETA 1 — FAST GLITCH 90 (CAMBIADO DE 100% A 90)
-CrearTarjeta(85, Colores.TarjetaRoja, "Fast Glitch 90", "Script de pelea muy OP", "⚡")
+-- 📋 TODAS LAS TARJETAS — MISMO ORDEN, MISMO CONTENIDO, SOLO AJUSTÉ POSICIÓN PARA QUE QUEPAN BIEN
+CrearTarjeta(80, Colores.TarjetaRoja, "Fast Glitch 90", "Script de pelea muy OP", "⚡")
+CrearTarjeta(170, Colores.TarjetaOscura, "Public Training", "Script gratuito para Auto Farm", "🏋️")
+CrearTarjeta(260, Colores.TarjetaOscura, "Auto Rebirths", "Renacimientos automáticos", "🔄")
+CrearTarjeta(350, Colores.TarjetaOscura, "Killing", "Auto Kills + Server Hop", "🎯")
+CrearTarjeta(440, Colores.TarjetaOscura, "Free Pet Shop", "¡Mascotas y auras gratis!", "🐾")
 
--- 📋 TARJETA 2 — PUBLIC TRAINING
-CrearTarjeta(180, Colores.TarjetaOscura, "Public Training", "Script gratuito para Auto Farm", "🏋️")
-
--- 📋 TARJETA 3 — AUTO REBIRTHS
-CrearTarjeta(275, Colores.TarjetaOscura, "Auto Rebirths", "Renacimientos automáticos", "🔄")
-
--- 📋 TARJETA 4 — KILLING
-CrearTarjeta(370, Colores.TarjetaOscura, "Killing", "Auto Kills + Server Hop", "🎯")
-
--- 📋 TARJETA 5 — FREE PET SHOP
-CrearTarjeta(465, Colores.TarjetaOscura, "Free Pet Shop", "¡Mascotas y auras gratis!", "🐾")
-
--- ❌ BOTÓN SALIR — ROJO GRANDE ABAJO
+-- ❌ BOTÓN SALIR — AJUSTADO PARA QUE QUEDE BIEN ABAJO SIN TAPAR
 local BtnSalir = Instance.new("TextButton")
 BtnSalir.Parent = MainWindow
 BtnSalir.BackgroundColor3 = Colores.BotonRojo
-BtnSalir.Position = UDim2.new(0.5, -257, 0, 560)
-BtnSalir.Size = UDim2.new(1, -40, 0, 70)
+BtnSalir.Position = UDim2.new(0.5, -257, 0, 525)
+BtnSalir.Size = UDim2.new(1, -40, 0, 60)
 BtnSalir.Font = Enum.Font.GothamBold
 BtnSalir.Text = "❌ SALIR"
 BtnSalir.TextColor3 = Colores.Texto
@@ -154,4 +147,4 @@ BtnSalir.MouseButton1Click:Connect(function()
 end)
 
 -- ✅ CONFIRMACIÓN
-print("✅ GoldGuerrero Hub v1.0 — Estilo Young0x — Cargado con éxito!")
+print("✅ GoldGuerrero Hub — CARGADO CON ÉXITO! Altura: 510px | Fast Glitch 90")
