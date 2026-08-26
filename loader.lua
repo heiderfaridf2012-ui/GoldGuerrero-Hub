@@ -1,50 +1,74 @@
 -- ==================================================
 --        ⚔️ GOLD GUERRERO HUB — VERSIÓN FINAL
 --  🇪🇸 TODO EN ESPAÑOL | ESTILO YOUNG0X
---  📱 ANCHO=555px | ALTO=420px ✅ COMPACTO
---  ❌ SIN BOTÓN VOLVER → AL ABRIR SOLO QUEDA ESA VENTANA
---  ✕ SOLO BOTÓN SALIR | TODAS LAS FUNCIONES CONECTADAS
+--  📱 COMPACTO | DESLIZANTE | PESTAÑAS
+--  ✨ Creado por: GoldGuerrero | Versión: 1.0
 -- ==================================================
 
 local CoreGui = game:GetService("CoreGui")
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TweenService = game:GetService("TweenService")
+local UIS = game:GetService("UserInputService")
 
 -- ✅ BORRA DUPLICADOS AL CARGAR
 if CoreGui:FindFirstChild("GoldGuerreroHub") then
     CoreGui.GoldGuerreroHub:Destroy()
 end
 
--- 🔴 ESTADOS DE TODAS LAS FUNCIONES (TODO EN ESPAÑOL)
+-- 🔴 ESTADOS GLOBALES
 local Estados = {
-    GlitchRapido = { Activar = false },
+    FastGlitch = {
+        Activar = false,
+        VelocidadExtra = false,
+        FuerzaDoble = false,
+        SinRetraso = false,
+        AutoRocks = false
+    },
     Entrenamiento = {
-        GolpearRocas = false,
-        LevantarPesas = false,
-        Flexionar = false,
-        VelocidadDoble = false
+        AutoWeight = false,
+        AutoPushups = false,
+        LockPosition = false,
+        AutoRebirths = false,
+        Fly = false,
+        FlySpeed = 10,
+        Stars = false,
+        AntiLag = 60,
+        AntiAFK = false,
+        ReclamarTodo = false
     },
-    Renacimiento = {
-        AutoRenacer = false,
-        SoloAlMaximo = false,
-        ComprarMejoras = false
+    Kills = {
+        AutoKill = false,
+        ServerHop = false,
+        NoAmigos = false,
+        ObjetivoJugador = "",
+        Kills = 0
     },
-    Combate = {
-        MatarEnemigos = false,
-        MatarJugadores = false,
-        CambiarServidor = false
+    PetShop = {
+        Gemas = 0,
+        PetSeleccionado = "",
+        CompraAutoPet = false,
+        AutoEvolucionar = false,
+        AuraSeleccionada = "",
+        CompraAutoAura = false
     },
-    Mascotas = {
-        TiendaGratis = false,
-        AbrirHuevos = false,
-        DuplicarMascotas = false
-    },
-    Extras = {
-        Teletransportar = false,
-        NoExpulsar = false,
-        RecogerMonedas = false
+    Rebirths = {
+        Rebirths = 18980,
+        Tamano1 = false,
+        PesaAuto = false,
+        AutoPushups = false,
+        TeleportKing = false,
+        BloquearPosicion = false,
+        AutoEgg = false,
+        Objetivo = 0,
+        RenacerHasta = false,
+        Ultimates = {
+            DailySpin = 0,
+            PetSlot = 0,
+            ItemCapacity = 0,
+            RepSpeed = 0,
+            DemonDamage = 0
+        }
     }
 }
 
@@ -55,467 +79,351 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
 
 -- ==================================================
--- 📂 FUNCIÓN ABRIR VENTANA → BORRA EL MENÚ PRINCIPAL
--- ❌ SIN BOTÓN VOLVER → SOLO QUEDA LA VENTANA
+-- 📂 FUNCIÓN DE VENTANA CON PESTAÑAS
 -- ==================================================
-local function AbrirVentana(titulo, opciones, datosEstado)
-    -- ✅ BORRA EL MENÚ PRINCIPAL
-    if ScreenGui:FindFirstChild("MainFrame") then
-        ScreenGui.MainFrame:Destroy()
-    end
-
-    -- ✅ BORRA VENTANA ANTERIOR
-    if ScreenGui:FindFirstChild("VentanaFrame") then
-        ScreenGui.VentanaFrame:Destroy()
-    end
-
-    -- ✅ CREA LA VENTANA NUEVA (ES EL NUEVO MENÚ)
+local function CrearVentanaPestanas(titulo, pestanas, colorAcento)
     local Ventana = Instance.new("Frame")
-    Ventana.Name = "VentanaFrame"
+    Ventana.Name = "Ventana"
     Ventana.Parent = ScreenGui
-    Ventana.BackgroundColor3 = Color3.fromRGB(15, 10, 20)
-    Ventana.BorderColor3 = Color3.fromRGB(0, 180, 90)
+    Ventana.BackgroundColor3 = Color3.fromRGB(22, 18, 28)
+    Ventana.BorderColor3 = colorAcento
     Ventana.BorderSizePixel = 2
-    Ventana.Position = UDim2.new(0.5, -277, 0.5, -210)
-    Ventana.Size = UDim2.new(0, 555, 0, 420)
+    Ventana.Position = UDim2.new(0.5, -200, 0.5, -250)
+    Ventana.Size = UDim2.new(0, 400, 0, 500)
     Ventana.Active = true
     Ventana.Draggable = true
     Instance.new("UICorner", Ventana).CornerRadius = UDim.new(0, 16)
 
-    -- 🏷️ TÍTULO DE LA VENTANA
-    local TituloVentana = Instance.new("TextLabel")
-    TituloVentana.Parent = Ventana
-    TituloVentana.BackgroundTransparency = 1
-    TituloVentana.Position = UDim2.new(0.5, -150, 0, 15)
-    TituloVentana.Size = UDim2.new(0, 300, 0, 28)
-    TituloVentana.Font = Enum.Font.GothamBold
-    TituloVentana.Text = titulo
-    TituloVentana.TextColor3 = Color3.fromRGB(0, 255, 120)
-    TituloVentana.TextSize = 20
+    -- 🏆 TÍTULO
+    local Titulo = Instance.new("TextLabel")
+    Titulo.Parent = Ventana
+    Titulo.BackgroundTransparency = 1
+    Titulo.Position = UDim2.new(0.5, -150, 0, 12)
+    Titulo.Size = UDim2.new(0, 300, 0, 28)
+    Titulo.Font = Enum.Font.GothamBold
+    Titulo.Text = titulo
+    Titulo.TextColor3 = colorAcento
+    Titulo.TextSize = 20
+    Titulo.TextXAlignment = Enum.TextXAlignment.Center
 
-    -- 🔴 LÍNEA SEPARADORA
-    local Linea = Instance.new("Frame")
-    Linea.Parent = Ventana
-    Linea.BackgroundColor3 = Color3.fromRGB(0, 180, 90)
-    Linea.Position = UDim2.new(0.05, 0, 0, 55)
-    Linea.Size = UDim2.new(0.90, 0, 0, 2)
+    -- 📂 CONTENEDOR DE PESTAÑAS
+    local PestanaContainer = Instance.new("Frame")
+    PestanaContainer.Parent = Ventana
+    PestanaContainer.BackgroundTransparency = 1
+    PestanaContainer.Position = UDim2.new(0.05, 0, 0, 50)
+    PestanaContainer.Size = UDim2.new(0.90, 0, 0, 36)
 
-    -- ⚙️ CREAR LOS BOTONES DE OPCIONES
-    for i, opcion in ipairs(opciones) do
-        local Fila = Instance.new("Frame")
-        Fila.Parent = Ventana
-        Fila.BackgroundColor3 = Color3.fromRGB(30, 20, 40)
-        Fila.BorderColor3 = Color3.fromRGB(50, 35, 65)
-        Fila.BorderSizePixel = 1
-        Fila.Position = UDim2.new(0.05, 0, 0, 70 + (i-1)*50)
-        Fila.Size = UDim2.new(0.90, 0, 0, 42)
-        Instance.new("UICorner", Fila).CornerRadius = UDim.new(0, 10)
+    local PestanaLayout = Instance.new("UIGridLayout")
+    PestanaLayout.Parent = PestanaContainer
+    PestanaLayout.CellSize = UDim2.new(0, 120, 0, 36)
+    PestanaLayout.CellPadding = UDim2.new(0, 8, 0, 0)
+    PestanaLayout.FillDirection = Enum.FillDirection.Horizontal
+    PestanaLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
-        local Etiqueta = Instance.new("TextLabel")
-        Etiqueta.Parent = Fila
-        Etiqueta.BackgroundTransparency = 1
-        Etiqueta.Position = UDim2.new(0.05, 0, 0.5, -12)
-        Etiqueta.Size = UDim2.new(0.65, 0, 0, 24)
-        Etiqueta.Font = Enum.Font.Gotham
-        Etiqueta.Text = opcion.Nombre
-        Etiqueta.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Etiqueta.TextSize = 15
+    -- 📜 CONTENEDOR DESLIZANTE
+    local ScrollingFrame = Instance.new("ScrollingFrame")
+    ScrollingFrame.Parent = Ventana
+    ScrollingFrame.BackgroundTransparency = 1
+    ScrollingFrame.Position = UDim2.new(0.05, 0, 0, 95)
+    ScrollingFrame.Size = UDim2.new(0.90, 0, 1, -110)
+    ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+    ScrollingFrame.ScrollBarThickness = 5
+    ScrollingFrame.ScrollBarColor3 = colorAcento
+    ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
-        local Boton = Instance.new("TextButton")
-        Boton.Parent = Fila
-        Boton.BackgroundColor3 = datosEstado[opcion.Clave] and Color3.fromRGB(25, 180, 70) or Color3.fromRGB(80, 30, 50)
-        Boton.Position = UDim2.new(0.80, -50, 0.5, -15)
-        Boton.Size = UDim2.new(0, 100, 0, 30)
-        Boton.Font = Enum.Font.GothamBold
-        Boton.Text = datosEstado[opcion.Clave] and "✅ ACTIVO" or "🔴 DESACT."
-        Boton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Boton.TextSize = 12
-        Instance.new("UICorner", Boton).CornerRadius = UDim.new(0, 8)
+    local ListaLayout = Instance.new("UIListLayout")
+    ListaLayout.Parent = ScrollingFrame
+    ListaLayout.Padding = UDim.new(0, 8)
+    ListaLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
-        Boton.MouseButton1Click:Connect(function()
-            datosEstado[opcion.Clave] = not datosEstado[opcion.Clave]
-            Boton.BackgroundColor3 = datosEstado[opcion.Clave] and Color3.fromRGB(25, 180, 70) or Color3.fromRGB(80, 30, 50)
-            Boton.Text = datosEstado[opcion.Clave] and "✅ ACTIVO" or "🔴 DESACT."
-        end)
+    -- 🔄 CAMBIAR PESTAÑA
+    local ContenidoPorPestana = {}
+    local PestanaActiva = 1
+
+    local function MostrarPestana(indice)
+        PestanaActiva = indice
+        for i, hijo in ipairs(ScrollingFrame:GetChildren()) do
+            if hijo:IsA("Frame") then
+                hijo.Visible = false
+            end
+        end
+        if ContenidoPorPestana[indice] then
+            ContenidoPorPestana[indice].Visible = true
+        end
+        for i, boton in ipairs(PestanaContainer:GetChildren()) do
+            if boton:IsA("TextButton") then
+                if i == indice then
+                    boton.BackgroundColor3 = colorAcento
+                    boton.TextColor3 = Color3.fromRGB(255,255,255)
+                else
+                    boton.BackgroundColor3 = Color3.fromRGB(40, 35, 50)
+                    boton.TextColor3 = Color3.fromRGB(180,180,180)
+                end
+            end
+        end
     end
 
-    -- ✕ BOTÓN SALIR (ÚNICO BOTÓN PARA CERRAR TODO)
-    local BotonSalir = Instance.new("TextButton")
-    BotonSalir.Parent = Ventana
-    BotonSalir.BackgroundColor3 = Color3.fromRGB(200, 0, 25)
-    BotonSalir.Position = UDim2.new(0.5, -90, 1, -55)
-    BotonSalir.Size = UDim2.new(0, 180, 0, 40)
-    BotonSalir.Font = Enum.Font.GothamBold
-    BotonSalir.Text = "✕ CERRAR TODO"
-    BotonSalir.TextColor3 = Color3.fromRGB(255, 255, 255)
-    BotonSalir.TextSize = 16
-    Instance.new("UICorner", BotonSalir).CornerRadius = UDim.new(0, 10)
-    BotonSalir.MouseButton1Click:Connect(function()
-        ScreenGui:Destroy()
-    end)
+    -- 📂 CREAR BOTONES DE PESTAÑAS
+    for i, pestana in ipairs(pestanas) do
+        local BotonPestana = Instance.new("TextButton")
+        BotonPestana.Parent = PestanaContainer
+        BotonPestana.Name = "Pestana_"..pestana.Nombre
+        BotonPestana.BackgroundColor3 = i == 1 and colorAcento or Color3.fromRGB(40, 35, 50)
+        BotonPestana.Font = Enum.Font.GothamBold
+        BotonPestana.Text = pestana.Nombre
+        BotonPestana.TextColor3 = i == 1 and Color3.fromRGB(255,255,255) or Color3.fromRGB(180,180,180)
+        BotonPestana.TextSize = 14
+        BotonPestana.AutoLocalize = false
+        BotonPestana.MouseButton1Click:Connect(function()
+            MostrarPestana(i)
+        end)
+
+        -- 📜 CONTENIDO DE LA PESTAÑA
+        local Contenido = Instance.new("Frame")
+        Contenido.Parent = ScrollingFrame
+        Contenido.Visible = i == 1
+        Contenido.BackgroundTransparency = 1
+        Contenido.Size = UDim2.new(1, 0, 0, 0)
+        Contenido.AutomaticSize = Enum.AutomaticSize.Y
+        ContenidoPorPestana[i] = Contenido
+
+        local ContenidoLayout = Instance.new("UIListLayout")
+        ContenidoLayout.Parent = Contenido
+        ContenidoLayout.Padding = UDim.new(0, 8)
+
+        -- ⚙️ AGREGAR OPCIONES
+        for _, opcion in ipairs(pestana.Opciones) do
+            if opcion.Tipo == "Interruptor" then
+                local Fila = Instance.new("Frame")
+                Fila.Parent = Contenido
+                Fila.BackgroundColor3 = Color3.fromRGB(35, 30, 45)
+                Fila.Size = UDim2.new(1, 0, 0, 48)
+                Instance.new("UICorner", Fila).CornerRadius = UDim.new(0, 8)
+
+                local Nombre = Instance.new("TextLabel")
+                Nombre.Parent = Fila
+                Nombre.BackgroundTransparency = 1
+                Nombre.Position = UDim2.new(0, 15, 0, 0)
+                Nombre.Size = UDim2.new(0.8, -15, 1, 0)
+                Nombre.Font = Enum.Font.Gotham
+                Nombre.Text = opcion.Nombre
+                Nombre.TextColor3 = Color3.fromRGB(230,230,230)
+                Nombre.TextSize = 15
+                Nombre.TextXAlignment = Enum.TextXAlignment.Left
+
+                local Switch = Instance.new("Frame")
+                Switch.Parent = Fila
+                Switch.Name = "Switch"
+                Switch.BackgroundColor3 = opcion.Valor and Color3.fromRGB(0, 200, 100) or Color3.fromRGB(80, 80, 80)
+                Switch.Position = UDim2.new(1, -45, 0.5, -12)
+                Switch.Size = UDim2.new(0, 24, 0, 24)
+                Instance.new("UICorner", Switch).CornerRadius = UDim.new(1, 0)
+
+                local BotonClick = Instance.new("TextButton")
+                BotonClick.Parent = Fila
+                BotonClick.BackgroundTransparency = 1
+                BotonClick.Size = UDim2.new(1, 0, 1, 0)
+                BotonClick.Text = ""
+                BotonClick.MouseButton1Click:Connect(function()
+                    opcion.Valor = not opcion.Valor
+                    Switch.BackgroundColor3 = opcion.Valor and Color3.fromRGB(0, 200, 100) or Color3.fromRGB(80, 80, 80)
+                    if opcion.Callback then opcion.Callback(opcion.Valor) end
+                end)
+            elseif opcion.Tipo == "Deslizador" then
+                -- Barra deslizante
+                local Fila = Instance.new("Frame")
+                Fila.Parent = Contenido
+                Fila.BackgroundColor3 = Color3.fromRGB(35, 30, 45)
+                Fila.Size = UDim2.new(1, 0, 0, 56)
+                Instance.new("UICorner", Fila).CornerRadius = UDim.new(0, 8)
+
+                local Nombre = Instance.new("TextLabel")
+                Nombre.Parent = Fila
+                Nombre.BackgroundTransparency = 1
+                Nombre.Position = UDim2.new(0, 15, 0, 5)
+                Nombre.Size = UDim2.new(0.9, -15, 0, 20)
+                Nombre.Font = Enum.Font.Gotham
+                Nombre.Text = opcion.Nombre.." : "..opcion.Valor
+                Nombre.TextColor3 = Color3.fromRGB(230,230,230)
+                Nombre.TextSize = 14
+                Nombre.TextXAlignment = Enum.TextXAlignment.Left
+
+                local BarraFondo = Instance.new("Frame")
+                BarraFondo.Parent = Fila
+                BarraFondo.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+                BarraFondo.Position = UDim2.new(0, 15, 0, 32)
+                BarraFondo.Size = UDim2.new(0.9, -15, 0, 8)
+                Instance.new("UICorner", BarraFondo).CornerRadius = UDim.new(1, 0)
+
+                local BarraLlena = Instance.new("Frame")
+                BarraLlena.Parent = BarraFondo
+                BarraLlena.BackgroundColor3 = colorAcento
+                BarraLlena.Size = UDim2.new((opcion.Valor - opcion.Min) / (opcion.Max - opcion.Min), 0, 1, 0)
+                Instance.new("UICorner", BarraLlena).CornerRadius = UDim.new(1, 0)
+
+                local Punto = Instance.new("Frame")
+                Punto.Parent = BarraFondo
+                Punto.BackgroundColor3 = Color3.fromRGB(255,255,255)
+                Punto.Position = UDim2.new((opcion.Valor - opcion.Min) / (opcion.Max - opcion.Min), -8, 0.5, -8)
+                Punto.Size = UDim2.new(0, 16, 0, 16)
+                Instance.new("UICorner", Punto).CornerRadius = UDim.new(1, 0)
+
+                -- Simplificado — funcionalidad completa la agregamos después
+            elseif opcion.Tipo == "Contador" then
+                local Fila = Instance.new("Frame")
+                Fila.Parent = Contenido
+                Fila.BackgroundColor3 = Color3.fromRGB(30, 25, 40)
+                Fila.BorderColor3 = colorAcento
+                Fila.BorderSizePixel = 1
+                Fila.Size = UDim2.new(1, 0, 0, 70)
+                Instance.new("UICorner", Fila).CornerRadius = UDim.new(0, 8)
+
+                local Etiqueta = Instance.new("TextLabel")
+                Etiqueta.Parent = Fila
+                Etiqueta.BackgroundTransparency = 1
+                Etiqueta.Position = UDim2.new(0.5, 0, 0, 8)
+                Etiqueta.Size = UDim2.new(0.9, 0, 0, 22)
+                Etiqueta.Font = Enum.Font.GothamBold
+                Etiqueta.Text = opcion.Nombre
+                Etiqueta.TextColor3 = colorAcento
+                Etiqueta.TextSize = 16
+                Etiqueta.TextXAlignment = Enum.TextXAlignment.Center
+
+                local Valor = Instance.new("TextLabel")
+                Valor.Parent = Fila
+                Valor.BackgroundTransparency = 1
+                Valor.Position = UDim2.new(0.5, 0, 0, 30)
+                Valor.Size = UDim2.new(0.9, 0, 0, 30)
+                Valor.Font = Enum.Font.GothamBold
+                Valor.Text = opcion.Valor
+                Valor.TextColor3 = Color3.fromRGB(255,255,255)
+                Valor.TextSize = 28
+                Valor.TextXAlignment = Enum.TextXAlignment.Center
+            elseif opcion.Tipo == "MejoraUltimate" then
+                local Fila = Instance.new("Frame")
+                Fila.Parent = Contenido
+                Fila.BackgroundColor3 = Color3.fromRGB(35, 30, 45)
+                Fila.Size = UDim2.new(1, 0, 0, 54)
+                Instance.new("UICorner", Fila).CornerRadius = UDim.new(0, 8)
+
+                local Barra = Instance.new("Frame")
+                Barra.Parent = Fila
+                Barra.BackgroundColor3 = opcion.Completo and Color3.fromRGB(0, 200, 100) or Color3.fromRGB(180, 40, 40)
+                Barra.Position = UDim2.new(0, 4, 0.5, -18)
+                Barra.Size = UDim2.new(0, 4, 0, 36)
+                Instance.new("UICorner", Barra).CornerRadius = UDim.new(1, 0)
+
+                local Nombre = Instance.new("TextLabel")
+                Nombre.Parent = Fila
+                Nombre.BackgroundTransparency = 1
+                Nombre.Position = UDim2.new(0, 15, 0, 0)
+                Nombre.Size = UDim2.new(0.7, 0, 1, 0)
+                Nombre.Font = Enum.Font.Gotham
+                Nombre.Text = opcion.Nombre
+                Nombre.TextColor3 = Color3.fromRGB(230,230,230)
+                Nombre.TextSize = 15
+                Nombre.TextXAlignment = Enum.TextXAlignment.Left
+
+                local Progreso = Instance.new("TextLabel")
+                Progreso.Parent = Fila
+                Progreso.BackgroundTransparency = 1
+                Progreso.Position = UDim2.new(0, 15, 0.7, -12)
+                Progreso.Size = UDim2.new(0.7, 0, 0, 16)
+                Progreso.Font = Enum.Font.Gotham
+                Progreso.Text = opcion.Progreso .. (opcion.Completo and " · ✅ Completo" or "")
+                Progreso.TextColor3 = opcion.Completo and Color3.fromRGB(0, 200, 100) or Color3.fromRGB(180, 40, 40)
+                Progreso.TextSize = 12
+                Progreso.TextXAlignment = Enum.TextXAlignment.Left
+
+                local BtnMenos = Instance.new("TextButton")
+                BtnMenos.Parent = Fila
+                BtnMenos.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
+                BtnMenos.Position = UDim2.new(0.8, -35, 0.5, -12)
+                BtnMenos.Size = UDim2.new(0, 24, 0, 24)
+                BtnMenos.Font = Enum.Font.GothamBold
+                BtnMenos.Text = "-"
+                BtnMenos.TextColor3 = Color3.fromRGB(255,255,255)
+                BtnMenos.TextSize = 16
+                BtnMenos.AutoLocalize = false
+                Instance.new("UICorner", BtnMenos).CornerRadius = UDim.new(4, 0)
+
+                local Valor = Instance.new("TextLabel")
+                Valor.Parent = Fila
+                Valor.BackgroundTransparency = 1
+                Valor.Position = UDim2.new(0.8, 0, 0.5, -10)
+                Valor.Size = UDim2.new(0.1, 0, 0, 20)
+                Valor.Font = Enum.Font.GothamBold
+                Valor.Text = tostring(opcion.Nivel)
+                Valor.TextColor3 = Color3.fromRGB(255,255,255)
+                Valor.TextSize = 15
+                Valor.TextXAlignment = Enum.TextXAlignment.Center
+
+                local BtnMas = Instance.new("TextButton")
+                BtnMas.Parent = Fila
+                BtnMas.BackgroundColor3 = colorAcento
+                BtnMas.Position = UDim2.new(0.95, -24, 0.5, -12)
+                BtnMas.Size = UDim2.new(0, 24, 0, 24)
+                BtnMas.Font = Enum.Font.GothamBold
+                BtnMas.Text = "+"
+                BtnMas.TextColor3 = Color3.fromRGB(255,255,255)
+                BtnMas.TextSize = 16
+                BtnMas.AutoLocalize = false
+                Instance.new("UICorner", BtnMas).CornerRadius = UDim.new(4, 0)
+            end
+        end
+    end
+
+    -- 🏆 FIRMA FINAL
+    local Firma = Instance.new("TextLabel")
+    Firma.Parent = Ventana
+    Firma.BackgroundTransparency = 1
+    Firma.Position = UDim2.new(0.5, -150, 1, -28)
+    Firma.Size = UDim2.new(0, 300, 0, 24)
+    Firma.Font = Enum.Font.Gotham
+    Firma.Text = "✨ Creado por: GoldGuerrero · v1.0 ✨"
+    Firma.TextColor3 = Color3.fromRGB(140, 140, 140)
+    Firma.TextSize = 12
+    Firma.TextXAlignment = Enum.TextXAlignment.Center
+
+    return Ventana
 end
 
 -- ==================================================
 -- 📋 MENÚ PRINCIPAL
 -- ==================================================
-local MainFrame = Instance.new("Frame")
-MainFrame.Name = "MainFrame"
-MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(15, 10, 20)
-MainFrame.BorderColor3 = Color3.fromRGB(180, 0, 25)
-MainFrame.BorderSizePixel = 2
-MainFrame.Position = UDim2.new(0.5, -277, 0.5, -210)
-MainFrame.Size = UDim2.new(0, 555, 0, 420)
-MainFrame.Active = true
-MainFrame.Draggable = true
-Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 16)
+local function CrearMenuPrincipal()
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Name = "MainFrame"
+    MainFrame.Parent = ScreenGui
+    MainFrame.BackgroundColor3 = Color3.fromRGB(22, 18, 28)
+    MainFrame.BorderColor3 = Color3.fromRGB(255, 215, 0)
+    MainFrame.BorderSizePixel = 2
+    MainFrame.Position = UDim2.new(0.5, -275, 0.5, -220)
+    MainFrame.Size = UDim2.new(0, 550, 0, 440)
+    MainFrame.Active = true
+    MainFrame.Draggable = true
+    Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 18)
 
--- 🏷️ TÍTULO
-local Titulo = Instance.new("TextLabel")
-Titulo.Parent = MainFrame
-Titulo.BackgroundTransparency = 1
-Titulo.Position = UDim2.new(0.5, -110, 0, 8)
-Titulo.Size = UDim2.new(0, 220, 0, 24)
-Titulo.Font = Enum.Font.GothamBold
-Titulo.Text = "GoldGuerrero Hub"
-Titulo.TextColor3 = Color3.fromRGB(255, 215, 0)
-Titulo.TextSize = 20
+    -- 🏆 TÍTULO
+    local Titulo = Instance.new("TextLabel")
+    Titulo.Parent = MainFrame
+    Titulo.BackgroundTransparency = 1
+    Titulo.Position = UDim2.new(0.5, -200, 0, 15)
+    Titulo.Size = UDim2.new(0, 400, 0, 32)
+    Titulo.Font = Enum.Font.GothamBold
+    Titulo.Text = "⚔️ GoldGuerrero Hub — Muscle Legends ⚔️"
+    Titulo.TextColor3 = Color3.fromRGB(255, 215, 0)
+    Titulo.TextSize = 22
+    Titulo.TextXAlignment = Enum.TextXAlignment.Center
 
-local Subtitulo = Instance.new("TextLabel")
-Subtitulo.Parent = MainFrame
-Subtitulo.BackgroundTransparency = 1
-Subtitulo.Position = UDim2.new(0.5, -75, 0, 30)
-Subtitulo.Size = UDim2.new(0, 150, 0, 14)
-Subtitulo.Font = Enum.Font.Gotham
-Subtitulo.Text = "Muscle Legends"
-Subtitulo.TextColor3 = Color3.fromRGB(180, 0, 25)
-Subtitulo.TextSize = 11
+    local Linea = Instance.new("Frame")
+    Linea.Parent = MainFrame
+    Linea.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
+    Linea.Position = UDim2.new(0.05, 0, 0, 55)
+    Linea.Size = UDim2.new(0.90, 0, 0, 2)
 
--- 🖼️ ICONO
-local IconoPerfil = Instance.new("Frame")
-IconoPerfil.Parent = MainFrame
-IconoPerfil.BackgroundColor3 = Color3.fromRGB(25, 40, 60)
-IconoPerfil.BorderColor3 = Color3.fromRGB(50, 100, 180)
-IconoPerfil.BorderSizePixel = 2
-IconoPerfil.Position = UDim2.new(0.05, 0, 0, 6)
-IconoPerfil.Size = UDim2.new(0, 38, 0, 38)
-Instance.new("UICorner", IconoPerfil).CornerRadius = UDim.new(0, 8)
-
-local EmojiPerfil = Instance.new("TextLabel")
-EmojiPerfil.Parent = IconoPerfil
-EmojiPerfil.BackgroundTransparency = 1
-EmojiPerfil.Size = UDim2.new(1, 0, 1, 0)
-EmojiPerfil.Font = Enum.Font.GothamBold
-EmojiPerfil.Text = "🥷"
-EmojiPerfil.TextSize = 20
-EmojiPerfil.TextColor3 = Color3.fromRGB(255, 255, 255)
-
--- 🔴 LÍNEA
-local LineaSup = Instance.new("Frame")
-LineaSup.Parent = MainFrame
-LineaSup.BackgroundColor3 = Color3.fromRGB(180, 0, 25)
-LineaSup.Position = UDim2.new(0.05, 0, 0, 50)
-LineaSup.Size = UDim2.new(0.90, 0, 0, 2)
-
--- ==================================================
--- ⚡ 1. GLITCH RÁPIDO
--- ==================================================
-local MarcoGlitch = Instance.new("Frame")
-MarcoGlitch.Parent = MainFrame
-MarcoGlitch.BackgroundColor3 = Color3.fromRGB(30, 15, 25)
-MarcoGlitch.BorderColor3 = Color3.fromRGB(60, 25, 40)
-MarcoGlitch.BorderSizePixel = 1
-MarcoGlitch.Position = UDim2.new(0.05, 0, 0, 62)
-MarcoGlitch.Size = UDim2.new(0.90, 0, 0, 60)
-Instance.new("UICorner", MarcoGlitch).CornerRadius = UDim.new(0, 12)
-
-local CajaRayo = Instance.new("Frame")
-CajaRayo.Parent = MarcoGlitch
-CajaRayo.BackgroundColor3 = Color3.fromRGB(220, 0, 30)
-CajaRayo.Position = UDim2.new(0.03, 0, 0.08, 0)
-CajaRayo.Size = UDim2.new(0, 50, 0, 48)
-Instance.new("UICorner", CajaRayo).CornerRadius = UDim.new(0, 12)
-
-local Rayo = Instance.new("TextLabel")
-Rayo.Parent = CajaRayo
-Rayo.BackgroundTransparency = 1
-Rayo.Size = UDim2.new(1, 0, 1, 0)
-Rayo.Font = Enum.Font.GothamBold
-Rayo.Text = "⚡"
-Rayo.TextSize = 24
-Rayo.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-local TextoGlitch = Instance.new("TextLabel")
-TextoGlitch.Parent = MarcoGlitch
-TextoGlitch.BackgroundTransparency = 1
-TextoGlitch.Position = UDim2.new(0.22, 0, 0.15, 0)
-TextoGlitch.Size = UDim2.new(0.45, 0, 0, 22)
-TextoGlitch.Font = Enum.Font.GothamBold
-TextoGlitch.Text = "Glitch Rápido"
-TextoGlitch.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextoGlitch.TextSize = 16
-
-local TextoGlitchDesc = Instance.new("TextLabel")
-TextoGlitchDesc.Parent = MarcoGlitch
-TextoGlitchDesc.BackgroundTransparency = 1
-TextoGlitchDesc.Position = UDim2.new(0.22, 0, 0.55, 0)
-TextoGlitchDesc.Size = UDim2.new(0.45, 0, 0, 14)
-TextoGlitchDesc.Font = Enum.Font.Gotham
-TextoGlitchDesc.Text = "Fuerza infinita muy rápido"
-TextoGlitchDesc.TextColor3 = Color3.fromRGB(160, 160, 170)
-TextoGlitchDesc.TextSize = 10
-
-local BtnGlitch = Instance.new("TextButton")
-BtnGlitch.Parent = MarcoGlitch
-BtnGlitch.BackgroundColor3 = Color3.fromRGB(220, 0, 30)
-BtnGlitch.Position = UDim2.new(0.75, 0, 0.12, 0)
-BtnGlitch.Size = UDim2.new(0, 90, 0, 45)
-BtnGlitch.Font = Enum.Font.GothamBold
-BtnGlitch.Text = "ABRIR"
-BtnGlitch.TextColor3 = Color3.fromRGB(255, 255, 255)
-BtnGlitch.TextSize = 13
-Instance.new("UICorner", BtnGlitch).CornerRadius = UDim.new(0, 12)
-BtnGlitch.MouseButton1Click:Connect(function()
-    AbrirVentana("⚡ GLITCH RÁPIDO", {
-        {Nombre="Activar Glitch de Velocidad", Clave="Activar"}
-    }, Estados.GlitchRapido)
-end)
-
--- ==================================================
--- 🏋️ 2. ENTRENAMIENTO AUTOMÁTICO
--- ==================================================
-local MarcoEntrenar = Instance.new("Frame")
-MarcoEntrenar.Parent = MainFrame
-MarcoEntrenar.BackgroundColor3 = Color3.fromRGB(30, 15, 25)
-MarcoEntrenar.BorderColor3 = Color3.fromRGB(60, 25, 40)
-MarcoEntrenar.BorderSizePixel = 1
-MarcoEntrenar.Position = UDim2.new(0.05, 0, 0, 132)
-MarcoEntrenar.Size = UDim2.new(0.90, 0, 0, 60)
-Instance.new("UICorner", MarcoEntrenar).CornerRadius = UDim.new(0, 12)
-
-local CajaPesas = Instance.new("Frame")
-CajaPesas.Parent = MarcoEntrenar
-CajaPesas.BackgroundColor3 = Color3.fromRGB(45, 20, 35)
-CajaPesas.Position = UDim2.new(0.03, 0, 0.08, 0)
-CajaPesas.Size = UDim2.new(0, 50, 0, 48)
-Instance.new("UICorner", CajaPesas).CornerRadius = UDim.new(0, 12)
-
-local Pesas = Instance.new("TextLabel")
-Pesas.Parent = CajaPesas
-Pesas.BackgroundTransparency = 1
-Pesas.Size = UDim2.new(1, 0, 1, 0)
-Pesas.Font = Enum.Font.GothamBold
-Pesas.Text = "🏋️"
-Pesas.TextSize = 24
-Pesas.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-local TextoEntrenar = Instance.new("TextLabel")
-TextoEntrenar.Parent = MarcoEntrenar
-TextoEntrenar.BackgroundTransparency = 1
-TextoEntrenar.Position = UDim2.new(0.22, 0, 0.15, 0)
-TextoEntrenar.Size = UDim2.new(0.45, 0, 0, 22)
-TextoEntrenar.Font = Enum.Font.GothamBold
-TextoEntrenar.Text = "Entrenamiento"
-TextoEntrenar.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextoEntrenar.TextSize = 16
-
-local TextoEntrenarDesc = Instance.new("TextLabel")
-TextoEntrenarDesc.Parent = MarcoEntrenar
-TextoEntrenarDesc.BackgroundTransparency = 1
-TextoEntrenarDesc.Position = UDim2.new(0.22, 0, 0.55, 0)
-TextoEntrenarDesc.Size = UDim2.new(0.45, 0, 0, 14)
-TextoEntrenarDesc.Font = Enum.Font.Gotham
-TextoEntrenarDesc.Text = "Auto entrenar fuerza"
-TextoEntrenarDesc.TextColor3 = Color3.fromRGB(160, 160, 170)
-TextoEntrenarDesc.TextSize = 10
-
-local BtnEntrenar = Instance.new("TextButton")
-BtnEntrenar.Parent = MarcoEntrenar
-BtnEntrenar.BackgroundColor3 = Color3.fromRGB(80, 25, 40)
-BtnEntrenar.Position = UDim2.new(0.75, 0, 0.12, 0)
-BtnEntrenar.Size = UDim2.new(0, 90, 0, 45)
-BtnEntrenar.Font = Enum.Font.GothamBold
-BtnEntrenar.Text = "ABRIR"
-BtnEntrenar.TextColor3 = Color3.fromRGB(255, 255, 255)
-BtnEntrenar.TextSize = 13
-Instance.new("UICorner", BtnEntrenar).CornerRadius = UDim.new(0, 12)
-BtnEntrenar.MouseButton1Click:Connect(function()
-    AbrirVentana("🏋️ ENTRENAMIENTO", {
-        {Nombre="Golpear Rocas Automático", Clave="GolpearRocas"},
-        {Nombre="Levantar Pesas Automático", Clave="LevantarPesas"},
-        {Nombre="Flexionar Automático", Clave="Flexionar"},
-        {Nombre="Velocidad Doble", Clave="VelocidadDoble"}
-    }, Estados.Entrenamiento)
-end)
-
--- ==================================================
--- 🔄 3. RENACIMIENTO AUTOMÁTICO
--- ==================================================
-local MarcoRenacer = Instance.new("Frame")
-MarcoRenacer.Parent = MainFrame
-MarcoRenacer.BackgroundColor3 = Color3.fromRGB(30, 15, 25)
-MarcoRenacer.BorderColor3 = Color3.fromRGB(60, 25, 40)
-MarcoRenacer.BorderSizePixel = 1
-MarcoRenacer.Position = UDim2.new(0.05, 0, 0, 202)
-MarcoRenacer.Size = UDim2.new(0.43, 0, 0, 60)
-Instance.new("UICorner", MarcoRenacer).CornerRadius = UDim.new(0, 12)
-
-local CajaRenacer = Instance.new("Frame")
-CajaRenacer.Parent = MarcoRenacer
-CajaRenacer.BackgroundColor3 = Color3.fromRGB(45, 20, 35)
-CajaRenacer.Position = UDim2.new(0.05, 0, 0.08, 0)
-CajaRenacer.Size = UDim2.new(0, 45, 0, 45)
-Instance.new("UICorner", CajaRenacer).CornerRadius = UDim.new(0, 10)
-
-local Renacer = Instance.new("TextLabel")
-Renacer.Parent = CajaRenacer
-Renacer.BackgroundTransparency = 1
-Renacer.Size = UDim2.new(1, 0, 1, 0)
-Renacer.Font = Enum.Font.GothamBold
-Renacer.Text = "🔄"
-Renacer.TextSize = 22
-Renacer.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-local TextoRenacer = Instance.new("TextLabel")
-TextoRenacer.Parent = MarcoRenacer
-TextoRenacer.BackgroundTransparency = 1
-TextoRenacer.Position = UDim2.new(0.38, 0, 0.15, 0)
-TextoRenacer.Size = UDim2.new(0.55, 0, 0, 20)
-TextoRenacer.Font = Enum.Font.GothamBold
-TextoRenacer.Text = "Renacimiento"
-TextoRenacer.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextoRenacer.TextSize = 14
-
-local TextoRenacerDesc = Instance.new("TextLabel")
-TextoRenacerDesc.Parent = MarcoRenacer
-TextoRenacerDesc.BackgroundTransparency = 1
-TextoRenacerDesc.Position = UDim2.new(0.38, 0, 0.55, 0)
-TextoRenacerDesc.Size = UDim2.new(0.55, 0, 0, 14)
-TextoRenacerDesc.Font = Enum.Font.Gotham
-TextoRenacerDesc.Text = "Auto Renacer"
-TextoRenacerDesc.TextColor3 = Color3.fromRGB(160, 160, 170)
-TextoRenacerDesc.TextSize = 10
-
-local BtnRenacer = Instance.new("TextButton")
-BtnRenacer.Parent = MarcoRenacer
-BtnRenacer.BackgroundColor3 = Color3.fromRGB(80, 25, 40)
-BtnRenacer.Position = UDim2.new(0.15, 0, 0.70, 0)
-BtnRenacer.Size = UDim2.new(0, 120, 0, 22)
-BtnRenacer.Font = Enum.Font.GothamBold
-BtnRenacer.Text = "ABRIR"
-BtnRenacer.TextColor3 = Color3.fromRGB(255, 255, 255)
-BtnRenacer.TextSize = 11
-Instance.new("UICorner", BtnRenacer).CornerRadius = UDim.new(0, 8)
-BtnRenacer.MouseButton1Click:Connect(function()
-    AbrirVentana("🔄 RENACIMIENTO", {
-        {Nombre="Renacer Automáticamente", Clave="AutoRenacer"},
-        {Nombre="Solo al Máximo de Fuerza", Clave="SoloAlMaximo"},
-        {Nombre="Comprar Mejoras Solo", Clave="ComprarMejoras"}
-    }, Estados.Renacimiento)
-end)
-
--- ==================================================
--- 🎯 4. COMBATE AUTOMÁTICO
--- ==================================================
-local MarcoCombate = Instance.new("Frame")
-MarcoCombate.Parent = MainFrame
-MarcoCombate.BackgroundColor3 = Color3.fromRGB(30, 15, 25)
-MarcoCombate.BorderColor3 = Color3.fromRGB(60, 25, 40)
-MarcoCombate.BorderSizePixel = 1
-MarcoCombate.Position = UDim2.new(0.52, 0, 0, 202)
-MarcoCombate.Size = UDim2.new(0.43, 0, 0, 60)
-Instance.new("UICorner", MarcoCombate).CornerRadius = UDim.new(0, 12)
-
-local CajaCombate = Instance.new("Frame")
-CajaCombate.Parent = MarcoCombate
-CajaCombate.BackgroundColor3 = Color3.fromRGB(45, 20, 35)
-CajaCombate.Position = UDim2.new(0.05, 0, 0.08, 0)
-CajaCombate.Size = UDim2.new(0, 45, 0, 45)
-Instance.new("UICorner", CajaCombate).CornerRadius = UDim.new(0, 10)
-
-local Combate = Instance.new("TextLabel")
-Combate.Parent = CajaCombate
-Combate.BackgroundTransparency = 1
-Combate.Size = UDim2.new(1, 0, 1, 0)
-Combate.Font = Enum.Font.GothamBold
-Combate.Text = "🎯"
-Combate.TextSize = 22
-Combate.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-local TextoCombate = Instance.new("TextLabel")
-TextoCombate.Parent = MarcoCombate
-TextoCombate.BackgroundTransparency = 1
-TextoCombate.Position = UDim2.new(0.38, 0, 0.15, 0)
-TextoCombate.Size = UDim2.new(0.55, 0, 0, 20)
-TextoCombate.Font = Enum.Font.GothamBold
-TextoCombate.Text = "Combate"
-TextoCombate.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextoCombate.TextSize = 14
-
-local TextoCombateDesc = Instance.new("TextLabel")
-TextoCombateDesc.Parent = MarcoCombate
-TextoCombateDesc.BackgroundTransparency = 1
-TextoCombateDesc.Position = UDim2.new(0.38, 0, 0.55, 0)
-TextoCombateDesc.Size = UDim2.new(0.55, 0, 0, 14)
-TextoCombateDesc.Font = Enum.Font.Gotham
-TextoCombateDesc.Text = "Auto Matar"
-TextoCombateDesc.TextColor3 = Color3.fromRGB(160, 160, 170)
-TextoCombateDesc.TextSize = 10
-
-local BtnCombate = Instance.new("TextButton")
-BtnCombate.Parent = MarcoCombate
-BtnCombate.BackgroundColor3 = Color3.fromRGB(80, 25, 40)
-BtnCombate.Position = UDim2.new(0.15, 0, 0.70, 0)
-BtnCombate.Size = UDim2.new(0, 120, 0, 22)
-BtnCombate.Font = Enum.Font.GothamBold
-BtnCombate.Text = "ABRIR"
-BtnCombate.TextColor3 = Color3.fromRGB(255, 255, 255)
-BtnCombate.TextSize = 11
-Instance.new("UICorner", BtnCombate).CornerRadius = UDim.new(0, 8)
-BtnCombate.MouseButton1Click:Connect(function()
-    AbrirVentana("🎯 COMBATE", {
-        {Nombre="Matar Enemigos Automático", Clave="MatarEnemigos"},
-        {Nombre="Matar Jugadores", Clave="MatarJugadores"},
-        {Nombre="Cambiar Servidor Automático", Clave="CambiarServidor"}
-    }, Estados.Combate)
-end)
-
--- ==================================================
--- 🐾 5. MASCOTAS
--- ==================================================
-local MarcoMascotas = Instance.new("Frame")
-MarcoMascotas.Parent = MainFrame
-MarcoMascotas.BackgroundColor3 = Color3.fromRGB(30, 15, 25)
-MarcoMascotas.BorderColor3 = Color3.fromRGB(60, 25, 40)
-MarcoMascotas.BorderSizePixel = 1
-MarcoMascotas.Position = UDim2.new(0.05, 0, 0, 272)
-MarcoMascotas.Size = UDim2.new(0.43, 0, 0, 60)
-Instance.new("UICorner", MarcoMascotas).CornerRadius = UDim.new(0, 12)
-
-local CajaMascotas = Instance.new("Frame")
-CajaMascotas.Parent = MarcoMascotas
-CajaMascotas.BackgroundColor3 = Color3.fromRGB(45, 20, 35)
-CajaMascotas.Position = UDim2.new(0.05, 0, 0.08, 0)
-CajaMascotas.Size = UDim2.new(0, 45, 0, 45)
-Instance.new("UICorner", CajaMascotas).CornerRadius = UDim.new(0, 10)
-
-local Mascotas = Instance.new("TextLabel")
-Mascotas.Parent = CajaMascotas
-Mascotas.BackgroundTransparency = 1
-Mascotas.Size = UDim2.new(1, 0, 1, 0)
-Mascotas.Font = Enum.Font.GothamBold
-Mascotas.Text = "🐾"
-Mascotas.TextSize = 22
-Mascotas.TextColor3 = Color3.fromRGB(255, 255, 255)
-
-local TextoMascotas = Instance.new("TextLabel")
-TextoMascotas.Parent = MarcoMascotas
-TextoMascotas.BackgroundTransparency = 1
-TextoMascotas.Position = UDim2.new(0.38, 0, 0.15, 0)
-TextoMascotas.Size = UDim2.new(0.55, 0, 0, 20)
-TextoMascotas.Font = Enum.Font.GothamBold
-TextoMascotas.Text = "Mascotas"
-TextoMascotas.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextoMascotas.TextSize = 14
-
-local TextoMascotasDesc = Instance.new("TextLabel")
+    -- 📂 BOTONES PRINCIPALES
+    local Botones = {
+        {Nombre = "⚡ Fast Glitch 90", Color = Color3.fromRGB(255, 50, 50), Funcion = function() MainFrame:Destroy() CrearVentanaPestanas("⚡ Fast Glitch 90", {{Nombre="Rocks", Opciones={{Tipo="Interruptor",Nombre="Golpear Rocas Auto",Valor=Estados.FastGlitch.AutoRocks,Callback=function(v) Estados.FastGlitch.AutoRocks=v end}},{Tipo="Interruptor",Nombre="Fuerza Doble",Valor=Estados.FastGlitch.FuerzaDoble,Callback=function(v) Estados.FastGlitch.FuerzaDoble=v end}},{Tipo="Interruptor",Nombre="Sin Retraso",Valor=Estados.FastGlitch.SinRetraso,Callback=function(v) Estados.FastGlitch.SinRetraso=v end}}},{Nombre="Ajustes", Opciones={{Tipo="Deslizador",Nombre="Velocidad de Ataque",Valor=5,Min=1,Max=50}}}, Color3.fromRGB(255,50,50)) end},
+        {Nombre = "🏋️ Entrenamiento", Color = Color3.fromRGB(0, 200, 100), Funcion = function() MainFrame:Destroy() CrearVentanaPestanas("🏋️ Entrenamiento", {{Nombre="Entrenar", Opciones={{Tipo="Interruptor",Nombre="Auto Weight",Valor=Estados.Entrenamiento.AutoWeight,Callback=function(v) Estados.Entrenamiento.AutoWeight=v end}},{Tipo="Interruptor",Nombre="Auto Pushups",Valor=Estados.Entrenamiento.AutoPushups,Callback=function(v) Estados.Entrenamiento.AutoPushups=v end}},{Tipo="Interruptor",Nombre="Lock Position",Valor=Estados.Entrenamiento.LockPosition,Callback=function(v) Estados.Entrenamiento.LockPosition=v end}},{Tipo="Interruptor",Nombre="Auto Rebirths",Valor=Estados.Entrenamiento.AutoRebirths,Callback=function(v) Estados.Entrenamiento.AutoRebirths=v end}}},{Nombre="Misc", Opciones={{Tipo="Interruptor",Nombre="Fly",Valor=Estados.Entrenamiento.Fly,Callback=function(v) Estados.Entrenamiento.Fly=v end}},{Tipo="Deslizador",Nombre="Fly Speed",Valor=Estados.Entrenamiento.FlySpeed,Min=1,Max=50},{Tipo="Interruptor",Nombre="Stars ON/OFF",Valor=Estados.Entrenamiento.Stars,Callback=function(v) Estados.Entrenamiento.Stars=v end}},{Tipo="Deslizador",Nombre="Anti Lag %",Valor=Estados.Entrenamiento.AntiLag,Min=0,Max=100},{Tipo="Interruptor",Nombre="Activar Anti AFK",Valor=Estados.Entrenamiento.AntiAFK,Callback=function(v) Estados.Entrenamiento.AntiAFK=v end}},{Tipo="Interruptor",Nombre="Reclamar TODO",Valor=Estados.Entrenamiento.ReclamarTodo,Callback=function(v) Estados.Entrenamiento.ReclamarTodo=v end}}}}, Color3.fromRGB(0,200,100)) end},
+        {Nombre = "🎯 Kills", Color = Color3.f
