@@ -1,6 +1,6 @@
 -- ==================================================
 --        ⚔️ GOLD GUERRERO HUB — VERSIÓN PERFECTA ✅
---  🎨 IDÉNTICO A YOUNG0X | SIN BUGS | X CORRECTA
+--  🎨 IDÉNTICO A YOUNG0X | SIN BUGS | ✕ SALIR CORRECTA
 --  📐 Posiciones exactas — NADA se corta ni se superpone
 --  🏋️ Public Training | 🔄 Auto Rebirths | 🎯 Killing
 --  🐾 Free Pet Shop | ❌ ✕ SALIR — TODO ALINEADO
@@ -33,7 +33,7 @@ MainFrame.BackgroundColor3 = Color3.fromRGB(12, 12, 18)
 MainFrame.BorderColor3 = Color3.fromRGB(200, 25, 45)
 MainFrame.BorderSizePixel = 3
 MainFrame.Position = UDim2.new(0.5, -330, 0.5, -220)
-MainFrame.Size = UDim2.new(0, 660, 0, 440)  -- ✅ Altura suficiente para TODO
+MainFrame.Size = UDim2.new(0, 660, 0, 440)
 MainFrame.Active = true
 MainFrame.Draggable = true
 MainFrame.Visible = true
@@ -266,14 +266,14 @@ PSDesc.TextSize = 11
 
 MakeOpenBtn(FreePetShop, 0.75, 0.15, 65, 55, "FreePetShop")
 
--- ❌ BOTÓN SALIR — ✕ CORREGIDA ✅
+-- ❌ BOTÓN SALIR — ✕ CORRECTA ✅
 local ExitBtn = Instance.new("TextButton")
 ExitBtn.Parent = MainFrame
 ExitBtn.BackgroundColor3 = Color3.fromRGB(160, 20, 40)
 ExitBtn.Position = UDim2.new(0.52, 0, 0, 275)
 ExitBtn.Size = UDim2.new(0.45, 0, 0, 80)
 ExitBtn.Font = Enum.Font.GothamBold
-ExitBtn.Text = "✕ SALIR"  -- ✅ X CORRECTA
+ExitBtn.Text = "✕ SALIR"
 ExitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 ExitBtn.TextSize = 18
 Instance.new("UICorner", ExitBtn).CornerRadius = UDim.new(0, 14)
