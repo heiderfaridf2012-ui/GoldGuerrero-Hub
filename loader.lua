@@ -1,5 +1,5 @@
 -- ==================================================
---        ⚔️ GOLD GUERRERO HUB — VERSIÓN FINAL
+--        ⚔️ GOLD GUERRERO HUB — VERSIÓN 1.0
 --  🇪🇸 TODO EN ESPAÑOL | ESTILO YOUNG0X
 --  📱 COMPACTO | DESLIZANTE | PESTAÑAS
 --  ✨ Creado por: GoldGuerrero | Versión: 1.0
@@ -77,7 +77,6 @@ ScreenGui.Name = "GoldGuerreroHub"
 ScreenGui.Parent = CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
-
 -- ==================================================
 -- 📂 FUNCIÓN DE VENTANA CON PESTAÑAS
 -- ==================================================
@@ -162,8 +161,7 @@ local function CrearVentanaPestanas(titulo, pestanas, colorAcento)
             end
         end
     end
-
-    -- 📂 CREAR BOTONES DE PESTAÑAS
+        -- 📂 CREAR BOTONES DE PESTAÑAS
     for i, pestana in ipairs(pestanas) do
         local BotonPestana = Instance.new("TextButton")
         BotonPestana.Parent = PestanaContainer
@@ -230,7 +228,6 @@ local function CrearVentanaPestanas(titulo, pestanas, colorAcento)
                     if opcion.Callback then opcion.Callback(opcion.Valor) end
                 end)
             elseif opcion.Tipo == "Deslizador" then
-                -- Barra deslizante
                 local Fila = Instance.new("Frame")
                 Fila.Parent = Contenido
                 Fila.BackgroundColor3 = Color3.fromRGB(35, 30, 45)
@@ -260,15 +257,6 @@ local function CrearVentanaPestanas(titulo, pestanas, colorAcento)
                 BarraLlena.BackgroundColor3 = colorAcento
                 BarraLlena.Size = UDim2.new((opcion.Valor - opcion.Min) / (opcion.Max - opcion.Min), 0, 1, 0)
                 Instance.new("UICorner", BarraLlena).CornerRadius = UDim.new(1, 0)
-
-                local Punto = Instance.new("Frame")
-                Punto.Parent = BarraFondo
-                Punto.BackgroundColor3 = Color3.fromRGB(255,255,255)
-                Punto.Position = UDim2.new((opcion.Valor - opcion.Min) / (opcion.Max - opcion.Min), -8, 0.5, -8)
-                Punto.Size = UDim2.new(0, 16, 0, 16)
-                Instance.new("UICorner", Punto).CornerRadius = UDim.new(1, 0)
-
-                -- Simplificado — funcionalidad completa la agregamos después
             elseif opcion.Tipo == "Contador" then
                 local Fila = Instance.new("Frame")
                 Fila.Parent = Contenido
@@ -387,7 +375,6 @@ local function CrearVentanaPestanas(titulo, pestanas, colorAcento)
 
     return Ventana
 end
-
 -- ==================================================
 -- 📋 MENÚ PRINCIPAL
 -- ==================================================
@@ -426,4 +413,47 @@ local function CrearMenuPrincipal()
     local Botones = {
         {Nombre = "⚡ Fast Glitch 90", Color = Color3.fromRGB(255, 50, 50), Funcion = function() MainFrame:Destroy() CrearVentanaPestanas("⚡ Fast Glitch 90", {{Nombre="Rocks", Opciones={{Tipo="Interruptor",Nombre="Golpear Rocas Auto",Valor=Estados.FastGlitch.AutoRocks,Callback=function(v) Estados.FastGlitch.AutoRocks=v end}},{Tipo="Interruptor",Nombre="Fuerza Doble",Valor=Estados.FastGlitch.FuerzaDoble,Callback=function(v) Estados.FastGlitch.FuerzaDoble=v end}},{Tipo="Interruptor",Nombre="Sin Retraso",Valor=Estados.FastGlitch.SinRetraso,Callback=function(v) Estados.FastGlitch.SinRetraso=v end}}},{Nombre="Ajustes", Opciones={{Tipo="Deslizador",Nombre="Velocidad de Ataque",Valor=5,Min=1,Max=50}}}, Color3.fromRGB(255,50,50)) end},
         {Nombre = "🏋️ Entrenamiento", Color = Color3.fromRGB(0, 200, 100), Funcion = function() MainFrame:Destroy() CrearVentanaPestanas("🏋️ Entrenamiento", {{Nombre="Entrenar", Opciones={{Tipo="Interruptor",Nombre="Auto Weight",Valor=Estados.Entrenamiento.AutoWeight,Callback=function(v) Estados.Entrenamiento.AutoWeight=v end}},{Tipo="Interruptor",Nombre="Auto Pushups",Valor=Estados.Entrenamiento.AutoPushups,Callback=function(v) Estados.Entrenamiento.AutoPushups=v end}},{Tipo="Interruptor",Nombre="Lock Position",Valor=Estados.Entrenamiento.LockPosition,Callback=function(v) Estados.Entrenamiento.LockPosition=v end}},{Tipo="Interruptor",Nombre="Auto Rebirths",Valor=Estados.Entrenamiento.AutoRebirths,Callback=function(v) Estados.Entrenamiento.AutoRebirths=v end}}},{Nombre="Misc", Opciones={{Tipo="Interruptor",Nombre="Fly",Valor=Estados.Entrenamiento.Fly,Callback=function(v) Estados.Entrenamiento.Fly=v end}},{Tipo="Deslizador",Nombre="Fly Speed",Valor=Estados.Entrenamiento.FlySpeed,Min=1,Max=50},{Tipo="Interruptor",Nombre="Stars ON/OFF",Valor=Estados.Entrenamiento.Stars,Callback=function(v) Estados.Entrenamiento.Stars=v end}},{Tipo="Deslizador",Nombre="Anti Lag %",Valor=Estados.Entrenamiento.AntiLag,Min=0,Max=100},{Tipo="Interruptor",Nombre="Activar Anti AFK",Valor=Estados.Entrenamiento.AntiAFK,Callback=function(v) Estados.Entrenamiento.AntiAFK=v end}},{Tipo="Interruptor",Nombre="Reclamar TODO",Valor=Estados.Entrenamiento.ReclamarTodo,Callback=function(v) Estados.Entrenamiento.ReclamarTodo=v end}}}}, Color3.fromRGB(0,200,100)) end},
-        {Nombre = "🎯 Kills", Color = Color3.f
+        {Nombre = "🎯 Kills", Color = Color3.fromRGB(220, 50, 50), Funcion = function() MainFrame:Destroy() CrearVentanaPestanas("🎯 Auto Kills", {{Nombre="Kills", Opciones={{Tipo="Contador",Nombre="KILLS",Valor=tostring(Estados.Kills.Kills)},{Tipo="Interruptor",Nombre="Auto Kill",Valor=Estados.Kills.AutoKill,Callback=function(v) Estados.Kills.AutoKill=v end}},{Tipo="Interruptor",Nombre="Server Hop inteligente",Valor=Estados.Kills.ServerHop,Callback=function(v) Estados.Kills.ServerHop=v end}},{Tipo="Interruptor",Nombre="No matar a mis amigos",Valor=Estados.Kills.NoAmigos,Callback=function(v) Estados.Kills.NoAmigos=v end}}}}, Color3.fromRGB(220,50,50)) end},
+        {Nombre = "🐾 Pet Shop", Color = Color3.fromRGB(150, 50, 220), Funcion = function() MainFrame:Destroy() CrearVentanaPestanas("🐾 Pet Shop", {{Nombre="Pets", Opciones={{Tipo="Interruptor",Nombre="Compra automática",Valor=Estados.PetShop.CompraAutoPet,Callback=function(v) Estados.PetShop.CompraAutoPet=v end}},{Tipo="Interruptor",Nombre="Auto Evolucionar",Valor=Estados.PetShop.AutoEvolucionar,Callback=function(v) Estados.PetShop.AutoEvolucionar=v end}}},{Nombre="Auras", Opciones={{Tipo="Interruptor",Nombre="Compra automática",Valor=Estados.PetShop.CompraAutoAura,Callback=function(v) Estados.PetShop.CompraAutoAura=v end}}}}, Color3.fromRGB(150,50,220)) end},
+        {Nombre = "🔄 Auto Rebirths", Color = Color3.fromRGB(255, 140, 0), Funcion = function() MainFrame:Destroy() CrearVentanaPestanas("🔄 Auto Rebirths", {{Nombre="Rebirths", Opciones={{Tipo="Contador",Nombre="RENACIMIENTOS",Valor=tostring(Estados.Rebirths.Rebirths)},{Tipo="Interruptor",Nombre="Tamaño 1",Valor=Estados.Rebirths.Tamano1,Callback=function(v) Estados.Rebirths.Tamano1=v end}},{Tipo="Interruptor",Nombre="Pesa automática",Valor=Estados.Rebirths.PesaAuto,Callback=function(v) Estados.Rebirths.PesaAuto=v end}},{Tipo="Interruptor",Nombre="Auto Pushups",Valor=Estados.Rebirths.AutoPushups,Callback=function(v) Estados.Rebirths.AutoPushups=v end}}},{Nombre="Ajustes", Opciones={{Tipo="Interruptor",Nombre="Teletransporte al King",Valor=Estados.Rebirths.TeleportKing,Callback=function(v) Estados.Rebirths.TeleportKing=v end}},{Tipo="Interruptor",Nombre="Bloquear posición",Valor=Estados.Rebirths.BloquearPosicion,Callback=function(v) Estados.Rebirths.BloquearPosicion=v end}},{Tipo="Interruptor",Nombre="Auto Egg - Cada 30 mins",Valor=Estados.Rebirths.AutoEgg,Callback=function(v) Estados.Rebirths.AutoEgg=v end}},{Tipo="Interruptor",Nombre="Renacer hasta el objetivo",Valor=Estados.Rebirths.RenacerHasta,Callback=function(v) Estados.Rebirths.RenacerHasta=v end}}},{Nombre="Ultimates", Opciones={{Tipo="MejoraUltimate",Nombre="+1 Daily Spin",Nivel=Estados.Rebirths.Ultimates.DailySpin,Progreso="5/5",Completo=true},{Tipo="MejoraUltimate",Nombre="+1 Pet Slot",Nivel=Estados.Rebirths.Ultimates.PetSlot,Progreso="3/3",Completo=true},{Tipo="MejoraUltimate",Nombre="+10 Item Capacity",Nivel=Estados.Rebirths.Ultimates.ItemCapacity,Progreso="5/6",Completo=false},{Tipo="MejoraUltimate",Nombre="+5% Rep Speed",Nivel=Estados.Rebirths.Ultimates.RepSpeed,Progreso="10/10",Completo=true},{Tipo="MejoraUltimate",Nombre="Demon Damage",Nivel=Estados.Rebirths.Ultimates.DemonDamage,Progreso="5/5",Completo=true}}}}, Color3.fromRGB(255,140,0)) end}
+    }
+
+    local BotonLayout = Instance.new("UIGridLayout")
+    BotonLayout.Parent = MainFrame
+    BotonLayout.CellSize = UDim2.new(0, 480, 0, 55)
+    BotonLayout.CellPadding = UDim2.new(0, 0, 0, 12)
+    BotonLayout.FillDirection = Enum.FillDirection.Vertical
+    BotonLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    BotonLayout.Position = UDim2.new(0.05, 0, 0, 70)
+
+    for i, boton in ipairs(Botones) do
+        local Btn = Instance.new("TextButton")
+        Btn.Parent = MainFrame
+        Btn.BackgroundColor3 = boton.Color
+        Btn.Font = Enum.Font.GothamBold
+        Btn.Text = boton.Nombre
+        Btn.TextColor3 = Color3.fromRGB(255,255,255)
+        Btn.TextSize = 18
+        Btn.AutoLocalize = false
+        Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 12)
+        Btn.MouseButton1Click:Connect(boton.Funcion)
+    end
+
+    -- 🏆 FIRMA
+    local Firma = Instance.new("TextLabel")
+    Firma.Parent = MainFrame
+    Firma.BackgroundTransparency = 1
+    Firma.Position = UDim2.new(0.5, -150, 1, -25)
+    Firma.Size = UDim2.new(0, 300, 0, 20)
+    Firma.Font = Enum.Font.Gotham
+    Firma.Text = "✨ Creado por: GoldGuerrero · v1.0 ✨"
+    Firma.TextColor3 = Color3.fromRGB(140, 140, 140)
+    Firma.TextSize = 12
+    Firma.TextXAlignment = Enum.TextXAlignment.Center
+end
+
+-- 🚀 INICIAR EL HUB
+CrearMenuPrincipal()
+
+print("✅ GoldGuerrero Hub v1.0 cargado con éxito!")
+
