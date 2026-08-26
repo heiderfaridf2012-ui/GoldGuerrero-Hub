@@ -1,8 +1,8 @@
 -- ==================================================
 --        ⚔️ GOLD GUERRERO HUB — ESTILO YOUNG0X ✅
---  🎨 IDÉNTICO A LA IMAGEN | BORDE ROJO | COLUMNAS
---  ⚡ Fast Glitch | Public Training | Auto Rebirths | Killing | Free Pet Shop
---  ❌ SALIR — Se abre directo | Sin botones extra
+--  🎨 SIN FAST GLITCH | Public Training ARRIBA
+--  🏋️ Public Training | 🔄 Auto Rebirths | 🎯 Killing
+--  🐾 Free Pet Shop | ❌ SALIR — IDÉNTICO A LA IMAGEN
 -- ==================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -31,8 +31,8 @@ MainFrame.Parent = ScreenGui
 MainFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 15)
 MainFrame.BorderColor3 = Color3.fromRGB(200, 20, 40)
 MainFrame.BorderSizePixel = 3
-MainFrame.Position = UDim2.new(0.5, -330, 0.5, -240)
-MainFrame.Size = UDim2.new(0, 660, 0, 480)
+MainFrame.Position = UDim2.new(0.5, -330, 0.5, -220)
+MainFrame.Size = UDim2.new(0, 660, 0, 420)  -- ✅ Más chico al quitar Fast Glitch
 MainFrame.Active = true
 MainFrame.Draggable = true
 MainFrame.Visible = true
@@ -42,32 +42,31 @@ Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 16)
 local TitleTop = Instance.new("TextLabel")
 TitleTop.Parent = MainFrame
 TitleTop.BackgroundTransparency = 1
-TitleTop.Position = UDim2.new(0.5, -120, 0, 12)
-TitleTop.Size = UDim2.new(0, 240, 0, 30)
+TitleTop.Position = UDim2.new(0.5, -120, 0, 10)
+TitleTop.Size = UDim2.new(0, 240, 0, 28)
 TitleTop.Font = Enum.Font.GothamBold
 TitleTop.Text = "Gold Guerrero Hub"
 TitleTop.TextColor3 = Color3.fromRGB(255, 255, 255)
-TitleTop.TextSize = 22
+TitleTop.TextSize = 20
 
 local SubTitle = Instance.new("TextLabel")
 SubTitle.Parent = MainFrame
 SubTitle.BackgroundTransparency = 1
-SubTitle.Position = UDim2.new(0.5, -90, 0, 38)
-SubTitle.Size = UDim2.new(0, 180, 0, 20)
+SubTitle.Position = UDim2.new(0.5, -90, 0, 35)
+SubTitle.Size = UDim2.new(0, 180, 0, 18)
 SubTitle.Font = Enum.Font.Gotham
 SubTitle.Text = "Muscle Legends"
 SubTitle.TextColor3 = Color3.fromRGB(220, 40, 60)
-SubTitle.TextSize = 14
+SubTitle.TextSize = 13
 
 local Line = Instance.new("Frame")
 Line.Parent = MainFrame
 Line.BackgroundColor3 = Color3.fromRGB(200, 20, 40)
-Line.Position = UDim2.new(0.03, 0, 0, 65)
+Line.Position = UDim2.new(0.03, 0, 0, 55)
 Line.Size = UDim2.new(0.94, 0, 0, 2)
 
 -- 📦 ESTADOS
 local States = {
-    FastGlitch = false,
     PublicTraining = false,
     AutoRebirths = false,
     Killing = false,
@@ -75,7 +74,7 @@ local States = {
 }
 
 -- 📦 FUNCIÓN CREAR BOTÓN ABRIR
-local function MakeOpenBtn(parent, x, y, w, h)
+local function MakeOpenBtn(parent, x, y, w, h, stateKey)
     local Btn = Instance.new("TextButton")
     Btn.Parent = parent
     Btn.BackgroundColor3 = Color3.fromRGB(35, 25, 35)
@@ -88,70 +87,23 @@ local function MakeOpenBtn(parent, x, y, w, h)
     Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
     Btn.TextSize = 13
     Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 10)
+    
+    Btn.MouseButton1Click:Connect(function()
+        States[stateKey] = not States[stateKey]
+        Btn.BackgroundColor3 = States[stateKey] and Color3.fromRGB(30, 160, 80) or Color3.fromRGB(35, 25, 35)
+        Btn.Text = States[stateKey] and "✓" or "ABRIR"
+    end)
+    
     return Btn
 end
 
--- ⚡ FAST GLITCH 100% — CUADRO ROJO GRANDE
-local FastGlitch = Instance.new("Frame")
-FastGlitch.Parent = MainFrame
-FastGlitch.BackgroundColor3 = Color3.fromRGB(160, 20, 40)
-FastGlitch.Position = UDim2.new(0.03, 0, 0, 80)
-FastGlitch.Size = UDim2.new(0.94, 0, 0, 90)
-Instance.new("UICorner", FastGlitch).CornerRadius = UDim.new(0, 14)
-
-local FlashIcon = Instance.new("TextLabel")
-FlashIcon.Parent = FastGlitch
-FlashIcon.BackgroundTransparency = 1
-FlashIcon.Position = UDim2.new(0.03, 0, 0.12, 0)
-FlashIcon.Size = UDim2.new(0, 70, 0, 70)
-FlashIcon.Font = Enum.Font.GothamBold
-FlashIcon.Text = "⚡"
-FlashIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
-FlashIcon.TextSize = 40
-
-local FGTitle = Instance.new("TextLabel")
-FGTitle.Parent = FastGlitch
-FGTitle.BackgroundTransparency = 1
-FGTitle.Position = UDim2.new(0.15, 0, 0.15, 0)
-FGTitle.Size = UDim2.new(0.55, 0, 0, 30)
-FGTitle.Font = Enum.Font.GothamBold
-FGTitle.Text = "Fast Glitch 100%"
-FGTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-FGTitle.TextSize = 20
-
-local FGDesc = Instance.new("TextLabel")
-FGDesc.Parent = FastGlitch
-FGDesc.BackgroundTransparency = 1
-FGDesc.Position = UDim2.new(0.15, 0, 0.55, 0)
-FGDesc.Size = UDim2.new(0.55, 0, 0, 22)
-FGDesc.Font = Enum.Font.Gotham
-FGDesc.Text = "Script de pago MUY OP"
-FGDesc.TextColor3 = Color3.fromRGB(255, 200, 200)
-FGDesc.TextSize = 13
-
-local FGBtn = Instance.new("TextButton")
-FGBtn.Parent = FastGlitch
-FGBtn.BackgroundColor3 = Color3.fromRGB(130, 15, 30)
-FGBtn.Position = UDim2.new(0.82, -90, 0.15, 0)
-FGBtn.Size = UDim2.new(0, 80, 0, 60)
-FGBtn.Font = Enum.Font.GothamBold
-FGBtn.Text = "ABRIR"
-FGBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-FGBtn.TextSize = 15
-Instance.new("UICorner", FGBtn).CornerRadius = UDim.new(0, 12)
-FGBtn.MouseButton1Click:Connect(function()
-    States.FastGlitch = not States.FastGlitch
-    FGBtn.BackgroundColor3 = States.FastGlitch and Color3.fromRGB(30, 160, 80) or Color3.fromRGB(130, 15, 30)
-    FGBtn.Text = States.FastGlitch and "✓ ACTIVO" or "ABRIR"
-end)
-
--- 🏋️ PUBLIC TRAINING
+-- 🏋️ PUBLIC TRAINING — AHORA ARRIBA ✅
 local PublicTrain = Instance.new("Frame")
 PublicTrain.Parent = MainFrame
 PublicTrain.BackgroundColor3 = Color3.fromRGB(25, 20, 30)
 PublicTrain.BorderColor3 = Color3.fromRGB(60, 40, 60)
 PublicTrain.BorderSizePixel = 1
-PublicTrain.Position = UDim2.new(0.03, 0, 0, 180)
+PublicTrain.Position = UDim2.new(0.03, 0, 0, 65)
 PublicTrain.Size = UDim2.new(0.94, 0, 0, 75)
 Instance.new("UICorner", PublicTrain).CornerRadius = UDim.new(0, 12)
 
@@ -185,12 +137,7 @@ PTDesc.Text = "Script Gratuito para Auto Farm!"
 PTDesc.TextColor3 = Color3.fromRGB(160, 160, 180)
 PTDesc.TextSize = 12
 
-local PTBtn = MakeOpenBtn(PublicTrain, 0.82, 0.15, 80, 55)
-PTBtn.MouseButton1Click:Connect(function()
-    States.PublicTraining = not States.PublicTraining
-    PTBtn.BackgroundColor3 = States.PublicTraining and Color3.fromRGB(30, 160, 80) or Color3.fromRGB(35, 25, 35)
-    PTBtn.Text = States.PublicTraining and "✓ ACTIVO" or "ABRIR"
-end)
+MakeOpenBtn(PublicTrain, 0.82, 0.15, 80, 55, "PublicTraining")
 
 -- 🔄 AUTO REBIRTHS (COLUMNA IZQUIERDA)
 local AutoRebirths = Instance.new("Frame")
@@ -198,7 +145,7 @@ AutoRebirths.Parent = MainFrame
 AutoRebirths.BackgroundColor3 = Color3.fromRGB(25, 20, 30)
 AutoRebirths.BorderColor3 = Color3.fromRGB(60, 40, 60)
 AutoRebirths.BorderSizePixel = 1
-AutoRebirths.Position = UDim2.new(0.03, 0, 0, 270)
+AutoRebirths.Position = UDim2.new(0.03, 0, 0, 150)
 AutoRebirths.Size = UDim2.new(0.45, 0, 0, 80)
 Instance.new("UICorner", AutoRebirths).CornerRadius = UDim.new(0, 12)
 
@@ -232,12 +179,7 @@ ARDesc.Text = "Rebirths Automáticos"
 ARDesc.TextColor3 = Color3.fromRGB(160, 160, 180)
 ARDesc.TextSize = 11
 
-local ARBtn = MakeOpenBtn(AutoRebirths, 0.75, 0.15, 60, 55)
-ARBtn.MouseButton1Click:Connect(function()
-    States.AutoRebirths = not States.AutoRebirths
-    ARBtn.BackgroundColor3 = States.AutoRebirths and Color3.fromRGB(30, 160, 80) or Color3.fromRGB(35, 25, 35)
-    ARBtn.Text = States.AutoRebirths and "✓" or "ABRIR"
-end)
+MakeOpenBtn(AutoRebirths, 0.75, 0.15, 60, 55, "AutoRebirths")
 
 -- 🎯 KILLING (COLUMNA DERECHA)
 local Killing = Instance.new("Frame")
@@ -245,7 +187,7 @@ Killing.Parent = MainFrame
 Killing.BackgroundColor3 = Color3.fromRGB(25, 20, 30)
 Killing.BorderColor3 = Color3.fromRGB(60, 40, 60)
 Killing.BorderSizePixel = 1
-Killing.Position = UDim2.new(0.52, 0, 0, 270)
+Killing.Position = UDim2.new(0.52, 0, 0, 150)
 Killing.Size = UDim2.new(0.45, 0, 0, 80)
 Instance.new("UICorner", Killing).CornerRadius = UDim.new(0, 12)
 
@@ -279,12 +221,7 @@ KDesc.Text = "Auto Kills + Server Hop"
 KDesc.TextColor3 = Color3.fromRGB(160, 160, 180)
 KDesc.TextSize = 11
 
-local KBtn = MakeOpenBtn(Killing, 0.75, 0.15, 60, 55)
-KBtn.MouseButton1Click:Connect(function()
-    States.Killing = not States.Killing
-    KBtn.BackgroundColor3 = States.Killing and Color3.fromRGB(30, 160, 80) or Color3.fromRGB(35, 25, 35)
-    KBtn.Text = States.Killing and "✓" or "ABRIR"
-end)
+MakeOpenBtn(Killing, 0.75, 0.15, 60, 55, "Killing")
 
 -- 🐾 FREE PET SHOP
 local FreePetShop = Instance.new("Frame")
@@ -292,7 +229,7 @@ FreePetShop.Parent = MainFrame
 FreePetShop.BackgroundColor3 = Color3.fromRGB(25, 20, 30)
 FreePetShop.BorderColor3 = Color3.fromRGB(60, 40, 60)
 FreePetShop.BorderSizePixel = 1
-FreePetShop.Position = UDim2.new(0.03, 0, 0, 360)
+FreePetShop.Position = UDim2.new(0.03, 0, 0, 240)
 FreePetShop.Size = UDim2.new(0.45, 0, 0, 75)
 Instance.new("UICorner", FreePetShop).CornerRadius = UDim.new(0, 12)
 
@@ -326,18 +263,13 @@ PSDesc.Text = "¡Apex y más!"
 PSDesc.TextColor3 = Color3.fromRGB(160, 160, 180)
 PSDesc.TextSize = 11
 
-local PSBtn = MakeOpenBtn(FreePetShop, 0.75, 0.15, 60, 55)
-PSBtn.MouseButton1Click:Connect(function()
-    States.FreePetShop = not States.FreePetShop
-    PSBtn.BackgroundColor3 = States.FreePetShop and Color3.fromRGB(30, 160, 80) or Color3.fromRGB(35, 25, 35)
-    PSBtn.Text = States.FreePetShop and "✓" or "ABRIR"
-end)
+MakeOpenBtn(FreePetShop, 0.75, 0.15, 60, 55, "FreePetShop")
 
 -- ❌ BOTÓN SALIR — ROJO GRANDE
 local ExitBtn = Instance.new("TextButton")
 ExitBtn.Parent = MainFrame
 ExitBtn.BackgroundColor3 = Color3.fromRGB(150, 20, 40)
-ExitBtn.Position = UDim2.new(0.52, 0, 0, 360)
+ExitBtn.Position = UDim2.new(0.52, 0, 0, 240)
 ExitBtn.Size = UDim2.new(0.45, 0, 0, 75)
 ExitBtn.Font = Enum.Font.GothamBold
 ExitBtn.Text = "✕ SALIR"
@@ -367,8 +299,8 @@ task.spawn(function()
 end)
 
 print("==================================================")
-print("✅  GOLD GUERRERO HUB — CARGADO COMPLETAMENTE ✅")
-print("🎨 ESTILO YOUNG0X — IDÉNTICO A LA IMAGEN")
-print("⚡ Fast Glitch | 🏋️ Public Training | 🔄 Auto Rebirths")
-print("🎯 Killing | 🐾 Free Pet Shop | ❌ SALIR")
+print("✅  GOLD GUERRERO HUB — CARGADO ✅")
+print("🎨 SIN Fast Glitch | Public Training ARRIBA")
+print("🏋️ Public Training | 🔄 Auto Rebirths | 🎯 Killing")
+print("🐾 Free Pet Shop | ❌ SALIR")
 print("==================================================")
