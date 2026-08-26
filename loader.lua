@@ -1,459 +1,149 @@
 -- ==================================================
---        ⚔️ GOLD GUERRERO HUB — VERSIÓN 1.0
---  🇪🇸 TODO EN ESPAÑOL | ESTILO YOUNG0X
---  📱 COMPACTO | DESLIZANTE | PESTAÑAS
---  ✨ Creado por: GoldGuerrero | Versión: 1.0
+--        ⚔️ GOLD GUERRERO HUB — ESTILO YOUNG0X
+--  ✅ MISMO DISEÑO | MISMO TAMAÑO 555px
+--  ✅ Fast Glitch 90 | Todos los menús completos
+--  ✅ Sin botón de volver | PlayerGui funciona
 -- ==================================================
 
-local CoreGui = game:GetService("CoreGui")
 local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-local TweenService = game:GetService("TweenService")
-local UIS = game:GetService("UserInputService")
+local PlayerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- ✅ BORRA DUPLICADOS AL CARGAR
-if CoreGui:FindFirstChild("GoldGuerreroHub") then
-    CoreGui.GoldGuerreroHub:Destroy()
+-- Borra duplicado
+if PlayerGui:FindFirstChild("GoldGuerreroHub") then
+    PlayerGui.GoldGuerreroHub:Destroy()
 end
-
--- 🔴 ESTADOS GLOBALES
-local Estados = {
-    FastGlitch = {
-        Activar = false,
-        VelocidadExtra = false,
-        FuerzaDoble = false,
-        SinRetraso = false,
-        AutoRocks = false
-    },
-    Entrenamiento = {
-        AutoWeight = false,
-        AutoPushups = false,
-        LockPosition = false,
-        AutoRebirths = false,
-        Fly = false,
-        FlySpeed = 10,
-        Stars = false,
-        AntiLag = 60,
-        AntiAFK = false,
-        ReclamarTodo = false
-    },
-    Kills = {
-        AutoKill = false,
-        ServerHop = false,
-        NoAmigos = false,
-        ObjetivoJugador = "",
-        Kills = 0
-    },
-    PetShop = {
-        Gemas = 0,
-        PetSeleccionado = "",
-        CompraAutoPet = false,
-        AutoEvolucionar = false,
-        AuraSeleccionada = "",
-        CompraAutoAura = false
-    },
-    Rebirths = {
-        Rebirths = 18980,
-        Tamano1 = false,
-        PesaAuto = false,
-        AutoPushups = false,
-        TeleportKing = false,
-        BloquearPosicion = false,
-        AutoEgg = false,
-        Objetivo = 0,
-        RenacerHasta = false,
-        Ultimates = {
-            DailySpin = 0,
-            PetSlot = 0,
-            ItemCapacity = 0,
-            RepSpeed = 0,
-            DemonDamage = 0
-        }
-    }
-}
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "GoldGuerreroHub"
-ScreenGui.Parent = CoreGui
+ScreenGui.Parent = PlayerGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
--- ==================================================
--- 📂 FUNCIÓN DE VENTANA CON PESTAÑAS
--- ==================================================
-local function CrearVentanaPestanas(titulo, pestanas, colorAcento)
-    local Ventana = Instance.new("Frame")
-    Ventana.Name = "Ventana"
-    Ventana.Parent = ScreenGui
-    Ventana.BackgroundColor3 = Color3.fromRGB(22, 18, 28)
-    Ventana.BorderColor3 = colorAcento
-    Ventana.BorderSizePixel = 2
-    Ventana.Position = UDim2.new(0.5, -200, 0.5, -250)
-    Ventana.Size = UDim2.new(0, 400, 0, 500)
-    Ventana.Active = true
-    Ventana.Draggable = true
-    Instance.new("UICorner", Ventana).CornerRadius = UDim.new(0, 16)
 
-    -- 🏆 TÍTULO
-    local Titulo = Instance.new("TextLabel")
-    Titulo.Parent = Ventana
-    Titulo.BackgroundTransparency = 1
-    Titulo.Position = UDim2.new(0.5, -150, 0, 12)
-    Titulo.Size = UDim2.new(0, 300, 0, 28)
-    Titulo.Font = Enum.Font.GothamBold
-    Titulo.Text = titulo
-    Titulo.TextColor3 = colorAcento
-    Titulo.TextSize = 20
-    Titulo.TextXAlignment = Enum.TextXAlignment.Center
+-- COLORES EXACTOS
+local Colores = {
+    Fondo = Color3.fromRGB(12, 12, 15),
+    Borde = Color3.fromRGB(200, 0, 0),
+    TarjetaRoja = Color3.fromRGB(200, 0, 0),
+    TarjetaOscura = Color3.fromRGB(22, 22, 28),
+    BordeTarjeta = Color3.fromRGB(60, 15, 25),
+    BotonRojo = Color3.fromRGB(210, 0, 0),
+    BotonOscuro = Color3.fromRGB(35, 20, 28),
+    Texto = Color3.fromRGB(255, 255, 255),
+    TextoRojo = Color3.fromRGB(255, 60, 60),
+    TextoGris = Color3.fromRGB(140, 140, 140)
+}
 
-    -- 📂 CONTENEDOR DE PESTAÑAS
-    local PestanaContainer = Instance.new("Frame")
-    PestanaContainer.Parent = Ventana
-    PestanaContainer.BackgroundTransparency = 1
-    PestanaContainer.Position = UDim2.new(0.05, 0, 0, 50)
-    PestanaContainer.Size = UDim2.new(0.90, 0, 0, 36)
+-- VENTANA PRINCIPAL — TAMAÑO 555px
+local MainWindow = Instance.new("Frame")
+MainWindow.Name = "MainWindow"
+MainWindow.Parent = ScreenGui
+MainWindow.BackgroundColor3 = Colores.Fondo
+MainWindow.BorderColor3 = Colores.Borde
+MainWindow.BorderSizePixel = 3
+MainWindow.Position = UDim2.new(0.5, -277, 0.5, -320)
+MainWindow.Size = UDim2.new(0, 555, 0, 640)
+MainWindow.Active = true
+MainWindow.Draggable = true
+Instance.new("UICorner", MainWindow).CornerRadius = UDim.new(0, 18)
 
-    local PestanaLayout = Instance.new("UIGridLayout")
-    PestanaLayout.Parent = PestanaContainer
-    PestanaLayout.CellSize = UDim2.new(0, 120, 0, 36)
-    PestanaLayout.CellPadding = UDim2.new(0, 8, 0, 0)
-    PestanaLayout.FillDirection = Enum.FillDirection.Horizontal
-    PestanaLayout.SortOrder = Enum.SortOrder.LayoutOrder
+-- TÍTULO
+local TituloHub = Instance.new("TextLabel")
+TituloHub.Parent = MainWindow
+TituloHub.BackgroundTransparency = 1
+TituloHub.Position = UDim2.new(0.5, -130, 0, 18)
+TituloHub.Size = UDim2.new(0, 260, 0, 28)
+TituloHub.Font = Enum.Font.GothamBold
+TituloHub.Text = "GoldGuerrero Hub"
+TituloHub.TextColor3 = Colores.Texto
+TituloHub.TextSize = 22
 
-    -- 📜 CONTENEDOR DESLIZANTE
-    local ScrollingFrame = Instance.new("ScrollingFrame")
-    ScrollingFrame.Parent = Ventana
-    ScrollingFrame.BackgroundTransparency = 1
-    ScrollingFrame.Position = UDim2.new(0.05, 0, 0, 95)
-    ScrollingFrame.Size = UDim2.new(0.90, 0, 1, -110)
-    ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
-    ScrollingFrame.ScrollBarThickness = 5
-    ScrollingFrame.ScrollBarColor3 = colorAcento
-    ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+local Subtitulo = Instance.new("TextLabel")
+Subtitulo.Parent = MainWindow
+Subtitulo.BackgroundTransparency = 1
+Subtitulo.Position = UDim2.new(0.5, -90, 0, 48)
+Subtitulo.Size = UDim2.new(0, 180, 0, 18)
+Subtitulo.Font = Enum.Font.Gotham
+Subtitulo.Text = "Menú principal"
+Subtitulo.TextColor3 = Colores.TextoGris
+Subtitulo.TextSize = 16
 
-    local ListaLayout = Instance.new("UIListLayout")
-    ListaLayout.Parent = ScrollingFrame
-    ListaLayout.Padding = UDim.new(0, 8)
-    ListaLayout.SortOrder = Enum.SortOrder.LayoutOrder
+-- FUNCIÓN PARA TARJETAS
+local function CrearTarjeta(texto, descripcion, colorFondo, icono)
+    local Tarjeta = Instance.new("Frame")
+    Tarjeta.Name = "Tarjeta_" .. texto
+    Tarjeta.Parent = MainWindow
+    Tarjeta.BackgroundColor3 = colorFondo
+    Tarjeta.BorderColor3 = Colores.BordeTarjeta
+    Tarjeta.BorderSizePixel = 2
+    Tarjeta.Size = UDim2.new(1, -40, 0, 72)
+    Instance.new("UICorner", Tarjeta).CornerRadius = UDim.new(0, 12)
 
-    -- 🔄 CAMBIAR PESTAÑA
-    local ContenidoPorPestana = {}
-    local PestanaActiva = 1
+    local Icono = Instance.new("ImageButton")
+    Icono.Parent = Tarjeta
+    Icono.BackgroundTransparency = 1
+    Icono.Position = UDim2.new(0, 18, 0.5, -18)
+    Icono.Size = UDim2.new(0, 36, 0, 36)
+    Icono.Image = icono
 
-    local function MostrarPestana(indice)
-        PestanaActiva = indice
-        for i, hijo in ipairs(ScrollingFrame:GetChildren()) do
-            if hijo:IsA("Frame") then
-                hijo.Visible = false
-            end
-        end
-        if ContenidoPorPestana[indice] then
-            ContenidoPorPestana[indice].Visible = true
-        end
-        for i, boton in ipairs(PestanaContainer:GetChildren()) do
-            if boton:IsA("TextButton") then
-                if i == indice then
-                    boton.BackgroundColor3 = colorAcento
-                    boton.TextColor3 = Color3.fromRGB(255,255,255)
-                else
-                    boton.BackgroundColor3 = Color3.fromRGB(40, 35, 50)
-                    boton.TextColor3 = Color3.fromRGB(180,180,180)
-                end
-            end
-        end
-    end
-        -- 📂 CREAR BOTONES DE PESTAÑAS
-    for i, pestana in ipairs(pestanas) do
-        local BotonPestana = Instance.new("TextButton")
-        BotonPestana.Parent = PestanaContainer
-        BotonPestana.Name = "Pestana_"..pestana.Nombre
-        BotonPestana.BackgroundColor3 = i == 1 and colorAcento or Color3.fromRGB(40, 35, 50)
-        BotonPestana.Font = Enum.Font.GothamBold
-        BotonPestana.Text = pestana.Nombre
-        BotonPestana.TextColor3 = i == 1 and Color3.fromRGB(255,255,255) or Color3.fromRGB(180,180,180)
-        BotonPestana.TextSize = 14
-        BotonPestana.AutoLocalize = false
-        BotonPestana.MouseButton1Click:Connect(function()
-            MostrarPestana(i)
-        end)
+    local TextoTarjeta = Instance.new("TextLabel")
+    TextoTarjeta.Parent = Tarjeta
+    TextoTarjeta.BackgroundTransparency = 1
+    TextoTarjeta.Position = UDim2.new(0, 65, 0.5, -14)
+    TextoTarjeta.Size = UDim2.new(0, 200, 0, 20)
+    TextoTarjeta.Font = Enum.Font.GothamBold
+    TextoTarjeta.Text = texto
+    TextoTarjeta.TextColor3 = Colores.Texto
+    TextoTarjeta.TextSize = 18
 
-        -- 📜 CONTENIDO DE LA PESTAÑA
-        local Contenido = Instance.new("Frame")
-        Contenido.Parent = ScrollingFrame
-        Contenido.Visible = i == 1
-        Contenido.BackgroundTransparency = 1
-        Contenido.Size = UDim2.new(1, 0, 0, 0)
-        Contenido.AutomaticSize = Enum.AutomaticSize.Y
-        ContenidoPorPestana[i] = Contenido
+    local DescripcionTarjeta = Instance.new("TextLabel")
+    DescripcionTarjeta.Parent = Tarjeta
+    DescripcionTarjeta.BackgroundTransparency = 1
+    DescripcionTarjeta.Position = UDim2.new(0, 65, 0.5, 6)
+    DescripcionTarjeta.Size = UDim2.new(0, 200, 0, 16)
+    DescripcionTarjeta.Font = Enum.Font.Gotham
+    DescripcionTarjeta.Text = descripcion
+    DescripcionTarjeta.TextColor3 = Colores.TextoGris
+    DescripcionTarjeta.TextSize = 14
 
-        local ContenidoLayout = Instance.new("UIListLayout")
-        ContenidoLayout.Parent = Contenido
-        ContenidoLayout.Padding = UDim.new(0, 8)
+    local BotonAbrir = Instance.new("TextButton")
+    BotonAbrir.Parent = Tarjeta
+    BotonAbrir.BackgroundColor3 = Colores.BotonRojo
+    BotonAbrir.Position = UDim2.new(1, -90, 0.5, -18)
+    BotonAbrir.Size = UDim2.new(0, 72, 0, 36)
+    BotonAbrir.Font = Enum.Font.GothamBold
+    BotonAbrir.Text = "ABRIR"
+    BotonAbrir.TextColor3 = Colores.Texto
+    BotonAbrir.TextSize = 16
+    Instance.new("UICorner", BotonAbrir).CornerRadius = UDim.new(0, 10)
 
-        -- ⚙️ AGREGAR OPCIONES
-        for _, opcion in ipairs(pestana.Opciones) do
-            if opcion.Tipo == "Interruptor" then
-                local Fila = Instance.new("Frame")
-                Fila.Parent = Contenido
-                Fila.BackgroundColor3 = Color3.fromRGB(35, 30, 45)
-                Fila.Size = UDim2.new(1, 0, 0, 48)
-                Instance.new("UICorner", Fila).CornerRadius = UDim.new(0, 8)
-
-                local Nombre = Instance.new("TextLabel")
-                Nombre.Parent = Fila
-                Nombre.BackgroundTransparency = 1
-                Nombre.Position = UDim2.new(0, 15, 0, 0)
-                Nombre.Size = UDim2.new(0.8, -15, 1, 0)
-                Nombre.Font = Enum.Font.Gotham
-                Nombre.Text = opcion.Nombre
-                Nombre.TextColor3 = Color3.fromRGB(230,230,230)
-                Nombre.TextSize = 15
-                Nombre.TextXAlignment = Enum.TextXAlignment.Left
-
-                local Switch = Instance.new("Frame")
-                Switch.Parent = Fila
-                Switch.Name = "Switch"
-                Switch.BackgroundColor3 = opcion.Valor and Color3.fromRGB(0, 200, 100) or Color3.fromRGB(80, 80, 80)
-                Switch.Position = UDim2.new(1, -45, 0.5, -12)
-                Switch.Size = UDim2.new(0, 24, 0, 24)
-                Instance.new("UICorner", Switch).CornerRadius = UDim.new(1, 0)
-
-                local BotonClick = Instance.new("TextButton")
-                BotonClick.Parent = Fila
-                BotonClick.BackgroundTransparency = 1
-                BotonClick.Size = UDim2.new(1, 0, 1, 0)
-                BotonClick.Text = ""
-                BotonClick.MouseButton1Click:Connect(function()
-                    opcion.Valor = not opcion.Valor
-                    Switch.BackgroundColor3 = opcion.Valor and Color3.fromRGB(0, 200, 100) or Color3.fromRGB(80, 80, 80)
-                    if opcion.Callback then opcion.Callback(opcion.Valor) end
-                end)
-            elseif opcion.Tipo == "Deslizador" then
-                local Fila = Instance.new("Frame")
-                Fila.Parent = Contenido
-                Fila.BackgroundColor3 = Color3.fromRGB(35, 30, 45)
-                Fila.Size = UDim2.new(1, 0, 0, 56)
-                Instance.new("UICorner", Fila).CornerRadius = UDim.new(0, 8)
-
-                local Nombre = Instance.new("TextLabel")
-                Nombre.Parent = Fila
-                Nombre.BackgroundTransparency = 1
-                Nombre.Position = UDim2.new(0, 15, 0, 5)
-                Nombre.Size = UDim2.new(0.9, -15, 0, 20)
-                Nombre.Font = Enum.Font.Gotham
-                Nombre.Text = opcion.Nombre.." : "..opcion.Valor
-                Nombre.TextColor3 = Color3.fromRGB(230,230,230)
-                Nombre.TextSize = 14
-                Nombre.TextXAlignment = Enum.TextXAlignment.Left
-
-                local BarraFondo = Instance.new("Frame")
-                BarraFondo.Parent = Fila
-                BarraFondo.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
-                BarraFondo.Position = UDim2.new(0, 15, 0, 32)
-                BarraFondo.Size = UDim2.new(0.9, -15, 0, 8)
-                Instance.new("UICorner", BarraFondo).CornerRadius = UDim.new(1, 0)
-
-                local BarraLlena = Instance.new("Frame")
-                BarraLlena.Parent = BarraFondo
-                BarraLlena.BackgroundColor3 = colorAcento
-                BarraLlena.Size = UDim2.new((opcion.Valor - opcion.Min) / (opcion.Max - opcion.Min), 0, 1, 0)
-                Instance.new("UICorner", BarraLlena).CornerRadius = UDim.new(1, 0)
-            elseif opcion.Tipo == "Contador" then
-                local Fila = Instance.new("Frame")
-                Fila.Parent = Contenido
-                Fila.BackgroundColor3 = Color3.fromRGB(30, 25, 40)
-                Fila.BorderColor3 = colorAcento
-                Fila.BorderSizePixel = 1
-                Fila.Size = UDim2.new(1, 0, 0, 70)
-                Instance.new("UICorner", Fila).CornerRadius = UDim.new(0, 8)
-
-                local Etiqueta = Instance.new("TextLabel")
-                Etiqueta.Parent = Fila
-                Etiqueta.BackgroundTransparency = 1
-                Etiqueta.Position = UDim2.new(0.5, 0, 0, 8)
-                Etiqueta.Size = UDim2.new(0.9, 0, 0, 22)
-                Etiqueta.Font = Enum.Font.GothamBold
-                Etiqueta.Text = opcion.Nombre
-                Etiqueta.TextColor3 = colorAcento
-                Etiqueta.TextSize = 16
-                Etiqueta.TextXAlignment = Enum.TextXAlignment.Center
-
-                local Valor = Instance.new("TextLabel")
-                Valor.Parent = Fila
-                Valor.BackgroundTransparency = 1
-                Valor.Position = UDim2.new(0.5, 0, 0, 30)
-                Valor.Size = UDim2.new(0.9, 0, 0, 30)
-                Valor.Font = Enum.Font.GothamBold
-                Valor.Text = opcion.Valor
-                Valor.TextColor3 = Color3.fromRGB(255,255,255)
-                Valor.TextSize = 28
-                Valor.TextXAlignment = Enum.TextXAlignment.Center
-            elseif opcion.Tipo == "MejoraUltimate" then
-                local Fila = Instance.new("Frame")
-                Fila.Parent = Contenido
-                Fila.BackgroundColor3 = Color3.fromRGB(35, 30, 45)
-                Fila.Size = UDim2.new(1, 0, 0, 54)
-                Instance.new("UICorner", Fila).CornerRadius = UDim.new(0, 8)
-
-                local Barra = Instance.new("Frame")
-                Barra.Parent = Fila
-                Barra.BackgroundColor3 = opcion.Completo and Color3.fromRGB(0, 200, 100) or Color3.fromRGB(180, 40, 40)
-                Barra.Position = UDim2.new(0, 4, 0.5, -18)
-                Barra.Size = UDim2.new(0, 4, 0, 36)
-                Instance.new("UICorner", Barra).CornerRadius = UDim.new(1, 0)
-
-                local Nombre = Instance.new("TextLabel")
-                Nombre.Parent = Fila
-                Nombre.BackgroundTransparency = 1
-                Nombre.Position = UDim2.new(0, 15, 0, 0)
-                Nombre.Size = UDim2.new(0.7, 0, 1, 0)
-                Nombre.Font = Enum.Font.Gotham
-                Nombre.Text = opcion.Nombre
-                Nombre.TextColor3 = Color3.fromRGB(230,230,230)
-                Nombre.TextSize = 15
-                Nombre.TextXAlignment = Enum.TextXAlignment.Left
-
-                local Progreso = Instance.new("TextLabel")
-                Progreso.Parent = Fila
-                Progreso.BackgroundTransparency = 1
-                Progreso.Position = UDim2.new(0, 15, 0.7, -12)
-                Progreso.Size = UDim2.new(0.7, 0, 0, 16)
-                Progreso.Font = Enum.Font.Gotham
-                Progreso.Text = opcion.Progreso .. (opcion.Completo and " · ✅ Completo" or "")
-                Progreso.TextColor3 = opcion.Completo and Color3.fromRGB(0, 200, 100) or Color3.fromRGB(180, 40, 40)
-                Progreso.TextSize = 12
-                Progreso.TextXAlignment = Enum.TextXAlignment.Left
-
-                local BtnMenos = Instance.new("TextButton")
-                BtnMenos.Parent = Fila
-                BtnMenos.BackgroundColor3 = Color3.fromRGB(60, 55, 70)
-                BtnMenos.Position = UDim2.new(0.8, -35, 0.5, -12)
-                BtnMenos.Size = UDim2.new(0, 24, 0, 24)
-                BtnMenos.Font = Enum.Font.GothamBold
-                BtnMenos.Text = "-"
-                BtnMenos.TextColor3 = Color3.fromRGB(255,255,255)
-                BtnMenos.TextSize = 16
-                BtnMenos.AutoLocalize = false
-                Instance.new("UICorner", BtnMenos).CornerRadius = UDim.new(4, 0)
-
-                local Valor = Instance.new("TextLabel")
-                Valor.Parent = Fila
-                Valor.BackgroundTransparency = 1
-                Valor.Position = UDim2.new(0.8, 0, 0.5, -10)
-                Valor.Size = UDim2.new(0.1, 0, 0, 20)
-                Valor.Font = Enum.Font.GothamBold
-                Valor.Text = tostring(opcion.Nivel)
-                Valor.TextColor3 = Color3.fromRGB(255,255,255)
-                Valor.TextSize = 15
-                Valor.TextXAlignment = Enum.TextXAlignment.Center
-
-                local BtnMas = Instance.new("TextButton")
-                BtnMas.Parent = Fila
-                BtnMas.BackgroundColor3 = colorAcento
-                BtnMas.Position = UDim2.new(0.95, -24, 0.5, -12)
-                BtnMas.Size = UDim2.new(0, 24, 0, 24)
-                BtnMas.Font = Enum.Font.GothamBold
-                BtnMas.Text = "+"
-                BtnMas.TextColor3 = Color3.fromRGB(255,255,255)
-                BtnMas.TextSize = 16
-                BtnMas.AutoLocalize = false
-                Instance.new("UICorner", BtnMas).CornerRadius = UDim.new(4, 0)
-            end
-        end
-    end
-
-    -- 🏆 FIRMA FINAL
-    local Firma = Instance.new("TextLabel")
-    Firma.Parent = Ventana
-    Firma.BackgroundTransparency = 1
-    Firma.Position = UDim2.new(0.5, -150, 1, -28)
-    Firma.Size = UDim2.new(0, 300, 0, 24)
-    Firma.Font = Enum.Font.Gotham
-    Firma.Text = "✨ Creado por: GoldGuerrero · v1.0 ✨"
-    Firma.TextColor3 = Color3.fromRGB(140, 140, 140)
-    Firma.TextSize = 12
-    Firma.TextXAlignment = Enum.TextXAlignment.Center
-
-    return Ventana
-end
--- ==================================================
--- 📋 MENÚ PRINCIPAL
--- ==================================================
-local function CrearMenuPrincipal()
-    local MainFrame = Instance.new("Frame")
-    MainFrame.Name = "MainFrame"
-    MainFrame.Parent = ScreenGui
-    MainFrame.BackgroundColor3 = Color3.fromRGB(22, 18, 28)
-    MainFrame.BorderColor3 = Color3.fromRGB(255, 215, 0)
-    MainFrame.BorderSizePixel = 2
-    MainFrame.Position = UDim2.new(0.5, -275, 0.5, -220)
-    MainFrame.Size = UDim2.new(0, 550, 0, 440)
-    MainFrame.Active = true
-    MainFrame.Draggable = true
-    Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 18)
-
-    -- 🏆 TÍTULO
-    local Titulo = Instance.new("TextLabel")
-    Titulo.Parent = MainFrame
-    Titulo.BackgroundTransparency = 1
-    Titulo.Position = UDim2.new(0.5, -200, 0, 15)
-    Titulo.Size = UDim2.new(0, 400, 0, 32)
-    Titulo.Font = Enum.Font.GothamBold
-    Titulo.Text = "⚔️ GoldGuerrero Hub — Muscle Legends ⚔️"
-    Titulo.TextColor3 = Color3.fromRGB(255, 215, 0)
-    Titulo.TextSize = 22
-    Titulo.TextXAlignment = Enum.TextXAlignment.Center
-
-    local Linea = Instance.new("Frame")
-    Linea.Parent = MainFrame
-    Linea.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
-    Linea.Position = UDim2.new(0.05, 0, 0, 55)
-    Linea.Size = UDim2.new(0.90, 0, 0, 2)
-
-    -- 📂 BOTONES PRINCIPALES
-    local Botones = {
-        {Nombre = "⚡ Fast Glitch 90", Color = Color3.fromRGB(255, 50, 50), Funcion = function() MainFrame:Destroy() CrearVentanaPestanas("⚡ Fast Glitch 90", {{Nombre="Rocks", Opciones={{Tipo="Interruptor",Nombre="Golpear Rocas Auto",Valor=Estados.FastGlitch.AutoRocks,Callback=function(v) Estados.FastGlitch.AutoRocks=v end}},{Tipo="Interruptor",Nombre="Fuerza Doble",Valor=Estados.FastGlitch.FuerzaDoble,Callback=function(v) Estados.FastGlitch.FuerzaDoble=v end}},{Tipo="Interruptor",Nombre="Sin Retraso",Valor=Estados.FastGlitch.SinRetraso,Callback=function(v) Estados.FastGlitch.SinRetraso=v end}}},{Nombre="Ajustes", Opciones={{Tipo="Deslizador",Nombre="Velocidad de Ataque",Valor=5,Min=1,Max=50}}}, Color3.fromRGB(255,50,50)) end},
-        {Nombre = "🏋️ Entrenamiento", Color = Color3.fromRGB(0, 200, 100), Funcion = function() MainFrame:Destroy() CrearVentanaPestanas("🏋️ Entrenamiento", {{Nombre="Entrenar", Opciones={{Tipo="Interruptor",Nombre="Auto Weight",Valor=Estados.Entrenamiento.AutoWeight,Callback=function(v) Estados.Entrenamiento.AutoWeight=v end}},{Tipo="Interruptor",Nombre="Auto Pushups",Valor=Estados.Entrenamiento.AutoPushups,Callback=function(v) Estados.Entrenamiento.AutoPushups=v end}},{Tipo="Interruptor",Nombre="Lock Position",Valor=Estados.Entrenamiento.LockPosition,Callback=function(v) Estados.Entrenamiento.LockPosition=v end}},{Tipo="Interruptor",Nombre="Auto Rebirths",Valor=Estados.Entrenamiento.AutoRebirths,Callback=function(v) Estados.Entrenamiento.AutoRebirths=v end}}},{Nombre="Misc", Opciones={{Tipo="Interruptor",Nombre="Fly",Valor=Estados.Entrenamiento.Fly,Callback=function(v) Estados.Entrenamiento.Fly=v end}},{Tipo="Deslizador",Nombre="Fly Speed",Valor=Estados.Entrenamiento.FlySpeed,Min=1,Max=50},{Tipo="Interruptor",Nombre="Stars ON/OFF",Valor=Estados.Entrenamiento.Stars,Callback=function(v) Estados.Entrenamiento.Stars=v end}},{Tipo="Deslizador",Nombre="Anti Lag %",Valor=Estados.Entrenamiento.AntiLag,Min=0,Max=100},{Tipo="Interruptor",Nombre="Activar Anti AFK",Valor=Estados.Entrenamiento.AntiAFK,Callback=function(v) Estados.Entrenamiento.AntiAFK=v end}},{Tipo="Interruptor",Nombre="Reclamar TODO",Valor=Estados.Entrenamiento.ReclamarTodo,Callback=function(v) Estados.Entrenamiento.ReclamarTodo=v end}}}}, Color3.fromRGB(0,200,100)) end},
-        {Nombre = "🎯 Kills", Color = Color3.fromRGB(220, 50, 50), Funcion = function() MainFrame:Destroy() CrearVentanaPestanas("🎯 Auto Kills", {{Nombre="Kills", Opciones={{Tipo="Contador",Nombre="KILLS",Valor=tostring(Estados.Kills.Kills)},{Tipo="Interruptor",Nombre="Auto Kill",Valor=Estados.Kills.AutoKill,Callback=function(v) Estados.Kills.AutoKill=v end}},{Tipo="Interruptor",Nombre="Server Hop inteligente",Valor=Estados.Kills.ServerHop,Callback=function(v) Estados.Kills.ServerHop=v end}},{Tipo="Interruptor",Nombre="No matar a mis amigos",Valor=Estados.Kills.NoAmigos,Callback=function(v) Estados.Kills.NoAmigos=v end}}}}, Color3.fromRGB(220,50,50)) end},
-        {Nombre = "🐾 Pet Shop", Color = Color3.fromRGB(150, 50, 220), Funcion = function() MainFrame:Destroy() CrearVentanaPestanas("🐾 Pet Shop", {{Nombre="Pets", Opciones={{Tipo="Interruptor",Nombre="Compra automática",Valor=Estados.PetShop.CompraAutoPet,Callback=function(v) Estados.PetShop.CompraAutoPet=v end}},{Tipo="Interruptor",Nombre="Auto Evolucionar",Valor=Estados.PetShop.AutoEvolucionar,Callback=function(v) Estados.PetShop.AutoEvolucionar=v end}}},{Nombre="Auras", Opciones={{Tipo="Interruptor",Nombre="Compra automática",Valor=Estados.PetShop.CompraAutoAura,Callback=function(v) Estados.PetShop.CompraAutoAura=v end}}}}, Color3.fromRGB(150,50,220)) end},
-        {Nombre = "🔄 Auto Rebirths", Color = Color3.fromRGB(255, 140, 0), Funcion = function() MainFrame:Destroy() CrearVentanaPestanas("🔄 Auto Rebirths", {{Nombre="Rebirths", Opciones={{Tipo="Contador",Nombre="RENACIMIENTOS",Valor=tostring(Estados.Rebirths.Rebirths)},{Tipo="Interruptor",Nombre="Tamaño 1",Valor=Estados.Rebirths.Tamano1,Callback=function(v) Estados.Rebirths.Tamano1=v end}},{Tipo="Interruptor",Nombre="Pesa automática",Valor=Estados.Rebirths.PesaAuto,Callback=function(v) Estados.Rebirths.PesaAuto=v end}},{Tipo="Interruptor",Nombre="Auto Pushups",Valor=Estados.Rebirths.AutoPushups,Callback=function(v) Estados.Rebirths.AutoPushups=v end}}},{Nombre="Ajustes", Opciones={{Tipo="Interruptor",Nombre="Teletransporte al King",Valor=Estados.Rebirths.TeleportKing,Callback=function(v) Estados.Rebirths.TeleportKing=v end}},{Tipo="Interruptor",Nombre="Bloquear posición",Valor=Estados.Rebirths.BloquearPosicion,Callback=function(v) Estados.Rebirths.BloquearPosicion=v end}},{Tipo="Interruptor",Nombre="Auto Egg - Cada 30 mins",Valor=Estados.Rebirths.AutoEgg,Callback=function(v) Estados.Rebirths.AutoEgg=v end}},{Tipo="Interruptor",Nombre="Renacer hasta el objetivo",Valor=Estados.Rebirths.RenacerHasta,Callback=function(v) Estados.Rebirths.RenacerHasta=v end}}},{Nombre="Ultimates", Opciones={{Tipo="MejoraUltimate",Nombre="+1 Daily Spin",Nivel=Estados.Rebirths.Ultimates.DailySpin,Progreso="5/5",Completo=true},{Tipo="MejoraUltimate",Nombre="+1 Pet Slot",Nivel=Estados.Rebirths.Ultimates.PetSlot,Progreso="3/3",Completo=true},{Tipo="MejoraUltimate",Nombre="+10 Item Capacity",Nivel=Estados.Rebirths.Ultimates.ItemCapacity,Progreso="5/6",Completo=false},{Tipo="MejoraUltimate",Nombre="+5% Rep Speed",Nivel=Estados.Rebirths.Ultimates.RepSpeed,Progreso="10/10",Completo=true},{Tipo="MejoraUltimate",Nombre="Demon Damage",Nivel=Estados.Rebirths.Ultimates.DemonDamage,Progreso="5/5",Completo=true}}}}, Color3.fromRGB(255,140,0)) end}
-    }
-
-    local BotonLayout = Instance.new("UIGridLayout")
-    BotonLayout.Parent = MainFrame
-    BotonLayout.CellSize = UDim2.new(0, 480, 0, 55)
-    BotonLayout.CellPadding = UDim2.new(0, 0, 0, 12)
-    BotonLayout.FillDirection = Enum.FillDirection.Vertical
-    BotonLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    BotonLayout.Position = UDim2.new(0.05, 0, 0, 70)
-
-    for i, boton in ipairs(Botones) do
-        local Btn = Instance.new("TextButton")
-        Btn.Parent = MainFrame
-        Btn.BackgroundColor3 = boton.Color
-        Btn.Font = Enum.Font.GothamBold
-        Btn.Text = boton.Nombre
-        Btn.TextColor3 = Color3.fromRGB(255,255,255)
-        Btn.TextSize = 18
-        Btn.AutoLocalize = false
-        Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 12)
-        Btn.MouseButton1Click:Connect(boton.Funcion)
-    end
-
-    -- 🏆 FIRMA
-    local Firma = Instance.new("TextLabel")
-    Firma.Parent = MainFrame
-    Firma.BackgroundTransparency = 1
-    Firma.Position = UDim2.new(0.5, -150, 1, -25)
-    Firma.Size = UDim2.new(0, 300, 0, 20)
-    Firma.Font = Enum.Font.Gotham
-    Firma.Text = "✨ Creado por: GoldGuerrero · v1.0 ✨"
-    Firma.TextColor3 = Color3.fromRGB(140, 140, 140)
-    Firma.TextSize = 12
-    Firma.TextXAlignment = Enum.TextXAlignment.Center
+    return Tarjeta
 end
 
--- 🚀 INICIAR EL HUB
-CrearMenuPrincipal()
+-- TARJETAS — Fast Glitch 90
+local Tarjeta1 = CrearTarjeta("Fast Glitch 90", "Script de pelea muy OP", Colores.TarjetaRoja, "rbxassetid://7733868248")
+Tarjeta1.Position = UDim2.new(0.5, -257, 0, 85)
 
-print("✅ GoldGuerrero Hub v1.0 cargado con éxito!")
+local Tarjeta2 = CrearTarjeta("Public Training", "Entrenamiento automático", Colores.TarjetaOscura, "rbxassetid://7734046739")
+Tarjeta2.Position = UDim2.new(0.5, -257, 0, 172)
 
+local Tarjeta3 = CrearTarjeta("Auto Rebirths", "Renacer automáticamente", Colores.TarjetaOscura, "rbxassetid://7733904319")
+Tarjeta3.Position = UDim2.new(0.5, -257, 0, 259)
+
+local Tarjeta4 = CrearTarjeta("Free Pet Shop", "Mascotas gratis", Colores.TarjetaOscura, "rbxassetid://7734129876")
+Tarjeta4.Position = UDim2.new(0.5, -257, 0, 346)
+
+-- BOTÓN SALIR
+local BotonSalir = Instance.new("TextButton")
+BotonSalir.Parent = MainWindow
+BotonSalir.BackgroundColor3 = Colores.BotonRojo
+BotonSalir.Position = UDim2.new(0.5, -257, 0, 440)
+BotonSalir.Size = UDim2.new(1, -40, 0, 72)
+BotonSalir.Font = Enum.Font.GothamBold
+BotonSalir.Text = "SALIR"
+BotonSalir.TextColor3 = Colores.Texto
+BotonSalir.TextSize = 20
+Instance.new("UICorner", BotonSalir).CornerRadius = UDim.new(0, 12)
+
+BotonSalir.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+end)
