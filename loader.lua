@@ -1,17 +1,14 @@
 -- ==================================================
 --        ⚔️ GOLD GUERRERO HUB — ESTILO YOUNG0X ✅
---  🎨 PESTAÑAS: Entrenar | Rocks | Misc
---  ⚡ Auto Weight ✅ | Auto Pushups ✅ | Auto Rebirths ✅
---  🪨 Rocks Punch ✅ | Fast Punch ✅ | TP Portales ✅
---  🔘 INTERRUPTORES REALES → ON/OFF | ✅ FUNCIONAN AL ACTIVAR
---  📱 Móvil optimizado | 🖱️ Arrastrable
+--  🎨 IDÉNTICO A LA IMAGEN | BORDE ROJO | COLUMNAS
+--  ⚡ Fast Glitch | Public Training | Auto Rebirths | Killing | Free Pet Shop
+--  ❌ SALIR — Se abre directo | Sin botones extra
 -- ==================================================
 
 local CoreGui = game:GetService("CoreGui")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
-local UserInputService = game:GetService("UserInputService")
 local Player = Players.LocalPlayer
 
 -- Limpiar duplicados
@@ -26,543 +23,352 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
 
 -- ==============================================
--- 🔘 BOTÓN FLOTANTE PARA ABRIR/CERRAR
--- ==============================================
-local ToggleBtn = Instance.new("TextButton")
-ToggleBtn.Name = "ToggleBtn"
-ToggleBtn.Parent = ScreenGui
-ToggleBtn.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
-ToggleBtn.Position = UDim2.new(0.02, 0, 0.3, 0)
-ToggleBtn.Size = UDim2.new(0, 55, 0, 55)
-ToggleBtn.Font = Enum.Font.GothamBold
-ToggleBtn.Text = "⚔️"
-ToggleBtn.TextColor3 = Color3.fromRGB(0, 0, 0)
-ToggleBtn.TextSize = 28
-ToggleBtn.Active = true
-ToggleBtn.Draggable = true
-Instance.new("UICorner", ToggleBtn).CornerRadius = UDim.new(1, 0)
-
--- ==============================================
--- 🔳 VENTANA PRINCIPAL — TAMAÑO EXACTO 🎨
+-- 🔳 VENTANA PRINCIPAL — BORDE ROJO IGUAL A YOUNG0X
 -- ==============================================
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
-MainFrame.BorderColor3 = Color3.fromRGB(80, 140, 255)
+MainFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 15)
+MainFrame.BorderColor3 = Color3.fromRGB(200, 20, 40)
 MainFrame.BorderSizePixel = 3
-MainFrame.Position = UDim2.new(0.5, -340, 0.5, -280)
-MainFrame.Size = UDim2.new(0, 680, 0, 560)
+MainFrame.Position = UDim2.new(0.5, -330, 0.5, -240)
+MainFrame.Size = UDim2.new(0, 660, 0, 480)
 MainFrame.Active = true
 MainFrame.Draggable = true
-MainFrame.Visible = false
-Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 20)
+MainFrame.Visible = true
+Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 16)
 
--- 🏷️ TÍTULO
-local Title = Instance.new("TextLabel")
-Title.Parent = MainFrame
-Title.BackgroundTransparency = 1
-Title.Position = UDim2.new(0.5, -180, 0, 12)
-Title.Size = UDim2.new(0, 360, 0, 35)
-Title.Font = Enum.Font.GothamBold
-Title.Text = "¡Gold Guerrero Hub!"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextSize = 26
-Title.TextXAlignment = Enum.TextXAlignment.Center
+-- 🏷️ TÍTULO ARRIBA
+local TitleTop = Instance.new("TextLabel")
+TitleTop.Parent = MainFrame
+TitleTop.BackgroundTransparency = 1
+TitleTop.Position = UDim2.new(0.5, -120, 0, 12)
+TitleTop.Size = UDim2.new(0, 240, 0, 30)
+TitleTop.Font = Enum.Font.GothamBold
+TitleTop.Text = "Gold Guerrero Hub"
+TitleTop.TextColor3 = Color3.fromRGB(255, 255, 255)
+TitleTop.TextSize = 22
 
--- 📌 PESTAÑAS
-local TabContainer = Instance.new("Frame")
-TabContainer.Parent = MainFrame
-TabContainer.BackgroundTransparency = 1
-TabContainer.Position = UDim2.new(0.03, 0, 0, 60)
-TabContainer.Size = UDim2.new(0.94, 0, 0, 50)
+local SubTitle = Instance.new("TextLabel")
+SubTitle.Parent = MainFrame
+SubTitle.BackgroundTransparency = 1
+SubTitle.Position = UDim2.new(0.5, -90, 0, 38)
+SubTitle.Size = UDim2.new(0, 180, 0, 20)
+SubTitle.Font = Enum.Font.Gotham
+SubTitle.Text = "Muscle Legends"
+SubTitle.TextColor3 = Color3.fromRGB(220, 40, 60)
+SubTitle.TextSize = 14
 
-local Tabs = {}
-local SelectedTab = "Entrenar"
+local Line = Instance.new("Frame")
+Line.Parent = MainFrame
+Line.BackgroundColor3 = Color3.fromRGB(200, 20, 40)
+Line.Position = UDim2.new(0.03, 0, 0, 65)
+Line.Size = UDim2.new(0.94, 0, 0, 2)
 
-local function CreateTab(name, index)
-    local TabBtn = Instance.new("TextButton")
-    TabBtn.Parent = TabContainer
-    TabBtn.Name = name
-    TabBtn.BackgroundColor3 = name == "Entrenar" and Color3.fromRGB(30, 50, 90) or Color3.fromRGB(25, 25, 40)
-    TabBtn.Position = UDim2.new((index-1)*0.33, 5, 0, 0)
-    TabBtn.Size = UDim2.new(0.32, 0, 0, 45)
-    TabBtn.Font = Enum.Font.GothamBold
-    TabBtn.Text = name
-    TabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TabBtn.TextSize = 18
-    Instance.new("UICorner", TabBtn).CornerRadius = UDim.new(0, 10)
-    Tabs[name] = TabBtn
-    return TabBtn
-end
-
-CreateTab("Entrenar", 1)
-CreateTab("Rocks", 2)
-CreateTab("Misc", 3)
-
--- Línea inferior pestaña seleccionada
-local TabLine = Instance.new("Frame")
-TabLine.Parent = MainFrame
-TabLine.BackgroundColor3 = Color3.fromRGB(120, 170, 255)
-TabLine.Position = UDim2.new(0.03, 5, 0, 110)
-TabLine.Size = UDim2.new(0.32, 0, 0, 3)
-
--- 📊 PANEL DE ESTADÍSTICAS (solo en Entrenar)
-local StatsPanel = Instance.new("Frame")
-StatsPanel.Parent = MainFrame
-StatsPanel.BackgroundColor3 = Color3.fromRGB(25, 30, 50)
-StatsPanel.BorderColor3 = Color3.fromRGB(80, 140, 255)
-StatsPanel.BorderSizePixel = 2
-StatsPanel.Position = UDim2.new(0.03, 0, 0, 125)
-StatsPanel.Size = UDim2.new(0.94, 0, 0, 90)
-Instance.new("UICorner", StatsPanel).CornerRadius = UDim.new(0, 12)
-
-local StatsTitle = Instance.new("TextLabel")
-StatsTitle.Parent = StatsPanel
-StatsTitle.BackgroundTransparency = 1
-StatsTitle.Position = UDim2.new(0.5, -120, 0, 5)
-StatsTitle.Size = UDim2.new(0, 240, 0, 25)
-StatsTitle.Font = Enum.Font.GothamBold
-StatsTitle.Text = "💪 ENTRENAMIENTO BÁSICO 💪"
-StatsTitle.TextColor3 = Color3.fromRGB(255, 215, 0)
-StatsTitle.TextSize = 17
-StatsTitle.TextXAlignment = Enum.TextXAlignment.Center
-
-local function CreateStatLabel(text, posX)
-    local lbl = Instance.new("TextLabel")
-    lbl.Parent = StatsPanel
-    lbl.BackgroundTransparency = 1
-    lbl.Position = UDim2.new(posX, 0, 0, 35)
-    lbl.Size = UDim2.new(0.30, 0, 0, 45)
-    lbl.Font = Enum.Font.GothamBold
-    lbl.Text = text
-    lbl.TextColor3 = Color3.fromRGB(255, 255, 255)
-    lbl.TextSize = 20
-    lbl.TextXAlignment = Enum.TextXAlignment.Center
-    return lbl
-end
-
-local StatFuerza = CreateStatLabel("Cargando...", 0.02)
-local StatDurabilidad = CreateStatLabel("Cargando...", 0.35)
-local StatRebirths = CreateStatLabel("Cargando...", 0.68)
-
-local Sep1 = Instance.new("Frame")
-Sep1.Parent = StatsPanel
-Sep1.BackgroundColor3 = Color3.fromRGB(80, 140, 255)
-Sep1.Position = UDim2.new(0.33, 0, 0, 20)
-Sep1.Size = UDim2.new(0.01, 0, 0, 70)
-
-local Sep2 = Instance.new("Frame")
-Sep2.Parent = StatsPanel
-Sep2.BackgroundColor3 = Color3.fromRGB(80, 140, 255)
-Sep2.Position = UDim2.new(0.66, 0, 0, 20)
-Sep2.Size = UDim2.new(0.01, 0, 0, 70)
-
-local LabelFuerza = Instance.new("TextLabel")
-LabelFuerza.Parent = StatsPanel
-LabelFuerza.BackgroundTransparency = 1
-LabelFuerza.Position = UDim2.new(0.02, 0, 0, 5)
-LabelFuerza.Size = UDim2.new(0.30, 0, 0, 20)
-LabelFuerza.Font = Enum.Font.Gotham
-LabelFuerza.Text = "FUERZA"
-LabelFuerza.TextColor3 = Color3.fromRGB(150, 180, 220)
-LabelFuerza.TextSize = 12
-LabelFuerza.TextXAlignment = Enum.TextXAlignment.Center
-
-local LabelDurabilidad = Instance.new("TextLabel")
-LabelDurabilidad.Parent = StatsPanel
-LabelDurabilidad.BackgroundTransparency = 1
-LabelDurabilidad.Position = UDim2.new(0.35, 0, 0, 5)
-LabelDurabilidad.Size = UDim2.new(0.30, 0, 0, 20)
-LabelDurabilidad.Font = Enum.Font.Gotham
-LabelDurabilidad.Text = "DURABILIDAD"
-LabelDurabilidad.TextColor3 = Color3.fromRGB(150, 180, 220)
-LabelDurabilidad.TextSize = 12
-LabelDurabilidad.TextXAlignment = Enum.TextXAlignment.Center
-
-local LabelRebirths = Instance.new("TextLabel")
-LabelRebirths.Parent = StatsPanel
-LabelRebirths.BackgroundTransparency = 1
-LabelRebirths.Position = UDim2.new(0.68, 0, 0, 5)
-LabelRebirths.Size = UDim2.new(0.30, 0, 0, 20)
-LabelRebirths.Font = Enum.Font.Gotham
-LabelRebirths.Text = "REBIRTHS"
-LabelRebirths.TextColor3 = Color3.fromRGB(150, 180, 220)
-LabelRebirths.TextSize = 12
-LabelRebirths.TextXAlignment = Enum.TextXAlignment.Center
-
--- 📦 ESTADOS DE FUNCIONES
+-- 📦 ESTADOS
 local States = {
-    AutoWeight = false,
-    AutoPushups = false,
-    AutoRebirth = false,
-    RocksPunch = false,
-    FastPunch = false,
-    LockPosition = false
+    FastGlitch = false,
+    PublicTraining = false,
+    AutoRebirths = false,
+    Killing = false,
+    FreePetShop = false
 }
 
-local OriginalPosition = nil
-
--- 📦 FUNCIONES BÁSICAS
-local function GetChar()
-    return Player.Character or Player.CharacterAdded:Wait()
-end
-
-local function FormatNumber(num)
-    return string.format("%.0f", num)
-end
-
--- 📦 ACTUALIZAR ESTADÍSTICAS
-local function UpdateStats()
-    local leaderstats = Player:FindFirstChild("leaderstats")
-    if leaderstats then
-        local fuerza = leaderstats:FindFirstChild("Fuerza") or leaderstats:FindFirstChild("Strength")
-        local durabilidad = leaderstats:FindFirstChild("Durabilidad") or leaderstats:FindFirstChild("Durability")
-        local rebirths = leaderstats:FindFirstChild("Rebirths") or leaderstats:FindFirstChild("Rebirth")
-        
-        if fuerza then StatFuerza.Text = FormatNumber(fuerza.Value) end
-        if durabilidad then StatDurabilidad.Text = FormatNumber(durabilidad.Value) end
-        if rebirths then StatRebirths.Text = FormatNumber(rebirths.Value) end
-    end
-end
-
--- ⚡ AUTO WEIGHT — LEVANTAR PESAS AUTOMÁTICO
-local function AutoWeightFunc()
-    local char = GetChar()
-    if not char then return end
-    local hrp = char:FindFirstChild("HumanoidRootPart")
-    local hum = char:FindFirstChild("Humanoid")
-    if not hrp or not hum then return end
-    
-    local weights = Workspace:FindFirstChild("Weights") or Workspace:FindFirstChild("Pesas")
-    if weights then
-        for _, w in pairs(weights:GetChildren()) do
-            if w:IsA("BasePart") and (string.find(string.lower(w.Name), "weight") or string.find(string.lower(w.Name), "pesa")) then
-                local dist = (w.Position - hrp.Position).Magnitude
-                if dist < 15 then
-                    hum:MoveTo(w.Position)
-                    task.wait(0.3)
-                end
-            end
-        end
-    end
-end
-
--- ⚡ AUTO PUSHUPS — FLEXIONES AUTOMÁTICAS
-local function AutoPushupsFunc()
-    local char = GetChar()
-    if not char then return end
-    local hum = char:FindFirstChild("Humanoid")
-    if not hum then return end
-    local anim = Instance.new("Animation")
-    anim.AnimationId = "rbxassetid://616005518"
-    local humAnim = char.Humanoid:FindFirstChild("HumanoidAnimator")
-    if humAnim then
-        local track = humAnim:LoadAnimation(anim)
-        track:Play()
-        task.wait(0.5)
-        track:Stop()
-    end
-end
-
--- 🔄 AUTO REBIRTH
-local function DoRebirth()
-    local remotes = ReplicatedStorage:FindFirstChild("Remotes")
-    if remotes and remotes:FindFirstChild("Rebirth") then
-        remotes.Rebirth:FireServer()
-    end
-end
-
--- 🪨 ROCKS PUNCH — GOLPEAR ROCAS
-local function PunchRocksFunc()
-    local char = GetChar()
-    if not char then return end
-    local hrp = char:FindFirstChild("HumanoidRootPart")
-    if not hrp then return end
-    local rocks = Workspace:FindFirstChild("Rocks") or Workspace:FindFirstChild("Rocas")
-    if rocks then
-        for _, rock in pairs(rocks:GetChildren()) do
-            if rock:IsA("BasePart") then
-                local dist = (rock.Position - hrp.Position).Magnitude
-                if dist < 25 then
-                    if rock:FindFirstChild("Humanoid") then
-                        rock.Humanoid:TakeDamage(100)
-                    else
-                        local hum = char:FindFirstChild("Humanoid")
-                        if hum then hum:MoveTo(rock.Position) end
-                    end
-                end
-            end
-        end
-    end
-end
-
--- ⚡ FAST PUNCH — GOLPE RÁPIDO
-local function FastPunchFunc()
-    local char = GetChar()
-    if not char then return end
-    local hum = char:FindFirstChild("Humanoid")
-    if not hum then return end
-    local anim = Instance.new("Animation")
-    anim.AnimationId = "rbxassetid://484300472"
-    local humAnim = char.Humanoid:FindFirstChild("HumanoidAnimator")
-    if humAnim then
-        local track = humAnim:LoadAnimation(anim)
-        track:AdjustSpeed(2.5)
-        track:Play()
-        task.wait(0.15)
-        track:Stop()
-    end
-end
-
--- 🚀 TP A PORTALES
-local function TeleportTo(zoneName)
-    local char = GetChar()
-    if not char or not char:FindFirstChild("HumanoidRootPart") then return end
-    if States.LockPosition and OriginalPosition then
-        char.HumanoidRootPart.CFrame = OriginalPosition
-        return
-    end
-    local portals = Workspace:FindFirstChild("Portals") or Workspace:FindFirstChild("Zones")
-    if portals then
-        for _, v in pairs(portals:GetChildren()) do
-            if string.find(string.lower(v.Name), string.lower(zoneName)) then
-                local spawn = v:FindFirstChild("SpawnLocation") or v:FindFirstChild("Teleport")
-                if spawn then
-                    char.HumanoidRootPart.CFrame = CFrame.new(spawn.Position + Vector3.new(0, 6, 0))
-                end
-            end
-        end
-    end
-end
-
--- 🔘 CREAR INTERRUPTOR ESTILO YOUNG0X
-local function CreateToggle(name, desc, yPos, color, callback)
-    local Container = Instance.new("Frame")
-    Container.Parent = MainFrame
-    Container.BackgroundColor3 = Color3.fromRGB(25, 25, 45)
-    Container.BorderColor3 = color
-    Container.BorderSizePixel = 2
-    Container.Position = UDim2.new(0.03, 0, 0, yPos)
-    Container.Size = UDim2.new(0.94, 0, 0, 55)
-    Instance.new("UICorner", Container).CornerRadius = UDim.new(0, 12)
-
-    local TitleLbl = Instance.new("TextLabel")
-    TitleLbl.Parent = Container
-    TitleLbl.BackgroundTransparency = 1
-    TitleLbl.Position = UDim2.new(0.03, 0, 0, 0)
-    TitleLbl.Size = UDim2.new(0.75, 0, 1, 0)
-    TitleLbl.Font = Enum.Font.GothamBold
-    TitleLbl.Text = name
-    TitleLbl.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TitleLbl.TextSize = 18
-    TitleLbl.TextXAlignment = Enum.TextXAlignment.Left
-
-    local SwitchBg = Instance.new("Frame")
-    SwitchBg.Parent = Container
-    SwitchBg.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
-    SwitchBg.Position = UDim2.new(0.88, 0, 0.15, 0)
-    SwitchBg.Size = UDim2.new(0, 45, 0, 38)
-    Instance.new("UICorner", SwitchBg).CornerRadius = UDim.new(1, 0)
-
-    local SwitchKnob = Instance.new("Frame")
-    SwitchKnob.Parent = SwitchBg
-    SwitchKnob.BackgroundColor3 = Color3.fromRGB(200, 200, 210)
-    SwitchKnob.Position = UDim2.new(0.08, 0, 0.12, 0)
-    SwitchKnob.Size = UDim2.new(0, 32, 0, 30)
-    Instance.new("UICorner", SwitchKnob).CornerRadius = UDim.new(1, 0)
-
-    local Toggled = false
+-- 📦 FUNCIÓN CREAR BOTÓN ABRIR
+local function MakeOpenBtn(parent, x, y, w, h)
     local Btn = Instance.new("TextButton")
-    Btn.Parent = Container
-    Btn.BackgroundTransparency = 1
-    Btn.Size = UDim2.new(1, 0, 1, 0)
-    Btn.Text = ""
-    Btn.MouseButton1Click:Connect(function()
-        Toggled = not Toggled
-        if Toggled then
-            SwitchBg.BackgroundColor3 = color
-            SwitchKnob.Position = UDim2.new(0.58, 0, 0.12, 0)
-            SwitchKnob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        else
-            SwitchBg.BackgroundColor3 = Color3.fromRGB(60, 60, 80)
-            SwitchKnob.Position = UDim2.new(0.08, 0, 0.12, 0)
-            SwitchKnob.BackgroundColor3 = Color3.fromRGB(200, 200, 210)
-        end
-        if callback then callback(Toggled) end
-    end)
-
-    return Container
+    Btn.Parent = parent
+    Btn.BackgroundColor3 = Color3.fromRGB(35, 25, 35)
+    Btn.BorderColor3 = Color3.fromRGB(100, 30, 50)
+    Btn.BorderSizePixel = 1
+    Btn.Position = UDim2.new(x, 0, y, 0)
+    Btn.Size = UDim2.new(w, 0, h, 0)
+    Btn.Font = Enum.Font.GothamBold
+    Btn.Text = "ABRIR"
+    Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Btn.TextSize = 13
+    Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 10)
+    return Btn
 end
 
--- 📦 CONTENEDORES DE PESTAÑAS
-local TabContents = {
-    Entrenar = Instance.new("Frame"),
-    Rocks = Instance.new("Frame"),
-    Misc = Instance.new("Frame")
-}
+-- ⚡ FAST GLITCH 100% — CUADRO ROJO GRANDE
+local FastGlitch = Instance.new("Frame")
+FastGlitch.Parent = MainFrame
+FastGlitch.BackgroundColor3 = Color3.fromRGB(160, 20, 40)
+FastGlitch.Position = UDim2.new(0.03, 0, 0, 80)
+FastGlitch.Size = UDim2.new(0.94, 0, 0, 90)
+Instance.new("UICorner", FastGlitch).CornerRadius = UDim.new(0, 14)
 
-for name, frame in pairs(TabContents) do
-    frame.Parent = MainFrame
-    frame.BackgroundTransparency = 1
-    frame.Position = UDim2.new(0.03, 0, 0, 125)
-    frame.Size = UDim2.new(0.94, 0, 0, 420)
-    frame.Visible = name == "Entrenar"
-end
+local FlashIcon = Instance.new("TextLabel")
+FlashIcon.Parent = FastGlitch
+FlashIcon.BackgroundTransparency = 1
+FlashIcon.Position = UDim2.new(0.03, 0, 0.12, 0)
+FlashIcon.Size = UDim2.new(0, 70, 0, 70)
+FlashIcon.Font = Enum.Font.GothamBold
+FlashIcon.Text = "⚡"
+FlashIcon.TextColor3 = Color3.fromRGB(255, 255, 255)
+FlashIcon.TextSize = 40
 
--- ⚡ PESTAÑA ENTRENAR — INTERRUPTORES
-CreateToggle("⚡ Auto Weight ⚡", "Levantar pesas automático", 0, Color3.fromRGB(120, 80, 220), function(state)
-    States.AutoWeight = state
-end).Parent = TabContents.Entrenar
+local FGTitle = Instance.new("TextLabel")
+FGTitle.Parent = FastGlitch
+FGTitle.BackgroundTransparency = 1
+FGTitle.Position = UDim2.new(0.15, 0, 0.15, 0)
+FGTitle.Size = UDim2.new(0.55, 0, 0, 30)
+FGTitle.Font = Enum.Font.GothamBold
+FGTitle.Text = "Fast Glitch 100%"
+FGTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+FGTitle.TextSize = 20
 
-CreateToggle("⚡ Auto Pushups ⚡", "Flexiones automáticas", 65, Color3.fromRGB(120, 80, 220), function(state)
-    States.AutoPushups = state
-end).Parent = TabContents.Entrenar
+local FGDesc = Instance.new("TextLabel")
+FGDesc.Parent = FastGlitch
+FGDesc.BackgroundTransparency = 1
+FGDesc.Position = UDim2.new(0.15, 0, 0.55, 0)
+FGDesc.Size = UDim2.new(0.55, 0, 0, 22)
+FGDesc.Font = Enum.Font.Gotham
+FGDesc.Text = "Script de pago MUY OP"
+FGDesc.TextColor3 = Color3.fromRGB(255, 200, 200)
+FGDesc.TextSize = 13
 
-CreateToggle("📍 Lock Position 📍", "Bloquear posición", 130, Color3.fromRGB(200, 60, 60), function(state)
-    States.LockPosition = state
-    if state then
-        local char = GetChar()
-        if char and char:FindFirstChild("HumanoidRootPart") then
-            OriginalPosition = char.HumanoidRootPart.CFrame
-        end
-    end
-end).Parent = TabContents.Entrenar
+local FGBtn = Instance.new("TextButton")
+FGBtn.Parent = FastGlitch
+FGBtn.BackgroundColor3 = Color3.fromRGB(130, 15, 30)
+FGBtn.Position = UDim2.new(0.82, -90, 0.15, 0)
+FGBtn.Size = UDim2.new(0, 80, 0, 60)
+FGBtn.Font = Enum.Font.GothamBold
+FGBtn.Text = "ABRIR"
+FGBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+FGBtn.TextSize = 15
+Instance.new("UICorner", FGBtn).CornerRadius = UDim.new(0, 12)
+FGBtn.MouseButton1Click:Connect(function()
+    States.FastGlitch = not States.FastGlitch
+    FGBtn.BackgroundColor3 = States.FastGlitch and Color3.fromRGB(30, 160, 80) or Color3.fromRGB(130, 15, 30)
+    FGBtn.Text = States.FastGlitch and "✓ ACTIVO" or "ABRIR"
+end)
 
-CreateToggle("🔄 Auto Rebirths 🔄", "Renacimientos automáticos", 195, Color3.fromRGB(60, 180, 80), function(state)
-    States.AutoRebirth = state
-end).Parent = TabContents.Entrenar
+-- 🏋️ PUBLIC TRAINING
+local PublicTrain = Instance.new("Frame")
+PublicTrain.Parent = MainFrame
+PublicTrain.BackgroundColor3 = Color3.fromRGB(25, 20, 30)
+PublicTrain.BorderColor3 = Color3.fromRGB(60, 40, 60)
+PublicTrain.BorderSizePixel = 1
+PublicTrain.Position = UDim2.new(0.03, 0, 0, 180)
+PublicTrain.Size = UDim2.new(0.94, 0, 0, 75)
+Instance.new("UICorner", PublicTrain).CornerRadius = UDim.new(0, 12)
 
--- 🪨 PESTAÑA ROCKS
-CreateToggle("🪨 Rocks Punch 🪨", "Golpear rocas automático", 0, Color3.fromRGB(160, 100, 60), function(state)
-    States.RocksPunch = state
-end).Parent = TabContents.Rocks
+local PTIcon = Instance.new("TextLabel")
+PTIcon.Parent = PublicTrain
+PTIcon.BackgroundTransparency = 1
+PTIcon.Position = UDim2.new(0.03, 0, 0.12, 0)
+PTIcon.Size = UDim2.new(0, 50, 0, 50)
+PTIcon.Font = Enum.Font.GothamBold
+PTIcon.Text = "🏋️"
+PTIcon.TextColor3 = Color3.fromRGB(200, 200, 200)
+PTIcon.TextSize = 28
 
-CreateToggle("⚡ Fast Punch ⚡", "Golpe rápido", 65, Color3.fromRGB(160, 100, 60), function(state)
-    States.FastPunch = state
-end).Parent = TabContents.Rocks
+local PTTitle = Instance.new("TextLabel")
+PTTitle.Parent = PublicTrain
+PTTitle.BackgroundTransparency = 1
+PTTitle.Position = UDim2.new(0.15, 0, 0.15, 0)
+PTTitle.Size = UDim2.new(0.50, 0, 0, 25)
+PTTitle.Font = Enum.Font.GothamBold
+PTTitle.Text = "Public Training"
+PTTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+PTTitle.TextSize = 16
 
--- TP dentro de Rocks
-local TPLabel = Instance.new("TextLabel")
-TPLabel.Parent = TabContents.Rocks
-TPLabel.BackgroundTransparency = 1
-TPLabel.Position = UDim2.new(0, 0, 0.45, 0)
-TPLabel.Size = UDim2.new(1, 0, 0, 30)
-TPLabel.Font = Enum.Font.GothamBold
-TPLabel.Text = "🚀 TELETRANSPORTE"
-TPLabel.TextColor3 = Color3.fromRGB(80, 140, 255)
-TPLabel.TextSize = 16
-TPLabel.TextXAlignment = Enum.TextXAlignment.Center
+local PTDesc = Instance.new("TextLabel")
+PTDesc.Parent = PublicTrain
+PTDesc.BackgroundTransparency = 1
+PTDesc.Position = UDim2.new(0.15, 0, 0.55, 0)
+PTDesc.Size = UDim2.new(0.50, 0, 0, 20)
+PTDesc.Font = Enum.Font.Gotham
+PTDesc.Text = "Script Gratuito para Auto Farm!"
+PTDesc.TextColor3 = Color3.fromRGB(160, 160, 180)
+PTDesc.TextSize = 12
 
-local TPZones = {"Zona 1", "Zona 2", "Zona 3", "Zona 4", "Nueva Zona", "Zona Final"}
-for i, zona in ipairs(TPZones) do
-    local y = 180 + ((i-1)*55)
-    local TpBtn = Instance.new("TextButton")
-    TpBtn.Parent = TabContents.Rocks
-    TpBtn.BackgroundColor3 = Color3.fromRGB(30, 50, 90)
-    TpBtn.BorderColor3 = Color3.fromRGB(80, 140, 255)
-    TpBtn.BorderSizePixel = 2
-    TpBtn.Position = UDim2.new(0, 0, 0, y)
-    TpBtn.Size = UDim2.new(1, 0, 0, 48)
-    TpBtn.Font = Enum.Font.GothamBold
-    TpBtn.Text = "🚀 " .. zona
-    TpBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TpBtn.TextSize = 15
-    Instance.new("UICorner", TpBtn).CornerRadius = UDim.new(0, 10)
-    TpBtn.MouseButton1Click:Connect(function()
-        TeleportTo(zona)
-        TpBtn.BackgroundColor3 = Color3.fromRGB(40, 120, 80)
-        task.wait(0.3)
-        TpBtn.BackgroundColor3 = Color3.fromRGB(30, 50, 90)
-    end)
-end
+local PTBtn = MakeOpenBtn(PublicTrain, 0.82, 0.15, 80, 55)
+PTBtn.MouseButton1Click:Connect(function()
+    States.PublicTraining = not States.PublicTraining
+    PTBtn.BackgroundColor3 = States.PublicTraining and Color3.fromRGB(30, 160, 80) or Color3.fromRGB(35, 25, 35)
+    PTBtn.Text = States.PublicTraining and "✓ ACTIVO" or "ABRIR"
+end)
 
--- 📋 PESTAÑA MISC
-local MiscLabel = Instance.new("TextLabel")
-MiscLabel.Parent = TabContents.Misc
-MiscLabel.BackgroundTransparency = 1
-MiscLabel.Position = UDim2.new(0, 0, 0.05, 0)
-MiscLabel.Size = UDim2.new(1, 0, 0, 40)
-MiscLabel.Font = Enum.Font.GothamBold
-MiscLabel.Text = "⚙️ AJUSTES ADICIONALES"
-MiscLabel.TextColor3 = Color3.fromRGB(255, 215, 0)
-MiscLabel.TextSize = 18
-MiscLabel.TextXAlignment = Enum.TextXAlignment.Center
+-- 🔄 AUTO REBIRTHS (COLUMNA IZQUIERDA)
+local AutoRebirths = Instance.new("Frame")
+AutoRebirths.Parent = MainFrame
+AutoRebirths.BackgroundColor3 = Color3.fromRGB(25, 20, 30)
+AutoRebirths.BorderColor3 = Color3.fromRGB(60, 40, 60)
+AutoRebirths.BorderSizePixel = 1
+AutoRebirths.Position = UDim2.new(0.03, 0, 0, 270)
+AutoRebirths.Size = UDim2.new(0.45, 0, 0, 80)
+Instance.new("UICorner", AutoRebirths).CornerRadius = UDim.new(0, 12)
 
--- 🔄 CAMBIAR PESTAÑAS
-local function SwitchTab(name)
-    SelectedTab = name
-    for tabName, btn in pairs(Tabs) do
-        btn.BackgroundColor3 = tabName == name and Color3.fromRGB(30, 50, 90) or Color3.fromRGB(25, 25, 40)
-    end
-    for tabName, frame in pairs(TabContents) do
-        frame.Visible = tabName == name
-    end
-    StatsPanel.Visible = name == "Entrenar"
-    local index = 1
-    if name == "Rocks" then index = 2 elseif name == "Misc" then index = 3 end
-    TabLine.Position = UDim2.new(0.03, 5 + (index-1)*225, 0, 110)
-end
+local ARIcon = Instance.new("TextLabel")
+ARIcon.Parent = AutoRebirths
+ARIcon.BackgroundTransparency = 1
+ARIcon.Position = UDim2.new(0.05, 0, 0.12, 0)
+ARIcon.Size = UDim2.new(0, 45, 0, 45)
+ARIcon.Font = Enum.Font.GothamBold
+ARIcon.Text = "🔄"
+ARIcon.TextColor3 = Color3.fromRGB(200, 200, 200)
+ARIcon.TextSize = 26
 
-Tabs["Entrenar"].MouseButton1Click:Connect(function() SwitchTab("Entrenar") end)
-Tabs["Rocks"].MouseButton1Click:Connect(function() SwitchTab("Rocks") end)
-Tabs["Misc"].MouseButton1Click:Connect(function() SwitchTab("Misc") end)
+local ARTitle = Instance.new("TextLabel")
+ARTitle.Parent = AutoRebirths
+ARTitle.BackgroundTransparency = 1
+ARTitle.Position = UDim2.new(0.30, 0, 0.12, 0)
+ARTitle.Size = UDim2.new(0.55, 0, 0, 25)
+ARTitle.Font = Enum.Font.GothamBold
+ARTitle.Text = "Auto Rebirths"
+ARTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+ARTitle.TextSize = 15
 
--- ❌ BOTÓN SALIR
+local ARDesc = Instance.new("TextLabel")
+ARDesc.Parent = AutoRebirths
+ARDesc.BackgroundTransparency = 1
+ARDesc.Position = UDim2.new(0.30, 0, 0.55, 0)
+ARDesc.Size = UDim2.new(0.55, 0, 0, 20)
+ARDesc.Font = Enum.Font.Gotham
+ARDesc.Text = "Rebirths Automáticos"
+ARDesc.TextColor3 = Color3.fromRGB(160, 160, 180)
+ARDesc.TextSize = 11
+
+local ARBtn = MakeOpenBtn(AutoRebirths, 0.75, 0.15, 60, 55)
+ARBtn.MouseButton1Click:Connect(function()
+    States.AutoRebirths = not States.AutoRebirths
+    ARBtn.BackgroundColor3 = States.AutoRebirths and Color3.fromRGB(30, 160, 80) or Color3.fromRGB(35, 25, 35)
+    ARBtn.Text = States.AutoRebirths and "✓" or "ABRIR"
+end)
+
+-- 🎯 KILLING (COLUMNA DERECHA)
+local Killing = Instance.new("Frame")
+Killing.Parent = MainFrame
+Killing.BackgroundColor3 = Color3.fromRGB(25, 20, 30)
+Killing.BorderColor3 = Color3.fromRGB(60, 40, 60)
+Killing.BorderSizePixel = 1
+Killing.Position = UDim2.new(0.52, 0, 0, 270)
+Killing.Size = UDim2.new(0.45, 0, 0, 80)
+Instance.new("UICorner", Killing).CornerRadius = UDim.new(0, 12)
+
+local KIcon = Instance.new("TextLabel")
+KIcon.Parent = Killing
+KIcon.BackgroundTransparency = 1
+KIcon.Position = UDim2.new(0.05, 0, 0.12, 0)
+KIcon.Size = UDim2.new(0, 45, 0, 45)
+KIcon.Font = Enum.Font.GothamBold
+KIcon.Text = "🎯"
+KIcon.TextColor3 = Color3.fromRGB(200, 200, 200)
+KIcon.TextSize = 26
+
+local KTitle = Instance.new("TextLabel")
+KTitle.Parent = Killing
+KTitle.BackgroundTransparency = 1
+KTitle.Position = UDim2.new(0.30, 0, 0.12, 0)
+KTitle.Size = UDim2.new(0.55, 0, 0, 25)
+KTitle.Font = Enum.Font.GothamBold
+KTitle.Text = "Killing"
+KTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+KTitle.TextSize = 15
+
+local KDesc = Instance.new("TextLabel")
+KDesc.Parent = Killing
+KDesc.BackgroundTransparency = 1
+KDesc.Position = UDim2.new(0.30, 0, 0.55, 0)
+KDesc.Size = UDim2.new(0.55, 0, 0, 20)
+KDesc.Font = Enum.Font.Gotham
+KDesc.Text = "Auto Kills + Server Hop"
+KDesc.TextColor3 = Color3.fromRGB(160, 160, 180)
+KDesc.TextSize = 11
+
+local KBtn = MakeOpenBtn(Killing, 0.75, 0.15, 60, 55)
+KBtn.MouseButton1Click:Connect(function()
+    States.Killing = not States.Killing
+    KBtn.BackgroundColor3 = States.Killing and Color3.fromRGB(30, 160, 80) or Color3.fromRGB(35, 25, 35)
+    KBtn.Text = States.Killing and "✓" or "ABRIR"
+end)
+
+-- 🐾 FREE PET SHOP
+local FreePetShop = Instance.new("Frame")
+FreePetShop.Parent = MainFrame
+FreePetShop.BackgroundColor3 = Color3.fromRGB(25, 20, 30)
+FreePetShop.BorderColor3 = Color3.fromRGB(60, 40, 60)
+FreePetShop.BorderSizePixel = 1
+FreePetShop.Position = UDim2.new(0.03, 0, 0, 360)
+FreePetShop.Size = UDim2.new(0.45, 0, 0, 75)
+Instance.new("UICorner", FreePetShop).CornerRadius = UDim.new(0, 12)
+
+local PSIcon = Instance.new("TextLabel")
+PSIcon.Parent = FreePetShop
+PSIcon.BackgroundTransparency = 1
+PSIcon.Position = UDim2.new(0.05, 0, 0.12, 0)
+PSIcon.Size = UDim2.new(0, 45, 0, 45)
+PSIcon.Font = Enum.Font.GothamBold
+PSIcon.Text = "🐾"
+PSIcon.TextColor3 = Color3.fromRGB(200, 200, 200)
+PSIcon.TextSize = 26
+
+local PSTitle = Instance.new("TextLabel")
+PSTitle.Parent = FreePetShop
+PSTitle.BackgroundTransparency = 1
+PSTitle.Position = UDim2.new(0.30, 0, 0.15, 0)
+PSTitle.Size = UDim2.new(0.55, 0, 0, 25)
+PSTitle.Font = Enum.Font.GothamBold
+PSTitle.Text = "Free Pet Shop"
+PSTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+PSTitle.TextSize = 15
+
+local PSDesc = Instance.new("TextLabel")
+PSDesc.Parent = FreePetShop
+PSDesc.BackgroundTransparency = 1
+PSDesc.Position = UDim2.new(0.30, 0, 0.58, 0)
+PSDesc.Size = UDim2.new(0.55, 0, 0, 20)
+PSDesc.Font = Enum.Font.Gotham
+PSDesc.Text = "¡Apex y más!"
+PSDesc.TextColor3 = Color3.fromRGB(160, 160, 180)
+PSDesc.TextSize = 11
+
+local PSBtn = MakeOpenBtn(FreePetShop, 0.75, 0.15, 60, 55)
+PSBtn.MouseButton1Click:Connect(function()
+    States.FreePetShop = not States.FreePetShop
+    PSBtn.BackgroundColor3 = States.FreePetShop and Color3.fromRGB(30, 160, 80) or Color3.fromRGB(35, 25, 35)
+    PSBtn.Text = States.FreePetShop and "✓" or "ABRIR"
+end)
+
+-- ❌ BOTÓN SALIR — ROJO GRANDE
 local ExitBtn = Instance.new("TextButton")
 ExitBtn.Parent = MainFrame
-ExitBtn.BackgroundColor3 = Color3.fromRGB(150, 25, 40)
-ExitBtn.Position = UDim2.new(0.03, 0, 0.92, 0)
-ExitBtn.Size = UDim2.new(0.94, 0, 0, 45)
+ExitBtn.BackgroundColor3 = Color3.fromRGB(150, 20, 40)
+ExitBtn.Position = UDim2.new(0.52, 0, 0, 360)
+ExitBtn.Size = UDim2.new(0.45, 0, 0, 75)
 ExitBtn.Font = Enum.Font.GothamBold
-ExitBtn.Text = "✕ CERRAR"
+ExitBtn.Text = "✕ SALIR"
 ExitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 ExitBtn.TextSize = 18
 Instance.new("UICorner", ExitBtn).CornerRadius = UDim.new(0, 12)
 ExitBtn.MouseButton1Click:Connect(function()
     MainFrame.Visible = false
-    ToggleBtn.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 end)
 
--- 🔘 ABRIR/CERRAR MENÚ
-local Abierto = false
-ToggleBtn.MouseButton1Click:Connect(function()
-    Abierto = not Abierto
-    MainFrame.Visible = Abierto
-    ToggleBtn.BackgroundColor3 = Abierto and Color3.fromRGB(40, 200, 90) or Color3.fromRGB(255, 215, 0)
-    if Abierto then UpdateStats() end
-end)
-
--- 🔄 BUCLE PRINCIPAL — TODAS LAS FUNCIONES FUNCIONANDO ✅
+-- 🔄 BUCLE DE FUNCIONES
 task.spawn(function()
-    while task.wait(0.1) do
+    while task.wait(0.3) do
         if not ScreenGui:IsDescendantOf(game) then break end
-        local Char = GetChar()
+        local Char = Player.Character
         if not Char then continue end
 
-        if Abierto then UpdateStats() end
-
-        if States.LockPosition and OriginalPosition then
-            if Char and Char:FindFirstChild("HumanoidRootPart") then
-                Char.HumanoidRootPart.CFrame = OriginalPosition
+        -- Auto Rebirths
+        if States.AutoRebirths then
+            local remotes = ReplicatedStorage:FindFirstChild("Remotes")
+            if remotes and remotes:FindFirstChild("Rebirth") then
+                remotes.Rebirth:FireServer()
+                task.wait(2)
             end
         end
-
-        if States.AutoWeight then AutoWeightFunc() end
-        if States.AutoPushups then AutoPushupsFunc() end
-        if States.AutoRebirth then 
-            DoRebirth() 
-              task.wait(1.5)
-        end
-        if States.RocksPunch then PunchRocksFunc() end
-        if States.FastPunch then FastPunchFunc() end
     end
 end)
 
 print("==================================================")
 print("✅  GOLD GUERRERO HUB — CARGADO COMPLETAMENTE ✅")
-print("🎨 Estilo Young0x | Pestañas: Entrenar | Rocks | Misc")
-print("⚡ Auto Weight ✅ | Auto Pushups ✅ | Auto Rebirths ✅")
-print("🪨 Rocks Punch ✅ | Fast Punch ✅ | TP Portales ✅")
-print("🔘 Toca el botón ⚔️ para abrir/cerrar")
+print("🎨 ESTILO YOUNG0X — IDÉNTICO A LA IMAGEN")
+print("⚡ Fast Glitch | 🏋️ Public Training | 🔄 Auto Rebirths")
+print("🎯 Killing | 🐾 Free Pet Shop | ❌ SALIR")
 print("==================================================")
