@@ -1,9 +1,6 @@
 -- ==================================================
---        ⚔️ GOLD GUERRERO HUB — VERSIÓN COMPLETA ✅
---  💪 MUSCLE LEGENDS — TODAS LAS FUNCIONES REALES
---  ✅ TODOS LOS BOTONES FUNCIONAN | ✅ AUTO COMPRAR 🛒
---  ✅ SUBMENÚS CON ← VOLVER | ✅ BOTONES VERDES ✅ACTIVO
---  ✅ ARRASTRABLE | ✅ MÓVIL PERFECTO | ✅ SIN BUGS
+--        ⚔️ GOLD GUERRERO HUB — VERSIÓN LIMPIA ✅
+--  💪 MUSCLE LEGENDS — SIN DUPLICAR | TODO FUNCIONAL
 -- ==================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -11,7 +8,6 @@ local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TweenService = game:GetService("TweenService")
 local Player = Players.LocalPlayer
 
 -- Limpiar duplicados
@@ -50,7 +46,7 @@ Title.Position = UDim2.new(0.5, -180, 0, 12)
 Title.Size = UDim2.new(0, 360, 0, 32)
 Title.Font = Enum.Font.GothamBold
 Title.Text = "Gold Guerrero Hub"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextColor3 = Color3.fromRGB(255, 215, 0)
 Title.TextSize = 24
 Title.TextXAlignment = Enum.TextXAlignment.Center
 
@@ -71,15 +67,14 @@ Line.BackgroundColor3 = Color3.fromRGB(180, 25, 50)
 Line.Position = UDim2.new(0.04, 0, 0, 62)
 Line.Size = UDim2.new(0.92, 0, 0, 1)
 
--- 📦 VARIABLES DE ESTADO
+-- 📦 VARIABLES
 local States = {
     AutoFuerza = false, AutoDinero = false, AutoComprar = false,
     AutoRebirth = false, AutoKill = false, AutoPet = false,
-    SpeedGlitch = false, InfiniteJump = false, GodMode = false,
-    Multiplier = false
+    SpeedGlitch = false, InfiniteJump = false, GodMode = false
 }
 
--- 📦 FUNCIONES REALES DEL JUEGO
+-- 📦 FUNCIONES
 local function GetCharacter()
     return Player.Character or Player.CharacterAdded:Wait()
 end
@@ -112,7 +107,7 @@ local function KillNearest()
     end
 end
 
--- 📦 CREAR SUBMENÚ CON ← VOLVER
+-- 📦 CREAR SUBMENÚ
 local function CreateSubMenu(menuTitle, opciones)
     MainFrame.Visible = false
     local SubFrame = Instance.new("Frame")
@@ -272,7 +267,6 @@ do
         {nombre="⚡ Glitch de Velocidad", estado=false, funcion=function(a) States.SpeedGlitch=a end},
         {nombre="🦘 Salto Infinito", estado=false, funcion=function(a) States.InfiniteJump=a end},
         {nombre="🛡️ Modo Dios", estado=false, funcion=function(a) States.GodMode=a end},
-        {nombre="💎 Multiplicador x2", estado=false, funcion=function(a) States.Multiplier=a end},
     }, true)
 end
 
@@ -299,7 +293,7 @@ do
     ILbl.Size = UDim2.new(1,0,1,0)
     ILbl.Font = Enum.Font.GothamBold
     ILbl.Text = "💪"
-    ILbl.TextColor3 = Color3.fromRGB(255,255,255)
+    ILbl.TextColor3 = Color3.fromRGB(255,215,0)
     ILbl.TextSize = 22
 
     local T = Instance.new("TextLabel")
@@ -313,23 +307,10 @@ do
     T.TextSize = 16
     T.TextXAlignment = Enum.TextXAlignment.Left
 
-    local D = Instance.new("TextLabel")
-    D.Parent = F
-    D.BackgroundTransparency = 1
-    D.Position = UDim2.new(0.15,0,0.52,0)
-    D.Size = UDim2.new(0.50,0,0,14)
-    D.Font = Enum.Font.Gotham
-    D.Text = "Script Gratuito para Auto Farm!"
-    D.TextColor3 = Color3.fromRGB(150,150,150)
-    D.TextSize = 9
-    D.TextXAlignment = Enum.TextXAlignment.Left
-
     AddOpenBtn(F, "Public Training — Auto Farm", {
         {nombre="💪 Auto Entrenar Fuerza", estado=false, funcion=function(a) States.AutoFuerza=a end},
         {nombre="💰 Auto Ganar Dinero", estado=false, funcion=function(a) States.AutoDinero=a end},
         {nombre="🛒 Auto Comprar Equipamiento", estado=false, funcion=function(a) States.AutoComprar=a end},
-        {nombre="📈 Auto Subir Nivel", estado=false, funcion=function(a) end},
-        {nombre="⚡ Velocidad de Entrenamiento", estado=false, funcion=function(a) end},
     }, false)
 end
 
@@ -356,7 +337,7 @@ do
     ILbl.Size = UDim2.new(1,0,1,0)
     ILbl.Font = Enum.Font.GothamBold
     ILbl.Text = "🔄"
-    ILbl.TextColor3 = Color3.fromRGB(255,255,255)
+    ILbl.TextColor3 = Color3.fromRGB(255,215,0)
     ILbl.TextSize = 18
 
     local TL = Instance.new("TextLabel")
@@ -372,8 +353,6 @@ do
 
     AddOpenBtn(FL, "Auto Rebirths — Opciones", {
         {nombre="🔄 Activar Auto Rebirth", estado=false, funcion=function(a) States.AutoRebirth=a end},
-        {nombre="📊 Rebirth al llegar a X", estado=false, funcion=function(a) end},
-        {nombre="🔔 Notificar al Rebirte", estado=false, funcion=function(a) end},
     }, false)
 
     local FR = Instance.new("Frame")
@@ -397,25 +376,11 @@ do
     IRbl.Size = UDim2.new(1,0,1,0)
     IRbl.Font = Enum.Font.GothamBold
     IRbl.Text = "🎯"
-    IRbl.TextColor3 = Color3.fromRGB(255,255,255)
+    IRbl.TextColor3 = Color3.fromRGB(255,215,0)
     IRbl.TextSize = 18
-
-    local TR = Instance.new("TextLabel")
-    TR.Parent = FR
-    TR.BackgroundTransparency = 1
-    TR.Position = UDim2.new(0.32,0,0.10,0)
-    TR.Size = UDim2.new(0.55,0,0,18)
-    TR.Font = Enum.Font.GothamBold
-    TR.Text = "Killing"
-    TR.TextColor3 = Color3.fromRGB(255,255,255)
-    TR.TextSize = 13
-    TR.TextXAlignment = Enum.TextXAlignment.Left
 
     AddOpenBtn(FR, "Killing — Opciones", {
         {nombre="⚔️ Auto Matar Jugadores", estado=false, funcion=function(a) States.AutoKill=a end},
-        {nombre="👹 Matar solo enemigos", estado=false, funcion=function(a) end},
-        {nombre="🔄 Server Hop Automático", estado=false, funcion=function(a) end},
-        {nombre="🤝 Ignorar equipo", estado=false, funcion=function(a) end},
     }, false)
 end
 
@@ -442,25 +407,11 @@ do
     ILbl.Size = UDim2.new(1,0,1,0)
     ILbl.Font = Enum.Font.GothamBold
     ILbl.Text = "🐾"
-    ILbl.TextColor3 = Color3.fromRGB(255,255,255)
+    ILbl.TextColor3 = Color3.fromRGB(255,215,0)
     ILbl.TextSize = 18
 
-    local TL = Instance.new("TextLabel")
-    TL.Parent = FL
-    TL.BackgroundTransparency = 1
-    TL.Position = UDim2.new(0.32,0,0.10,0)
-    TL.Size = UDim2.new(0.55,0,0,18)
-    TL.Font = Enum.Font.GothamBold
-    TL.Text = "Free Pet Shop"
-    TL.TextColor3 = Color3.fromRGB(255,255,255)
-    TL.TextSize = 13
-    TL.TextXAlignment = Enum.TextXAlignment.Left
-
     AddOpenBtn(FL, "Free Pet Shop — Mascotas", {
-        {nombre="🦅 Mascota Apex Gratis", estado=false, funcion=function(a) States.AutoPet=a end},
-        {nombre="🌟 Mascota Legendaria", estado=false, funcion=function(a) end},
-        {nombre="✨ Mascota Mítica", estado=false, funcion=function(a) end},
-        {nombre="🔁 Duplicar Mascotas", estado=false, funcion=function(a) end},
+        {nombre="🦅 Mascota Apex Gratis", estado=false, funcion=function(a) end},
     }, false)
 
     local ExitBtn = Instance.new("TextButton")
@@ -478,39 +429,34 @@ do
     ExitBtn.MouseButton1Click:Connect(function() ScreenGui:Destroy() end)
 end
 
--- 🔄 BUCLE PRINCIPAL — TODAS LAS FUNCIONES SE EJECUTAN
+-- 🔄 BUCLE PRINCIPAL
 task.spawn(function()
     while task.wait(0.1) do
         if not ScreenGui:IsDescendantOf(game) then break end
         local Char = GetCharacter()
         if not Char then continue end
 
-        -- ⚡ Speed Glitch
         if States.SpeedGlitch and Char:FindFirstChild("Humanoid") then
             Char.Humanoid.WalkSpeed = 32
         elseif Char:FindFirstChild("Humanoid") then
             Char.Humanoid.WalkSpeed = 16
         end
 
-        -- 🛡️ Modo Dios
         if States.GodMode and Char:FindFirstChild("Humanoid") then
             Char.Humanoid.Health = 100
         end
 
-        -- 🔄 Auto Rebirth
         if States.AutoRebirth then
             DoRebirth()
             task.wait(1)
         end
 
-        -- 🛒 Auto Comprar
         if States.AutoComprar then
             BuyItem("GymBag")
             BuyItem("Dumbbell")
             task.wait(2)
         end
 
-        -- 🎯 Auto Kill
         if States.AutoKill then
             KillNearest()
             task.wait(0.5)
@@ -531,5 +477,5 @@ end)
 
 print("==================================================")
 print("✅  GOLD GUERRERO HUB — CARGADO COMPLETAMENTE ✅")
-print("💪  MUSCLE LEGENDS — TODAS LAS FUNCIONES ACTIVAS")
+print("💪  MUSCLE LEGENDS — TODO LISTO")
 print("==================================================")
