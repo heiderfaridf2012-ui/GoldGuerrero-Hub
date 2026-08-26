@@ -1,220 +1,244 @@
 -- ==================================================
---        ⚔️ GOLD GUERRERO HUB — VERSIÓN FINAL ✅
---  🎨 Diseño IDÉNTICO al original | ✅ TODO VISIBLE
---  ✅ Pestañas funcionales | ✅ Interruptores visibles
---  ✅ Fondo claro | ✅ Nada se corta | ✅ Móvil perfecto
+--        ⚔️ GOLD GUERRERO HUB — ESTILO YOUNG0X
+--  🎨 DISEÑO IDÉNTICO | ✅ TODO VISIBLE | ✅ FÁCIL USO
 -- ==================================================
+
+local CoreGui = game:GetService("CoreGui")
+if CoreGui:FindFirstChild("GoldGuerreroHub") then
+    CoreGui:FindFirstChild("GoldGuerreroHub"):Destroy()
+end
 
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "GoldGuerreroHub"
-ScreenGui.Parent = game.CoreGui
+ScreenGui.Parent = CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
 
--- 🔳 VENTANA PRINCIPAL — TAMAÑO Y COLORES EXACTOS
+-- 🔳 VENTANA PRINCIPAL — BORDES REDONDEADOS
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "MainFrame"
 MainFrame.Parent = ScreenGui
-MainFrame.BackgroundColor3 = Color3.fromRGB(20, 18, 26)
-MainFrame.BorderColor3 = Color3.fromRGB(255, 55, 95)
-MainFrame.BorderSizePixel = 2
-MainFrame.Position = UDim2.new(0.05, 0, 0.12, 0)
-MainFrame.Size = UDim2.new(0, 330, 0, 440)
+MainFrame.BackgroundColor3 = Color3.fromRGB(12, 12, 15)
+MainFrame.BorderColor3 = Color3.fromRGB(220, 30, 60)
+MainFrame.BorderSizePixel = 3
+MainFrame.Position = UDim2.new(0.5, -380, 0.5, -260)
+MainFrame.Size = UDim2.new(0, 760, 0, 520)
 MainFrame.Active = true
 MainFrame.Draggable = true
 MainFrame.ClipsDescendants = false
 MainFrame.BackgroundTransparency = 0
 
--- ⚡ BARRA DE TÍTULO — IGUAL AL ORIGINAL
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 18)
+UICorner.Parent = MainFrame
+
+-- ⚡ BARRA DE TÍTULO
 local TitleBar = Instance.new("Frame")
 TitleBar.Parent = MainFrame
-TitleBar.BackgroundColor3 = Color3.fromRGB(30, 28, 40)
-TitleBar.BorderColor3 = Color3.fromRGB(255, 55, 95)
-TitleBar.BorderSizePixel = 1
+TitleBar.BackgroundTransparency = 1
 TitleBar.Position = UDim2.new(0, 0, 0, 0)
-TitleBar.Size = UDim2.new(1, 0, 0, 55)
+TitleBar.Size = UDim2.new(1, 0, 0, 80)
 
 local Title = Instance.new("TextLabel")
 Title.Parent = TitleBar
 Title.BackgroundTransparency = 1
-Title.Position = UDim2.new(0.5, -115, 0, 8)
-Title.Size = UDim2.new(0, 230, 0, 28)
+Title.Position = UDim2.new(0.5, -180, 0, 15)
+Title.Size = UDim2.new(0, 360, 0, 35)
 Title.Font = Enum.Font.GothamBold
-Title.Text = "⚔️ Gold Guerrero Hub"
-Title.TextColor3 = Color3.fromRGB(255, 215, 0)
-Title.TextSize = 21
+Title.Text = "Gold Guerrero Hub"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 28
+Title.TextXAlignment = Enum.TextXAlignment.Center
 
 local Subtitle = Instance.new("TextLabel")
 Subtitle.Parent = TitleBar
 Subtitle.BackgroundTransparency = 1
-Subtitle.Position = UDim2.new(0.5, -85, 0, 35)
-Subtitle.Size = UDim2.new(0, 170, 0, 15)
+Subtitle.Position = UDim2.new(0.5, -100, 0, 48)
+Subtitle.Size = UDim2.new(0, 200, 0, 18)
 Subtitle.Font = Enum.Font.Gotham
 Subtitle.Text = "Muscle Legends"
-Subtitle.TextColor3 = Color3.fromRGB(170, 170, 170)
-Subtitle.TextSize = 11
+Subtitle.TextColor3 = Color3.fromRGB(220, 60, 90)
+Subtitle.TextSize = 14
+Subtitle.TextXAlignment = Enum.TextXAlignment.Center
 
--- 📂 PESTAÑAS — DISEÑO EXACTO Y FUNCIONAL
-local TabContainer = Instance.new("Frame")
-TabContainer.Parent = MainFrame
-TabContainer.BackgroundTransparency = 1
-TabContainer.Position = UDim2.new(0, 8, 0, 60)
-TabContainer.Size = UDim2.new(1, -16, 0, 48)
+local Line = Instance.new("Frame")
+Line.Parent = MainFrame
+Line.BackgroundColor3 = Color3.fromRGB(180, 25, 50)
+Line.Position = UDim2.new(0.05, 0, 0, 80)
+Line.Size = UDim2.new(0.90, 0, 0, 2)
 
-local Tabs = {
-    {Name = "Entrenar", Active = true},
-    {Name = "Rocks", Active = false},
-    {Name = "Misc", Active = false},
-}
-
-local TabButtons = {}
-for i, TabData in ipairs(Tabs) do
-    local TabBtn = Instance.new("TextButton")
-    TabBtn.Parent = TabContainer
-    TabBtn.BackgroundColor3 = TabData.Active and Color3.fromRGB(45, 70, 140) or Color3.fromRGB(28, 25, 38)
-    TabBtn.BorderSizePixel = 1
-    TabBtn.BorderColor3 = TabData.Active and Color3.fromRGB(65, 100, 180) or Color3.fromRGB(45, 40, 60)
-    TabBtn.CornerRadius = UDim.new(0, 5)
-    TabBtn.Position = UDim2.new(0, (i-1)*103, 0, 0)
-    TabBtn.Size = UDim2.new(0, 100, 0, 45)
-    TabBtn.Font = Enum.Font.GothamBold
-    TabBtn.Text = TabData.Name
-    TabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TabBtn.TextSize = 13
-    TabBtn.AutoLocalize = false
-    TabButtons[TabData.Name] = TabBtn
-
-    TabBtn.MouseButton1Click:Connect(function()
-        for _, Btn in pairs(TabButtons) do
-            Btn.BackgroundColor3 = Color3.fromRGB(28, 25, 38)
-            Btn.BorderColor3 = Color3.fromRGB(45, 40, 60)
-        end
-        TabBtn.BackgroundColor3 = Color3.fromRGB(45, 70, 140)
-        TabBtn.BorderColor3 = Color3.fromRGB(65, 100, 180)
-    end)
-end
-
--- 📊 CAJA DE ESTADÍSTICAS — TODO VISIBLE
-local StatsContainer = Instance.new("Frame")
-StatsContainer.Parent = MainFrame
-StatsContainer.BackgroundColor3 = Color3.fromRGB(25, 22, 35)
-StatsContainer.BorderSizePixel = 1
-StatsContainer.BorderColor3 = Color3.fromRGB(55, 75, 120)
-StatsContainer.Position = UDim2.new(0, 8, 0, 115)
-StatsContainer.Size = UDim2.new(1, -16, 0, 90)
-
-local StatsTitle = Instance.new("TextLabel")
-StatsTitle.Parent = StatsContainer
-StatsTitle.BackgroundTransparency = 1
-StatsTitle.Position = UDim2.new(0.5, -105, 0, 5)
-StatsTitle.Size = UDim2.new(0, 210, 0, 20)
-StatsTitle.Font = Enum.Font.GothamBold
-StatsTitle.Text = "⚙️ ENTRENAMIENTO"
-StatsTitle.TextColor3 = Color3.fromRGB(255, 215, 0)
-StatsTitle.TextSize = 13
-
-local Headers = {"FUERZA", "DURABILIDAD", "REBIRTHS"}
-for i, Name in ipairs(Headers) do
-    local Hdr = Instance.new("TextLabel")
-    Hdr.Parent = StatsContainer
-    Hdr.BackgroundTransparency = 1
-    Hdr.Position = UDim2.new(0.05 + (i-1)*0.30, 0, 0, 28)
-    Hdr.Size = UDim2.new(0.27, 0, 0, 18)
-    Hdr.Font = Enum.Font.GothamBold
-    Hdr.Text = Name
-    Hdr.TextColor3 = Color3.fromRGB(160, 200, 255)
-    Hdr.TextSize = 11
-
-    local Val = Instance.new("TextLabel")
-    Val.Parent = StatsContainer
-    Val.BackgroundTransparency = 1
-    Val.Position = UDim2.new(0.05 + (i-1)*0.30, 0, 0, 50)
-    Val.Size = UDim2.new(0.27, 0, 0, 22)
-    Val.Font = Enum.Font.GothamBold
-    Val.Text = "0"
-    Val.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Val.TextSize = 13
-end
-
--- 🔘 INTERRUPTORES — DISEÑO EXACTO Y CLICKEABLES
-local OptionsContainer = Instance.new("Frame")
-OptionsContainer.Parent = MainFrame
-OptionsContainer.BackgroundTransparency = 1
-OptionsContainer.Position = UDim2.new(0, 8, 0, 215)
-OptionsContainer.Size = UDim2.new(1, -16, 0, 135)
-
-local Options = {
-    {Name = "⚡ Auto Weight", State = false},
-    {Name = "💪 Auto Pushups", State = false},
-    {Name = "🔄 Auto Rebirth", State = false},
-    {Name = "🏃 Auto Run", State = false},
-}
-
-for i, Opt in ipairs(Options) do
+-- 📦 FUNCIÓN PARA CREAR OPCIONES
+local function CreateOption(yPos, iconColor, iconEmoji, title, desc, isRed)
     local OptionFrame = Instance.new("Frame")
-    OptionFrame.Parent = OptionsContainer
-    OptionFrame.BackgroundColor3 = Color3.fromRGB(28, 25, 38)
+    OptionFrame.Parent = MainFrame
+    OptionFrame.BackgroundColor3 = Color3.fromRGB(25, 22, 30)
+    OptionFrame.BorderColor3 = isRed and Color3.fromRGB(160, 25, 45) or Color3.fromRGB(60, 35, 45)
     OptionFrame.BorderSizePixel = 1
-    OptionFrame.BorderColor3 = Color3.fromRGB(45, 40, 60)
-    OptionFrame.CornerRadius = UDim.new(0, 5)
-    OptionFrame.Position = UDim2.new(0, 0, 0, (i-1)*32)
-    OptionFrame.Size = UDim2.new(1, 0, 0, 30)
+    OptionFrame.Position = UDim2.new(0.05, 0, 0, yPos)
+    OptionFrame.Size = UDim2.new(0.90, 0, 0, 85)
+    
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0, 12)
+    Corner.Parent = OptionFrame
 
-    local OptionLabel = Instance.new("TextLabel")
-    OptionLabel.Parent = OptionFrame
-    OptionLabel.BackgroundTransparency = 1
-    OptionLabel.Position = UDim2.new(0, 12, 0, 0)
-    OptionLabel.Size = UDim2.new(0.72, 0, 1, 0)
-    OptionLabel.Font = Enum.Font.Gotham
-    OptionLabel.Text = Opt.Name
-    OptionLabel.TextColor3 = Color3.fromRGB(230, 230, 230)
-    OptionLabel.TextSize = 13
+    -- 🟥 ICONO
+    local IconBox = Instance.new("Frame")
+    IconBox.Parent = OptionFrame
+    IconBox.BackgroundColor3 = iconColor
+    IconBox.Position = UDim2.new(0.02, 0, 0.15, 0)
+    IconBox.Size = UDim2.new(0, 65, 0, 65)
+    
+    local IconCorner = Instance.new("UICorner")
+    IconCorner.CornerRadius = UDim.new(0, 10)
+    IconCorner.Parent = IconBox
 
-    local Toggle = Instance.new("TextButton")
-    Toggle.Parent = OptionFrame
-    Toggle.BackgroundColor3 = Opt.State and Color3.fromRGB(0, 175, 105) or Color3.fromRGB(55, 50, 70)
-    Toggle.Position = UDim2.new(0.87, -28, 0.5, -11)
-    Toggle.Size = UDim2.new(0, 28, 0, 22)
-    Toggle.CornerRadius = UDim.new(0, 11)
-    Toggle.AutoLocalize = false
+    local IconLabel = Instance.new("TextLabel")
+    IconLabel.Parent = IconBox
+    IconLabel.BackgroundTransparency = 1
+    IconLabel.Size = UDim2.new(1, 0, 1, 0)
+    IconLabel.Font = Enum.Font.GothamBold
+    IconLabel.Text = iconEmoji
+    IconLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    IconLabel.TextSize = 32
 
-    local Knob = Instance.new("Frame")
-    Knob.Parent = Toggle
-    Knob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Knob.Position = Opt.State and UDim2.new(1, -17, 0.5, -8.5) or UDim2.new(0, 2, 0.5, -8.5)
-    Knob.Size = UDim2.new(0, 17, 0, 17)
-    Knob.CornerRadius = UDim.new(0, 8.5)
+    -- 📝 TEXTO
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Parent = OptionFrame
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Position = UDim2.new(0.14, 0, 0.15, 0)
+    TitleLabel.Size = UDim2.new(0.55, 0, 0, 32)
+    TitleLabel.Font = Enum.Font.GothamBold
+    TitleLabel.Text = title
+    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TitleLabel.TextSize = 22
+    TitleLabel.TextXAlignment = Enum.TextXAlignment.Left
 
-    Toggle.MouseButton1Click:Connect(function()
-        Opt.State = not Opt.State
-        if Opt.State then
-            Toggle.BackgroundColor3 = Color3.fromRGB(0, 175, 105)
-            Knob.Position = UDim2.new(1, -17, 0.5, -8.5)
-        else
-            Toggle.BackgroundColor3 = Color3.fromRGB(55, 50, 70)
-            Knob.Position = UDim2.new(0, 2, 0.5, -8.5)
-        end
-    end)
+    local DescLabel = Instance.new("TextLabel")
+    DescLabel.Parent = OptionFrame
+    DescLabel.BackgroundTransparency = 1
+    DescLabel.Position = UDim2.new(0.14, 0, 0.55, 0)
+    DescLabel.Size = UDim2.new(0.55, 0, 0, 24)
+    DescLabel.Font = Enum.Font.Gotham
+    DescLabel.Text = desc
+    DescLabel.TextColor3 = Color3.fromRGB(160, 160, 160)
+    DescLabel.TextSize = 12
+    DescLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+    -- 🔘 BOTÓN ABRIR
+    local OpenBtn = Instance.new("TextButton")
+    OpenBtn.Parent = OptionFrame
+    OpenBtn.BackgroundColor3 = isRed and Color3.fromRGB(210, 35, 65) or Color3.fromRGB(45, 35, 40)
+    OpenBtn.Position = UDim2.new(0.80, 0, 0.20, 0)
+    OpenBtn.Size = UDim2.new(0, 110, 0, 50)
+    
+    local BtnCorner = Instance.new("UICorner")
+    BtnCorner.CornerRadius = UDim.new(0, 10)
+    BtnCorner.Parent = OpenBtn
+
+    OpenBtn.Font = Enum.Font.GothamBold
+    OpenBtn.Text = "ABRIR"
+    OpenBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    OpenBtn.TextSize = 15
+    OpenBtn.AutoLocalize = false
 end
 
--- ❌ BOTÓN CERRAR — DISEÑO EXACTO
-local CloseBtn = Instance.new("TextButton")
-CloseBtn.Parent = MainFrame
-CloseBtn.BackgroundColor3 = Color3.fromRGB(180, 35, 55)
-CloseBtn.BorderSizePixel = 1
-CloseBtn.BorderColor3 = Color3.fromRGB(220, 55, 80)
-CloseBtn.CornerRadius = UDim.new(0, 6)
-CloseBtn.Position = UDim2.new(0.5, -80, 1, -12)
-CloseBtn.Size = UDim2.new(0, 160, 0, 35)
-CloseBtn.Font = Enum.Font.GothamBold
-CloseBtn.Text = "✕ CERRAR"
-CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-CloseBtn.TextSize = 15
-CloseBtn.AutoLocalize = false
-CloseBtn.MouseButton1Click:Connect(function()
+-- 🟥 OPCIÓN PRINCIPAL ROJA (arriba)
+do
+    local OptionFrame = Instance.new("Frame")
+    OptionFrame.Parent = MainFrame
+    OptionFrame.BackgroundColor3 = Color3.fromRGB(25, 22, 30)
+    OptionFrame.BorderColor3 = Color3.fromRGB(160, 25, 45)
+    OptionFrame.BorderSizePixel = 1
+    OptionFrame.Position = UDim2.new(0.05, 0, 0, 95)
+    OptionFrame.Size = UDim2.new(0.90, 0, 0, 95)
+    
+    local Corner = Instance.new("UICorner")
+    Corner.CornerRadius = UDim.new(0, 12)
+    Corner.Parent = OptionFrame
+
+    local IconBox = Instance.new("Frame")
+    IconBox.Parent = OptionFrame
+    IconBox.BackgroundColor3 = Color3.fromRGB(220, 35, 65)
+    IconBox.Position = UDim2.new(0.02, 0, 0.10, 0)
+    IconBox.Size = UDim2.new(0, 75, 0, 75)
+    
+    local IconCorner = Instance.new("UICorner")
+    IconCorner.CornerRadius = UDim.new(0, 10)
+    IconCorner.Parent = IconBox
+
+    local IconLabel = Instance.new("TextLabel")
+    IconLabel.Parent = IconBox
+    IconLabel.BackgroundTransparency = 1
+    IconLabel.Size = UDim2.new(1, 0, 1, 0)
+    IconLabel.Font = Enum.Font.GothamBold
+    IconLabel.Text = "⚡"
+    IconLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    IconLabel.TextSize = 34
+
+    local TitleLabel = Instance.new("TextLabel")
+    TitleLabel.Parent = OptionFrame
+    TitleLabel.BackgroundTransparency = 1
+    TitleLabel.Position = UDim2.new(0.14, 0, 0.15, 0)
+    TitleLabel.Size = UDim2.new(0.55, 0, 0, 32)
+    TitleLabel.Font = Enum.Font.GothamBold
+    TitleLabel.Text = "Fast Glitch 100%"
+    TitleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    TitleLabel.TextSize = 22
+
+    local DescLabel = Instance.new("TextLabel")
+    DescLabel.Parent = OptionFrame
+    DescLabel.BackgroundTransparency = 1
+    DescLabel.Position = UDim2.new(0.14, 0, 0.55, 0)
+    DescLabel.Size = UDim2.new(0.55, 0, 0, 24)
+    DescLabel.Font = Enum.Font.Gotham
+    DescLabel.Text = "Script de pago MUY OP"
+    DescLabel.TextColor3 = Color3.fromRGB(160, 160, 160)
+    DescLabel.TextSize = 12
+
+    local OpenBtn = Instance.new("TextButton")
+    OpenBtn.Parent = OptionFrame
+    OpenBtn.BackgroundColor3 = Color3.fromRGB(220, 35, 65)
+    OpenBtn.Position = UDim2.new(0.80, 0, 0.20, 0)
+    OpenBtn.Size = UDim2.new(0, 110, 0, 55)
+    
+    local BtnCorner = Instance.new("UICorner")
+    BtnCorner.CornerRadius = UDim.new(0, 10)
+    BtnCorner.Parent = OpenBtn
+
+    OpenBtn.Font = Enum.Font.GothamBold
+    OpenBtn.Text = "ABRIR"
+    OpenBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    OpenBtn.TextSize = 15
+    OpenBtn.AutoLocalize = false
+end
+
+-- ⬜ OPCIONES PRINCIPALES — TUS FUNCIONES
+CreateOption(205, Color3.fromRGB(45, 35, 40), "💪", "Public Training", "Script Gratuito para Auto Farm!", false)
+CreateOption(300, Color3.fromRGB(45, 35, 40), "🔄", "Auto Rebirths", "Rebirths Automáticos", false)
+CreateOption(395, Color3.fromRGB(45, 35, 40), "🎯", "Killing", "Auto Kills + Server Hop", false)
+CreateOption(490, Color3.fromRGB(45, 35, 40), "🐾", "Free Pet Shop", "¡Apex y más!", false)
+
+-- 🔴 BOTÓN SALIR GRANDE ABAJO
+local ExitBtn = Instance.new("TextButton")
+ExitBtn.Parent = MainFrame
+ExitBtn.BackgroundColor3 = Color3.fromRGB(150, 25, 45)
+ExitBtn.BorderColor3 = Color3.fromRGB(200, 35, 55)
+ExitBtn.BorderSizePixel = 2
+ExitBtn.Position = UDim2.new(0.52, 0, 0.80, 0)
+ExitBtn.Size = UDim2.new(0.43, 0, 0, 85)
+
+local ExitCorner = Instance.new("UICorner")
+ExitCorner.CornerRadius = UDim.new(0, 12)
+ExitCorner.Parent = ExitBtn
+
+ExitBtn.Font = Enum.Font.GothamBold
+ExitBtn.Text = "❌  SALIR"
+ExitBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ExitBtn.TextSize = 22
+ExitBtn.AutoLocalize = false
+
+ExitBtn.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
 end)
 
-print("✅ Gold Guerrero Hub — CARGADO COMPLETO!")
-print("🎨 Diseño IDÉNTICO al original | 📱 Móvil optimizado")
-print("⚔️ ¡Todo visible y funcionando!")
+print("✅ Gold Guerrero Hub — CARGADO! Estilo Young0x aplicado ✅")
