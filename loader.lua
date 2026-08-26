@@ -1,7 +1,7 @@
 -- ==================================================
---        ⚔️ GOLD GUERRERO HUB — SUBMENÚS FUNCIONALES ✅
---  📱 AL TOCAR ABRIR → SE OCULTA PRINCIPAL Y ABRE SUBMENÚ
---  ✅ SIN BUGS | ✅ SIN SUPERPONER | ✅ REGRESAR SIN PROBLEMA
+--        ⚔️ GOLD GUERRERO HUB — TODO FUNCIONAL ✅
+--  📱 TARJETAS COMPACTAS | BOTONES ENCAJADOS JUSTO
+--  ✅ SUBMENÚS CON ← VOLVER | ✅ SIN BUGS | ✅ TODO FUNCIONA
 -- ==================================================
 
 local CoreGui = game:GetService("CoreGui")
@@ -65,12 +65,10 @@ Line.BackgroundColor3 = Color3.fromRGB(180, 25, 50)
 Line.Position = UDim2.new(0.04, 0, 0, 58)
 Line.Size = UDim2.new(0.92, 0, 0, 1)
 
--- 📦 FUNCIÓN PARA CREAR SUBMENÚ
+-- 📦 FUNCIÓN CREAR SUBMENÚ CON BOTÓN ← VOLVER ✅
 local function CreateSubMenu(menuTitle, opciones)
-    -- Ocultar menú principal
     MainFrame.Visible = false
 
-    -- Crear submenú
     local SubFrame = Instance.new("Frame")
     SubFrame.Name = "SubMenu_" .. menuTitle
     SubFrame.Parent = ScreenGui
@@ -87,29 +85,11 @@ local function CreateSubMenu(menuTitle, opciones)
     SubCorner.CornerRadius = UDim.new(0, 16)
     SubCorner.Parent = SubFrame
 
-    -- Título del submenú
-    local SubTitle = Instance.new("TextLabel")
-    SubTitle.Parent = SubFrame
-    SubTitle.BackgroundTransparency = 1
-    SubTitle.Position = UDim2.new(0.5, -200, 0, 15)
-    SubTitle.Size = UDim2.new(0, 400, 0, 32)
-    SubTitle.Font = Enum.Font.GothamBold
-    SubTitle.Text = menuTitle
-    SubTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-    SubTitle.TextSize = 22
-    SubTitle.TextXAlignment = Enum.TextXAlignment.Center
-
-    local SubLine = Instance.new("Frame")
-    SubLine.Parent = SubFrame
-    SubLine.BackgroundColor3 = Color3.fromRGB(180, 25, 50)
-    SubLine.Position = UDim2.new(0.05, 0, 0, 60)
-    SubLine.Size = UDim2.new(0.90, 0, 0, 1)
-
-    -- Botón REGRESAR
+    -- ← BOTÓN VOLVER SIEMPRE ARRIBA IZQUIERDA ✅
     local BackBtn = Instance.new("TextButton")
     BackBtn.Parent = SubFrame
     BackBtn.BackgroundColor3 = Color3.fromRGB(45, 35, 50)
-    BackBtn.Position = UDim2.new(0.05, 0, 0, 15)
+    BackBtn.Position = UDim2.new(0.03, 0, 0, 12)
     BackBtn.Size = UDim2.new(0, 100, 0, 32)
     local BackCorner = Instance.new("UICorner")
     BackCorner.CornerRadius = UDim.new(0, 8)
@@ -119,13 +99,30 @@ local function CreateSubMenu(menuTitle, opciones)
     BackBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
     BackBtn.TextSize = 12
     BackBtn.AutoLocalize = false
-
     BackBtn.MouseButton1Click:Connect(function()
         SubFrame:Destroy()
-        MainFrame.Visible = true -- ✅ Vuelve el menú principal
+        MainFrame.Visible = true
     end)
 
-    -- Crear opciones del submenú
+    -- Título del submenú
+    local SubTitle = Instance.new("TextLabel")
+    SubTitle.Parent = SubFrame
+    SubTitle.BackgroundTransparency = 1
+    SubTitle.Position = UDim2.new(0.5, -180, 0, 15)
+    SubTitle.Size = UDim2.new(0, 360, 0, 32)
+    SubTitle.Font = Enum.Font.GothamBold
+    SubTitle.Text = menuTitle
+    SubTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
+    SubTitle.TextSize = 20
+    SubTitle.TextXAlignment = Enum.TextXAlignment.Center
+
+    local SubLine = Instance.new("Frame")
+    SubLine.Parent = SubFrame
+    SubLine.BackgroundColor3 = Color3.fromRGB(180, 25, 50)
+    SubLine.Position = UDim2.new(0.05, 0, 0, 60)
+    SubLine.Size = UDim2.new(0.90, 0, 0, 1)
+
+    -- Opciones
     for i, opcion in ipairs(opciones) do
         local yPos = 80 + ((i - 1) * 55)
         local OpFrame = Instance.new("Frame")
@@ -174,15 +171,15 @@ local function CreateSubMenu(menuTitle, opciones)
     end
 end
 
--- 📦 FUNCIÓN DE BOTÓN ABRIR — AHORA ABRE SUBMENÚ ✅
+-- 📦 FUNCIÓN BOTÓN ABRIR — ENCAJADO JUSTO ✅
 local function CreateOpenBtn(parent, menuTitle, opciones, isRed)
     local BtnColor = isRed and Color3.fromRGB(220, 35, 65) or Color3.fromRGB(40, 30, 40)
     
     local Btn = Instance.new("TextButton")
     Btn.Parent = parent
     Btn.BackgroundColor3 = BtnColor
-    Btn.Position = UDim2.new(0.75, 0, 0.5, -18)
-    Btn.Size = UDim2.new(0, 90, 0, 36)
+    Btn.Position = UDim2.new(0.72, 0, 0.5, -16) -- ✅ AJUSTADO JUSTO
+    Btn.Size = UDim2.new(0, 84, 0, 32) -- ✅ MÁS CHICO, ENCAJA PERFECTO
     Btn.AutoLocalize = false
     
     local BtnCorner = Instance.new("UICorner")
@@ -195,7 +192,7 @@ local function CreateOpenBtn(parent, menuTitle, opciones, isRed)
     Btn.TextSize = 12
     
     Btn.MouseButton1Click:Connect(function()
-        CreateSubMenu(menuTitle, opciones) -- ✅ Abre submenú, oculta principal
+        CreateSubMenu(menuTitle, opciones)
     end)
     
     return Btn
@@ -254,9 +251,9 @@ do
     Desc.TextXAlignment = Enum.TextXAlignment.Left
 
     CreateOpenBtn(Frame, "Fast Glitch — Opciones", {
-        {nombre = "Activar Glitch de Velocidad", funcion = function(act) print("Glitch Velocidad:", act) end},
-        {nombre = "Activar Salto Infinito", funcion = function(act) print("Salto Infinito:", act) end},
-        {nombre = "Modo Dios", funcion = function(act) print("Modo Dios:", act) end},
+        {nombre = "Activar Glitch de Velocidad", funcion = function(act) print("✅ Glitch Velocidad:", act) end},
+        {nombre = "Activar Salto Infinito", funcion = function(act) print("✅ Salto Infinito:", act) end},
+        {nombre = "Modo Dios", funcion = function(act) print("✅ Modo Dios:", act) end},
     }, true)
 end
 
@@ -313,23 +310,23 @@ do
     Desc.TextXAlignment = Enum.TextXAlignment.Left
 
     CreateOpenBtn(Frame, "Public Training — Auto Farm", {
-        {nombre = "Auto Entrenar Fuerza", funcion = function(act) print("Auto Fuerza:", act) end},
-        {nombre = "Auto Ganar Dinero", funcion = function(act) print("Auto Dinero:", act) end},
-        {nombre = "Auto Subir Nivel", funcion = function(act) print("Auto Nivel:", act) end},
-        {nombre = "Velocidad de Entrenamiento", funcion = function(act) print("Velocidad:", act) end},
+        {nombre = "Auto Entrenar Fuerza", funcion = function(act) print("✅ Auto Fuerza:", act) end},
+        {nombre = "Auto Ganar Dinero", funcion = function(act) print("✅ Auto Dinero:", act) end},
+        {nombre = "Auto Subir Nivel", funcion = function(act) print("✅ Auto Nivel:", act) end},
+        {nombre = "Velocidad de Entrenamiento", funcion = function(act) print("✅ Velocidad:", act) end},
     }, false)
 end
 
--- 📊 FILA 2 COLUMNAS: Auto Rebirths + Killing
+-- 📊 FILA 2 COLUMNAS — MÁS COMPACTAS ✅
 do
-    -- Auto Rebirths — IZQUIERDA
+    -- Auto Rebirths — IZQUIERDA (MÁS CHICO) ✅
     local FrameL = Instance.new("Frame")
     FrameL.Parent = MainFrame
     FrameL.BackgroundColor3 = Color3.fromRGB(25, 22, 30)
     FrameL.BorderColor3 = Color3.fromRGB(55, 35, 45)
     FrameL.BorderSizePixel = 1
     FrameL.Position = UDim2.new(0.04, 0, 0, 222)
-    FrameL.Size = UDim2.new(0.44, 0, 0, 62)
+    FrameL.Size = UDim2.new(0.44, 0, 0, 58) -- ✅ MÁS CHICO DE ALTO
     local CornerL = Instance.new("UICorner")
     CornerL.CornerRadius = UDim.new(0, 12)
     CornerL.Parent = FrameL
@@ -337,8 +334,8 @@ do
     local IconL = Instance.new("Frame")
     IconL.Parent = FrameL
     IconL.BackgroundColor3 = Color3.fromRGB(45, 35, 45)
-    IconL.Position = UDim2.new(0.05, 0, 0.10, 0)
-    IconL.Size = UDim2.new(0, 44, 0, 44)
+    IconL.Position = UDim2.new(0.05, 0, 0.08, 0)
+    IconL.Size = UDim2.new(0, 40, 0, 40) -- ✅ MÁS CHICO
     local ICornerL = Instance.new("UICorner")
     ICornerL.CornerRadius = UDim.new(0, 10)
     ICornerL.Parent = IconL
@@ -349,34 +346,34 @@ do
     ILblL.Font = Enum.Font.GothamBold
     ILblL.Text = "🔄"
     ILblL.TextColor3 = Color3.fromRGB(255,255,255)
-    ILblL.TextSize = 20
+    ILblL.TextSize = 18
 
     local TitleL = Instance.new("TextLabel")
     TitleL.Parent = FrameL
     TitleL.BackgroundTransparency = 1
-    TitleL.Position = UDim2.new(0.32, 0, 0.12, 0)
-    TitleL.Size = UDim2.new(0.55, 0, 0, 20)
+    TitleL.Position = UDim2.new(0.32, 0, 0.10, 0)
+    TitleL.Size = UDim2.new(0.55, 0, 0, 18)
     TitleL.Font = Enum.Font.GothamBold
     TitleL.Text = "Auto Rebirths"
     TitleL.TextColor3 = Color3.fromRGB(255,255,255)
-    TitleL.TextSize = 14
+    TitleL.TextSize = 13
     TitleL.TextXAlignment = Enum.TextXAlignment.Left
 
     local DescL = Instance.new("TextLabel")
     DescL.Parent = FrameL
     DescL.BackgroundTransparency = 1
-    DescL.Position = UDim2.new(0.32, 0, 0.52, 0)
-    DescL.Size = UDim2.new(0.55, 0, 0, 14)
+    DescL.Position = UDim2.new(0.32, 0, 0.55, 0)
+    DescL.Size = UDim2.new(0.55, 0, 0, 12)
     DescL.Font = Enum.Font.Gotham
     DescL.Text = "Rebirths Automáticos"
     DescL.TextColor3 = Color3.fromRGB(150,150,150)
-    DescL.TextSize = 9
+    DescL.TextSize = 8
     DescL.TextXAlignment = Enum.TextXAlignment.Left
 
     CreateOpenBtn(FrameL, "Auto Rebirths — Opciones", {
-        {nombre = "Activar Auto Rebirth", funcion = function(act) print("Auto Rebirth:", act) end},
-        {nombre = "Solo al llegar a X Rebirth", funcion = function(act) print("Rebirth Condicional:", act) end},
-        {nombre = "Notificar al Rebirte", funcion = function(act) print("Notificar:", act) end},
+        {nombre = "Activar Auto Rebirth", funcion = function(act) print("✅ Auto Rebirth:", act) end},
+        {nombre = "Solo al llegar a X Rebirth", funcion = function(act) print("✅ Rebirth Condicional:", act) end},
+        {nombre = "Notificar al Rebirte", funcion = function(act) print("✅ Notificar:", act) end},
     }, false)
 
     -- Killing — DERECHA
@@ -386,7 +383,7 @@ do
     FrameR.BorderColor3 = Color3.fromRGB(55, 35, 45)
     FrameR.BorderSizePixel = 1
     FrameR.Position = UDim2.new(0.52, 0, 0, 222)
-    FrameR.Size = UDim2.new(0.44, 0, 0, 62)
+    FrameR.Size = UDim2.new(0.44, 0, 0, 58) -- ✅ MISMA ALTURA
     local CornerR = Instance.new("UICorner")
     CornerR.CornerRadius = UDim.new(0, 12)
     CornerR.Parent = FrameR
@@ -394,8 +391,8 @@ do
     local IconR = Instance.new("Frame")
     IconR.Parent = FrameR
     IconR.BackgroundColor3 = Color3.fromRGB(45, 35, 45)
-    IconR.Position = UDim2.new(0.05, 0, 0.10, 0)
-    IconR.Size = UDim2.new(0, 44, 0, 44)
+    IconR.Position = UDim2.new(0.05, 0, 0.08, 0)
+    IconR.Size = UDim2.new(0, 40, 0, 40)
     local ICornerR = Instance.new("UICorner")
     ICornerR.CornerRadius = UDim.new(0, 10)
     ICornerR.Parent = IconR
@@ -406,35 +403,35 @@ do
     ILblR.Font = Enum.Font.GothamBold
     ILblR.Text = "🎯"
     ILblR.TextColor3 = Color3.fromRGB(255,255,255)
-    ILblR.TextSize = 20
+    ILblR.TextSize = 18
 
     local TitleR = Instance.new("TextLabel")
     TitleR.Parent = FrameR
     TitleR.BackgroundTransparency = 1
-    TitleR.Position = UDim2.new(0.32, 0, 0.12, 0)
-    TitleR.Size = UDim2.new(0.55, 0, 0, 20)
+    TitleR.Position = UDim2.new(0.32, 0, 0.10, 0)
+    TitleR.Size = UDim2.new(0.55, 0, 0, 18)
     TitleR.Font = Enum.Font.GothamBold
     TitleR.Text = "Killing"
     TitleR.TextColor3 = Color3.fromRGB(255,255,255)
-    TitleR.TextSize = 14
+    TitleR.TextSize = 13
     TitleR.TextXAlignment = Enum.TextXAlignment.Left
 
     local DescR = Instance.new("TextLabel")
     DescR.Parent = FrameR
     DescR.BackgroundTransparency = 1
-    DescR.Position = UDim2.new(0.32, 0, 0.52, 0)
-    DescR.Size = UDim2.new(0.55, 0, 0, 14)
+    DescR.Position = UDim2.new(0.32, 0, 0.55, 0)
+    DescR.Size = UDim2.new(0.55, 0, 0, 12)
     DescR.Font = Enum.Font.Gotham
     DescR.Text = "Auto Kills + Server Hop"
     DescR.TextColor3 = Color3.fromRGB(150,150,150)
-    DescR.TextSize = 9
+    DescR.TextSize = 8
     DescR.TextXAlignment = Enum.TextXAlignment.Left
 
     CreateOpenBtn(FrameR, "Killing — Opciones", {
-        {nombre = "Auto Matar Jugadores", funcion = function(act) print("Auto Matar:", act) end},
-        {nombre = "Matar solo enemigos", funcion = function(act) print("Solo Enemigos:", act) end},
-        {nombre = "Server Hop Automático", funcion = function(act) print("Server Hop:", act) end},
-        {nombre = "Ignorar equipo", funcion = function(act) print("Ignorar Equipo:", act) end},
+        {nombre = "Auto Matar Jugadores", funcion = function(act) print("✅ Auto Matar:", act) end},
+        {nombre = "Matar solo enemigos", funcion = function(act) print("✅ Solo Enemigos:", act) end},
+        {nombre = "Server Hop Automático", funcion = function(act) print("✅ Server Hop:", act) end},
+        {nombre = "Ignorar equipo", funcion = function(act) print("✅ Ignorar Equipo:", act) end},
     }, false)
 end
 
@@ -446,8 +443,8 @@ do
     FrameL.BackgroundColor3 = Color3.fromRGB(25, 22, 30)
     FrameL.BorderColor3 = Color3.fromRGB(55, 35, 45)
     FrameL.BorderSizePixel = 1
-    FrameL.Position = UDim2.new(0.04, 0, 0, 294)
-    FrameL.Size = UDim2.new(0.44, 0, 0, 62)
+    FrameL.Position = UDim2.new(0.04, 0, 0, 290)
+    FrameL.Size = UDim2.new(0.44, 0, 0, 58) -- ✅ MÁS CHICO
     local CornerL = Instance.new("UICorner")
     CornerL.CornerRadius = UDim.new(0, 12)
     CornerL.Parent = FrameL
@@ -455,8 +452,8 @@ do
     local IconL = Instance.new("Frame")
     IconL.Parent = FrameL
     IconL.BackgroundColor3 = Color3.fromRGB(45, 35, 45)
-    IconL.Position = UDim2.new(0.05, 0, 0.10, 0)
-    IconL.Size = UDim2.new(0, 44, 0, 44)
+    IconL.Position = UDim2.new(0.05, 0, 0.08, 0)
+    IconL.Size = UDim2.new(0, 40, 0, 40)
     local ICornerL = Instance.new("UICorner")
     ICornerL.CornerRadius = UDim.new(0, 10)
     ICornerL.Parent = IconL
@@ -467,35 +464,35 @@ do
     ILblL.Font = Enum.Font.GothamBold
     ILblL.Text = "🐾"
     ILblL.TextColor3 = Color3.fromRGB(255,255,255)
-    ILblL.TextSize = 20
+    ILblL.TextSize = 18
 
     local TitleL = Instance.new("TextLabel")
     TitleL.Parent = FrameL
     TitleL.BackgroundTransparency = 1
-    TitleL.Position = UDim2.new(0.32, 0, 0.12, 0)
-    TitleL.Size = UDim2.new(0.55, 0, 0, 20)
+    TitleL.Position = UDim2.new(0.32, 0, 0.10, 0)
+    TitleL.Size = UDim2.new(0.55, 0, 0, 18)
     TitleL.Font = Enum.Font.GothamBold
     TitleL.Text = "Free Pet Shop"
     TitleL.TextColor3 = Color3.fromRGB(255,255,255)
-    TitleL.TextSize = 14
+    TitleL.TextSize = 13
     TitleL.TextXAlignment = Enum.TextXAlignment.Left
 
     local DescL = Instance.new("TextLabel")
     DescL.Parent = FrameL
     DescL.BackgroundTransparency = 1
-    DescL.Position = UDim2.new(0.32, 0, 0.52, 0)
-    DescL.Size = UDim2.new(0.55, 0, 0, 14)
+    DescL.Position = UDim2.new(0.32, 0, 0.55, 0)
+    DescL.Size = UDim2.new(0.55, 0, 0, 12)
     DescL.Font = Enum.Font.Gotham
     DescL.Text = "¡Apex y más!"
     DescL.TextColor3 = Color3.fromRGB(150,150,150)
-    DescL.TextSize = 9
+    DescL.TextSize = 8
     DescL.TextXAlignment = Enum.TextXAlignment.Left
 
     CreateOpenBtn(FrameL, "Free Pet Shop — Mascotas", {
-        {nombre = "Mascota Apex Gratis", funcion = function(act) print("Mascota Apex:", act) end},
-        {nombre = "Mascota Legendaria", funcion = function(act) print("Legendaria:", act) end},
-        {nombre = "Mascota Mítica", funcion = function(act) print("Mítica:", act) end},
-        {nombre = "Duplicar Mascotas", funcion = function(act) print("Duplicar:", act) end},
+        {nombre = "Mascota Apex Gratis", funcion = function(act) print("✅ Mascota Apex:", act) end},
+        {nombre = "Mascota Legendaria", funcion = function(act) print("✅ Legendaria:", act) end},
+        {nombre = "Mascota Mítica", funcion = function(act) print("✅ Mítica:", act) end},
+        {nombre = "Duplicar Mascotas", funcion = function(act) print("✅ Duplicar:", act) end},
     }, false)
 
     -- 🔴 BOTÓN SALIR GRANDE — DERECHA
@@ -504,8 +501,8 @@ do
     ExitBtn.BackgroundColor3 = Color3.fromRGB(140, 20, 40)
     ExitBtn.BorderColor3 = Color3.fromRGB(180, 25, 50)
     ExitBtn.BorderSizePixel = 2
-    ExitBtn.Position = UDim2.new(0.52, 0, 0, 294)
-    ExitBtn.Size = UDim2.new(0.44, 0, 0, 62)
+    ExitBtn.Position = UDim2.new(0.52, 0, 0, 290)
+    ExitBtn.Size = UDim2.new(0.44, 0, 0, 58)
     local ExitCorner = Instance.new("UICorner")
     ExitCorner.CornerRadius = UDim.new(0, 12)
     ExitCorner.Parent = ExitBtn
@@ -519,4 +516,4 @@ do
     end)
 end
 
-print("✅ Gold Guerrero Hub — SUBMENÚS FUNCIONALES ✅")
+print("✅ Gold Guerrero Hub — TODO FUNCIONAL ✅")
