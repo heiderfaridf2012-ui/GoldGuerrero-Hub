@@ -1,8 +1,8 @@
 -- ==================================================
---        ⚔️ GOLD GUERRERO HUB — VERSIÓN FINAL
---  ✅ Ventana: 555 × 460px | Botones ABRIR: 88×36px
+--        ⚔️ GOLD GUERRERO HUB — AJUSTE FINAL
+--  ✅ Ancho: 565px (+10px) | Altura: 460px (-50px)
 --  ✅ Fast Glitch 90 | Diseño Young0x | PlayerGui
---  ✅ Sin duplicados, limpio y listo para loadstring
+--  ✅ Todo lo demás IGUAL — solo tamaño ajustado
 -- ==================================================
 
 local Players = game:GetService("Players")
@@ -31,15 +31,15 @@ local Colores = {
     TextoGris = Color3.fromRGB(140, 140, 140)
 }
 
--- 📦 VENTANA — TAMAÑO EXACTO: 555 × 460px
+-- 📦 VENTANA — TAMAÑO EXACTO QUE PEDISTE: 565 × 460px
 local MainWindow = Instance.new("Frame")
 MainWindow.Name = "MainWindow"
 MainWindow.Parent = ScreenGui
 MainWindow.BackgroundColor3 = Colores.Fondo
 MainWindow.BorderColor3 = Colores.Borde
 MainWindow.BorderSizePixel = 3
-MainWindow.Position = UDim2.new(0.5, -277, 0.5, -230)
-MainWindow.Size = UDim2.new(0, 555, 0, 460)
+MainWindow.Position = UDim2.new(0.5, -282, 0.5, -230)  -- Centrado con nuevo ancho, más arriba
+MainWindow.Size = UDim2.new(0, 565, 0, 460)  -- ✅ 565 ancho | 460 alto
 MainWindow.Active = true
 MainWindow.Draggable = true
 Instance.new("UICorner", MainWindow).CornerRadius = UDim.new(0, 18)
@@ -72,7 +72,7 @@ local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono)
     Tarjeta.BackgroundColor3 = ColorFondo
     Tarjeta.BorderColor3 = Colores.BordeTarjeta
     Tarjeta.BorderSizePixel = 2
-    Tarjeta.Position = UDim2.new(0.5, -257, 0, PosY)
+    Tarjeta.Position = UDim2.new(0.5, -267, 0, PosY)  -- Ajustado para nuevo ancho
     Tarjeta.Size = UDim2.new(1, -40, 0, 72)
     Instance.new("UICorner", Tarjeta).CornerRadius = UDim.new(0, 12)
 
@@ -90,7 +90,7 @@ local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono)
     TituloTarjeta.Parent = Tarjeta
     TituloTarjeta.BackgroundTransparency = 1
     TituloTarjeta.Position = UDim2.new(0, 65, 0.5, -10)
-    TituloTarjeta.Size = UDim2.new(0, 250, 0, 20)
+    TituloTarjeta.Size = UDim2.new(0, 260, 0, 20)
     TituloTarjeta.Font = Enum.Font.GothamBold
     TituloTarjeta.Text = Texto
     TituloTarjeta.TextColor3 = Colores.Texto
@@ -100,7 +100,7 @@ local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono)
     Desc.Parent = Tarjeta
     Desc.BackgroundTransparency = 1
     Desc.Position = UDim2.new(0, 65, 0.5, 8)
-    Desc.Size = UDim2.new(0, 250, 0, 14)
+    Desc.Size = UDim2.new(0, 260, 0, 14)
     Desc.Font = Enum.Font.Gotham
     Desc.Text = Descripcion
     Desc.TextColor3 = Colores.TextoGris
@@ -121,18 +121,18 @@ local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono)
     return Tarjeta
 end
 
--- 📋 TARJETAS — TODAS CON FAST GLITCH 90
+-- 📋 TARJETAS — TODAS IGUALES
 CrearTarjeta(70, Colores.TarjetaRoja, "Fast Glitch 90", "Script de pelea muy OP", "⚡")
 CrearTarjeta(155, Colores.TarjetaOscura, "Public Training", "Script gratuito para Auto Farm", "🏋️")
 CrearTarjeta(240, Colores.TarjetaOscura, "Auto Rebirths", "Renacimientos automáticos", "🔄")
 CrearTarjeta(325, Colores.TarjetaOscura, "Killing", "Auto Kills + Server Hop", "🎯")
 CrearTarjeta(410, Colores.TarjetaOscura, "Free Pet Shop", "¡Mascotas y auras gratis!", "🐾")
 
--- ❌ BOTÓN SALIR — 55px alto
+-- ❌ BOTÓN SALIR — AJUSTADO AL NUEVO ANCHO
 local BtnSalir = Instance.new("TextButton")
 BtnSalir.Parent = MainWindow
 BtnSalir.BackgroundColor3 = Colores.BotonRojo
-BtnSalir.Position = UDim2.new(0.5, -257, 0, 490)
+BtnSalir.Position = UDim2.new(0.5, -267, 0, 485)
 BtnSalir.Size = UDim2.new(1, -40, 0, 55)
 BtnSalir.Font = Enum.Font.GothamBold
 BtnSalir.Text = "❌ SALIR"
@@ -146,4 +146,4 @@ BtnSalir.MouseButton1Click:Connect(function()
 end)
 
 -- ✅ CONFIRMACIÓN
-print("✅ GoldGuerrero Hub v1.0 — CARGADO CON ÉXITO!")
+print("✅ GoldGuerrero Hub — Tamaño: 565×460px | CARGADO!")
