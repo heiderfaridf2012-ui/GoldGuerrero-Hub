@@ -1,9 +1,10 @@
 -- ==================================================
---        ⚔️ GOLD GUERRERO HUB — VERSIÓN COMPACTA
---  ✅ Ancho: 470px | Altura: 345px → NO OCUPA PANTALLA
---  ✅ Tarjetas más chicas: 52px alto | Botones ABRIR: 72×26px
---  ✅ Fast Glitch 90 | Botones funcionales | PlayerGui ✅ MÓVIL
---  ✅ Diseño Young0x | Todo en español | LIMPIO Y LISTO
+--        ⚔️ GOLD GUERRERO HUB — BARRA SIMÉTRICA
+--  ✅ Ventana: 470px × 380px → TAMAÑO FIJO
+--  ✅ Barra derecha DELGADA → ESPACIOS IGUALES LADOS
+--  ✅ 5 Tarjetas → INCLUIDA MASCOTAS (Free Pet Shop)
+--  ✅ Todo centrado y alineado | NO SE BUGUEA
+--  ✅ Fast Glitch 90 | Diseño Young0x | Todo en español
 -- ==================================================
 
 local Players = game:GetService("Players")
@@ -29,23 +30,24 @@ local Colores = {
     BordeTarjeta = Color3.fromRGB(60, 15, 25),
     BotonRojo = Color3.fromRGB(210, 0, 0),
     Texto = Color3.fromRGB(255, 255, 255),
-    TextoGris = Color3.fromRGB(140, 140, 140)
+    TextoGris = Color3.fromRGB(140, 140, 140),
+    BarraScroll = Color3.fromRGB(180, 0, 0)
 }
 
--- 📦 VENTANA — TAMAÑO MÁS COMPACTO: 470 × 345px
+-- 📦 VENTANA PRINCIPAL — TAMAÑO FIJO
 local MainWindow = Instance.new("Frame")
 MainWindow.Name = "MainWindow"
 MainWindow.Parent = ScreenGui
 MainWindow.BackgroundColor3 = Colores.Fondo
 MainWindow.BorderColor3 = Colores.Borde
 MainWindow.BorderSizePixel = 3
-MainWindow.Position = UDim2.new(0.5, -235, 0.5, -172)
-MainWindow.Size = UDim2.new(0, 470, 0, 345)
+MainWindow.Position = UDim2.new(0.5, -235, 0.5, -190)
+MainWindow.Size = UDim2.new(0, 470, 0, 380)
 MainWindow.Active = true
 MainWindow.Draggable = true
 Instance.new("UICorner", MainWindow).CornerRadius = UDim.new(0, 16)
 
--- 🏆 TÍTULO — MÁS COMPACTO
+-- 🏆 TÍTULO
 local TituloHub = Instance.new("TextLabel")
 TituloHub.Parent = MainWindow
 TituloHub.BackgroundTransparency = 1
@@ -66,15 +68,42 @@ Subtitulo.Text = "Leyendas Musculares"
 Subtitulo.TextColor3 = Colores.TextoGris
 Subtitulo.TextSize = 11
 
--- 📦 FUNCIÓN CREAR TARJETA — MÁS CHICA, BOTONES FUNCIONALES
-local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono, NombreFuncion)
+-- 📜 BARRA DESLIZANTE — ESPACIOS SIMÉTRICOS, BARRA DELGADA
+local ScrollFrame = Instance.new("ScrollingFrame")
+ScrollFrame.Name = "ScrollFrame"
+ScrollFrame.Parent = MainWindow
+ScrollFrame.BackgroundTransparency = 1
+ScrollFrame.Position = UDim2.new(0, 12, 0, 50)  -- ← 12px a la izquierda
+ScrollFrame.Size = UDim2.new(1, -24, 1, -105)    -- ← 12px a cada lado → TOTAL 24px
+ScrollFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+ScrollFrame.ScrollBarThickness = 4               -- ← BARRA MÁS DELGADA (antes 6, ahora 4)
+ScrollFrame.ScrollBarColor3 = Colores.BarraScroll
+ScrollFrame.ScrollBarPosition = Enum.ScrollBarPosition.Right
+ScrollFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+ScrollFrame.ScrollingEnabled = true
+ScrollFrame.ScrollBarInset = Enum.ScrollBarInset.None
+
+-- Contenedor de tarjetas — TODO CENTRADO
+local TarjetasContainer = Instance.new("Frame")
+TarjetasContainer.Parent = ScrollFrame
+TarjetasContainer.BackgroundTransparency = 1
+TarjetasContainer.Size = UDim2.new(1, -8, 0, 0)   -- ← 4px extra a la derecha para la barra
+TarjetasContainer.AutomaticSize = Enum.AutomaticSize.Y
+
+local Layout = Instance.new("UIListLayout")
+Layout.Parent = TarjetasContainer
+Layout.Padding = UDim.new(0, 10)
+Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+Layout.FillDirection = Enum.FillDirection.Vertical
+
+-- 📦 FUNCIÓN CREAR TARJETA — TODO CENTRADO
+local function CrearTarjeta(ColorFondo, Texto, Descripcion, Icono, NombreFuncion)
     local Tarjeta = Instance.new("Frame")
-    Tarjeta.Parent = MainWindow
+    Tarjeta.Parent = TarjetasContainer
     Tarjeta.BackgroundColor3 = ColorFondo
     Tarjeta.BorderColor3 = Colores.BordeTarjeta
     Tarjeta.BorderSizePixel = 2
-    Tarjeta.Position = UDim2.new(0.5, -225, 0, PosY)
-    Tarjeta.Size = UDim2.new(1, -40, 0, 52)
+    Tarjeta.Size = UDim2.new(1, 0, 0, 52)
     Instance.new("UICorner", Tarjeta).CornerRadius = UDim.new(0, 10)
 
     local Icon = Instance.new("TextLabel")
@@ -91,7 +120,7 @@ local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono, NombreF
     TituloTarjeta.Parent = Tarjeta
     TituloTarjeta.BackgroundTransparency = 1
     TituloTarjeta.Position = UDim2.new(0, 48, 0.5, -8)
-    TituloTarjeta.Size = UDim2.new(0, 200, 0, 18)
+    TituloTarjeta.Size = UDim2.new(0, 250, 0, 18)
     TituloTarjeta.Font = Enum.Font.GothamBold
     TituloTarjeta.Text = Texto
     TituloTarjeta.TextColor3 = Colores.Texto
@@ -101,13 +130,13 @@ local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono, NombreF
     Desc.Parent = Tarjeta
     Desc.BackgroundTransparency = 1
     Desc.Position = UDim2.new(0, 48, 0.5, 6)
-    Desc.Size = UDim2.new(0, 200, 0, 12)
+    Desc.Size = UDim2.new(0, 250, 0, 12)
     Desc.Font = Enum.Font.Gotham
     Desc.Text = Descripcion
     Desc.TextColor3 = Colores.TextoGris
     Desc.TextSize = 11
 
-    -- 🔘 BOTÓN ABRIR — FUNCIONAL Y MÁS CHICO: 72×26px
+    -- 🔘 BOTÓN ABRIR — FUNCIONAL
     local BtnAbrir = Instance.new("TextButton")
     BtnAbrir.Parent = Tarjeta
     BtnAbrir.BackgroundColor3 = Colores.BotonRojo
@@ -120,7 +149,6 @@ local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono, NombreF
     BtnAbrir.AutoLocalize = false
     Instance.new("UICorner", BtnAbrir).CornerRadius = UDim.new(0, 8)
 
-    -- ✅ AL HACER CLIC — LISTO PARA DESPUÉS
     BtnAbrir.MouseButton1Click:Connect(function()
         print("✅ Abierto: " .. NombreFuncion)
     end)
@@ -128,19 +156,19 @@ local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono, NombreF
     return Tarjeta
 end
 
--- 📋 TARJETAS — TODAS MÁS JUNTAS, SIN SOBREPASAR
-CrearTarjeta(55, Colores.TarjetaRoja, "Fast Glitch 90", "Script de pelea muy OP", "⚡", "Fast Glitch 90")
-CrearTarjeta(117, Colores.TarjetaOscura, "Public Training", "Script gratuito para Auto Farm", "🏋️", "Public Training")
-CrearTarjeta(179, Colores.TarjetaOscura, "Auto Renacimientos", "Renacimientos automáticos", "🔄", "Auto Renacimientos")
-CrearTarjeta(241, Colores.TarjetaOscura, "Killing", "Auto Kills + Server Hop", "🎯", "Killing")
-CrearTarjeta(303, Colores.TarjetaOscura, "Free Pet Shop", "¡Mascotas y auras gratis!", "🐾", "Free Pet Shop")
+-- 📋 TODAS LAS TARJETAS — INCLUIDA Free Pet Shop ✅
+CrearTarjeta(Colores.TarjetaRoja, "Fast Glitch 90", "Script de pelea muy OP", "⚡", "Fast Glitch 90")
+CrearTarjeta(Colores.TarjetaOscura, "Public Training", "Script gratuito para Auto Farm", "🏋️", "Public Training")
+CrearTarjeta(Colores.TarjetaOscura, "Auto Renacimientos", "Renacimientos automáticos", "🔄", "Auto Renacimientos")
+CrearTarjeta(Colores.TarjetaOscura, "Killing", "Auto Kills + Server Hop", "🎯", "Killing")
+CrearTarjeta(Colores.TarjetaOscura, "Free Pet Shop", "¡Mascotas y auras gratis!", "🐾", "Free Pet Shop")
 
--- ❌ BOTÓN SALIR — MÁS CHICO Y FUNCIONAL
+-- ❌ BOTÓN SALIR — AJUSTADO AL NUEVO TAMAÑO
 local BtnSalir = Instance.new("TextButton")
 BtnSalir.Parent = MainWindow
 BtnSalir.BackgroundColor3 = Colores.BotonRojo
-BtnSalir.Position = UDim2.new(0.5, -225, 0, 305)
-BtnSalir.Size = UDim2.new(1, -40, 0, 38)
+BtnSalir.Position = UDim2.new(0, 12, 1, -48)
+BtnSalir.Size = UDim2.new(1, -24, 0, 38)
 BtnSalir.Font = Enum.Font.GothamBold
 BtnSalir.Text = "❌ SALIR"
 BtnSalir.TextColor3 = Colores.Texto
@@ -154,5 +182,5 @@ BtnSalir.MouseButton1Click:Connect(function()
 end)
 
 -- ✅ CONFIRMACIÓN
-print("✅ GoldGuerrero Hub v1.2 — VERSIÓN COMPACTA CARGADA!")
-print("📏 Tamaño: 470×345px | Botones ABRIR: FUNCIONALES")
+print("✅ GoldGuerrero Hub — BARRA SIMÉTRICA + 5 FUNCIONES!")
+print("📏 Ventana: 470×380px | Barra: 4px delgada | Espacios simétricos")
