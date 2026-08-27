@@ -1,14 +1,14 @@
 -- ==================================================
---        ⚔️ GOLD GUERRERO HUB — TAMAÑOS EXACTOS
---  ✅ Ventana: 555 × 460px | Botones: 88×36px (ABRIR) | 55px alto (SALIR)
---  ✅ Compacto, proporcional, IGUAL a la referencia
---  ✅ Loadstring listo | Fast Glitch 90 | PlayerGui
+--        ⚔️ GOLD GUERRERO HUB — VERSIÓN FINAL
+--  ✅ Ventana: 555 × 460px | Botones ABRIR: 88×36px
+--  ✅ Fast Glitch 90 | Diseño Young0x | PlayerGui
+--  ✅ Sin duplicados, limpio y listo para loadstring
 -- ==================================================
 
 local Players = game:GetService("Players")
 local PlayerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- ✅ Borra duplicados
+-- ✅ Borra duplicados al cargar
 if PlayerGui:FindFirstChild("GoldGuerreroHub") then
     PlayerGui.GoldGuerreroHub:Destroy()
 end
@@ -19,7 +19,7 @@ ScreenGui.Parent = PlayerGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
 
--- 🎨 COLORES EXACTOS
+-- 🎨 COLORES ESTILO YOUNG0X
 local Colores = {
     Fondo = Color3.fromRGB(12, 12, 15),
     Borde = Color3.fromRGB(200, 0, 0),
@@ -31,15 +31,15 @@ local Colores = {
     TextoGris = Color3.fromRGB(140, 140, 140)
 }
 
--- 📦 VENTANA — TAMAÑO FINAL: 555 × 460px (MÁS COMPACTA)
+-- 📦 VENTANA — TAMAÑO EXACTO: 555 × 460px
 local MainWindow = Instance.new("Frame")
 MainWindow.Name = "MainWindow"
 MainWindow.Parent = ScreenGui
 MainWindow.BackgroundColor3 = Colores.Fondo
 MainWindow.BorderColor3 = Colores.Borde
 MainWindow.BorderSizePixel = 3
-MainWindow.Position = UDim2.new(0.5, -277, 0.5, -230)  -- Centrada perfecto
-MainWindow.Size = UDim2.new(0, 555, 0, 460)  -- ✅ 460px → justo, no ocupa pantalla
+MainWindow.Position = UDim2.new(0.5, -277, 0.5, -230)
+MainWindow.Size = UDim2.new(0, 555, 0, 460)
 MainWindow.Active = true
 MainWindow.Draggable = true
 Instance.new("UICorner", MainWindow).CornerRadius = UDim.new(0, 18)
@@ -65,7 +65,7 @@ Subtitulo.Text = "Muscle Legends"
 Subtitulo.TextColor3 = Colores.TextoGris
 Subtitulo.TextSize = 13
 
--- 📦 FUNCIÓN TARJETA — BOTÓN ABRIR: 88×36px (TAMAÑO FIJO)
+-- 📦 FUNCIÓN CREAR TARJETA — Botón ABRIR: 88×36px
 local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono)
     local Tarjeta = Instance.new("Frame")
     Tarjeta.Parent = MainWindow
@@ -73,7 +73,7 @@ local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono)
     Tarjeta.BorderColor3 = Colores.BordeTarjeta
     Tarjeta.BorderSizePixel = 2
     Tarjeta.Position = UDim2.new(0.5, -257, 0, PosY)
-    Tarjeta.Size = UDim2.new(1, -40, 0, 72)  -- ✅ Tarjetas más compactas: 72px alto
+    Tarjeta.Size = UDim2.new(1, -40, 0, 72)
     Instance.new("UICorner", Tarjeta).CornerRadius = UDim.new(0, 12)
 
     local Icon = Instance.new("TextLabel")
@@ -106,12 +106,11 @@ local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono)
     Desc.TextColor3 = Colores.TextoGris
     Desc.TextSize = 12
 
-    -- ✅ BOTÓN ABRIR — TAMAÑO FIJO: 88×36px (IGUAL A LA REFERENCIA)
     local BtnAbrir = Instance.new("TextButton")
     BtnAbrir.Parent = Tarjeta
     BtnAbrir.BackgroundColor3 = Colores.BotonRojo
     BtnAbrir.Position = UDim2.new(1, -100, 0.5, -18)
-    BtnAbrir.Size = UDim2.new(0, 88, 0, 36)  -- ✅ TAMAÑO EXACTO
+    BtnAbrir.Size = UDim2.new(0, 88, 0, 36)
     BtnAbrir.Font = Enum.Font.GothamBold
     BtnAbrir.Text = "ABRIR"
     BtnAbrir.TextColor3 = Colores.Texto
@@ -122,19 +121,19 @@ local function CrearTarjeta(PosY, ColorFondo, Texto, Descripcion, Icono)
     return Tarjeta
 end
 
--- 📋 TARJETAS — POSICIONES AJUSTADAS PARA 460px DE ALTURA
+-- 📋 TARJETAS — TODAS CON FAST GLITCH 90
 CrearTarjeta(70, Colores.TarjetaRoja, "Fast Glitch 90", "Script de pelea muy OP", "⚡")
 CrearTarjeta(155, Colores.TarjetaOscura, "Public Training", "Script gratuito para Auto Farm", "🏋️")
 CrearTarjeta(240, Colores.TarjetaOscura, "Auto Rebirths", "Renacimientos automáticos", "🔄")
 CrearTarjeta(325, Colores.TarjetaOscura, "Killing", "Auto Kills + Server Hop", "🎯")
 CrearTarjeta(410, Colores.TarjetaOscura, "Free Pet Shop", "¡Mascotas y auras gratis!", "🐾")
 
--- ❌ BOTÓN SALIR — TAMAÑO EXACTO: 55px DE ALTO
+-- ❌ BOTÓN SALIR — 55px alto
 local BtnSalir = Instance.new("TextButton")
 BtnSalir.Parent = MainWindow
 BtnSalir.BackgroundColor3 = Colores.BotonRojo
 BtnSalir.Position = UDim2.new(0.5, -257, 0, 490)
-BtnSalir.Size = UDim2.new(1, -40, 0, 55)  -- ✅ TAMAÑO FIJO
+BtnSalir.Size = UDim2.new(1, -40, 0, 55)
 BtnSalir.Font = Enum.Font.GothamBold
 BtnSalir.Text = "❌ SALIR"
 BtnSalir.TextColor3 = Colores.Texto
@@ -147,4 +146,4 @@ BtnSalir.MouseButton1Click:Connect(function()
 end)
 
 -- ✅ CONFIRMACIÓN
-print("✅ GoldGuerrero Hub — TAMAÑOS EXACTOS: Ventana 555×460px | Botones 88×36px")
+print("✅ GoldGuerrero Hub v1.0 — CARGADO CON ÉXITO!")
