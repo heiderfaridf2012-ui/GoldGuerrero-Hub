@@ -6,7 +6,7 @@ local LocalPlayer = Players.LocalPlayer
 local velocidad = 16
 local limite = 500
 local minimo = 16
-local incremento = 10
+local incremento = 1
 
 -- Crear Interfaz Táctil (GUI)
 local ScreenGui = Instance.new("ScreenGui")
@@ -56,13 +56,13 @@ BtnMas.TextSize = 24
 BtnMas.Font = Enum.Font.SourceSansBold
 BtnMas.Text = "+"
 
--- Función para actualizar la variable de velocidad
+-- Función para actualizar la velocidad
 local function actualizarVelocidad(nuevaVelocidad)
     velocidad = math.clamp(nuevaVelocidad, minimo, limite)
     TextLabel.Text = "VELOCIDAD: " .. velocidad
 end
 
--- Eventos de botones
+-- Eventos de botones (+1 y -1)
 BtnMas.MouseButton1Click:Connect(function()
     actualizarVelocidad(velocidad + incremento)
 end)
@@ -71,9 +71,20 @@ BtnMenos.MouseButton1Click:Connect(function()
     actualizarVelocidad(velocidad - incremento)
 end)
 
--- Bucle constante que FUERZA la velocidad en cada frame
-RunService.Stepped:Connect(function()
-    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
-        LocalPlayer.Character.Humanoid.WalkSpeed = velocidad
+-- Sistema de movimiento CFrame + WalkSpeed forzado
+RunService.RenderStepped:Connect(function(delta)
+    local character = LocalPlayer.Character
+    if character and character:FindFirstChild("Humanoid") and character:FindFirstChild("HumanoidRootPart") then
+        local humanoid = character.Humanoid
+        local hrp = character.HumanoidRootPart
+        
+        -- Cambia WalkSpeed por si el juego lo permite
+        humanoid.WalkSpeed = velocidad
+        
+        -- Si estás caminando, empuja la posición del personaje usando CFrame
+        if humanoid.MoveDirection.Magnitude > 0 and velocidad > 16 then
+            local multiplicador = (velocidad - 16) / 10
+            hrp.CFrame = hrp.CFrame + (humanoid.MoveDirection * multiplicador * delta * 10)
+        end
     end
 end)
