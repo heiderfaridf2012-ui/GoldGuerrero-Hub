@@ -1,410 +1,251 @@
--- ==================================================
---        ⚔️ GOLD GUERRERO HUB — LETRAS CLARAS ✅
---  ✅ 🔤 SIN LETRAS RARAS — TODO EN ESPAÑOL, FUENTE LIMPIA
---  ✅ ❌ SIN ÍCONO NINJA — SOLO TU NOMBRE ARRIBA
---  ✅ 📐 560×360 — COMPACTA, NO TAPA EL JUEGO
---  ✅ 📂 BARRA LATERAL — TEXTO COMPLETO, SIN CORTAR
---  ✅ ⬛ CUADRITOS CON FLECHA › — IGUAL A LA IMAGEN
---  ✅ 👁️ OJO 👁️ — ABRE/CIERRA, SIEMPRE IGUAL
---  ✅ 📅 PREPARADO PARA 05/09/2026
--- ==================================================
+-- 🦾 MUSCLE LEGENDS HUB | VERSIÓN PARA CELULAR 📱
+-- Tamaño ideal: 620×380 | Botones grandes | Fácil de usar con dedo
 
 local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
 local Player = Players.LocalPlayer
-local PlayerGui = Player:WaitForChild("PlayerGui")
+local CoreGui = game:GetService("CoreGui")
 
--- ✅ Borra duplicados
-if PlayerGui:FindFirstChild("GoldGuerreroHub") then
-    PlayerGui.GoldGuerreroHub:Destroy()
-end
+-- ⚙️ TAMAÑO IDEAL PARA CELULAR (NO MUY GRANDE, NO MUY PEQUEÑO)
+local ANCHO = 620
+local ALTO = 380
 
+-- CREAR INTERFAZ
 local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "GoldGuerreroHub"
-ScreenGui.Parent = PlayerGui
+ScreenGui.Name = "MuscleLegendsHub"
+ScreenGui.Parent = CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
 
--- 🎨 COLORES
-local Colores = {
-    FondoVentana = Color3.fromRGB(20, 20, 28),
-    FondoBarraLateral = Color3.fromRGB(15, 15, 22),
-    FondoBotonActivo = Color3.fromRGB(35, 35, 50),
-    FondoBotonDerecha = Color3.fromRGB(30, 30, 42),
-    Borde = Color3.fromRGB(50, 50, 70),
-    AcentoAzul = Color3.fromRGB(60, 140, 255),
-    AcentoRojo = Color3.fromRGB(220, 50, 50),
-    Texto = Color3.fromRGB(255, 255, 255),
-    TextoGris = Color3.fromRGB(150, 150, 170)
-}
-
--- 👁️ OJITO — SIEMPRE 👁️ ✅
-local BtnOjo = Instance.new("TextButton")
-BtnOjo.Parent = ScreenGui
-BtnOjo.BackgroundTransparency = 1
-BtnOjo.Position = UDim2.new(0.5, -18, 0.5, -18)
-BtnOjo.Size = UDim2.new(0, 36, 0, 36)
-BtnOjo.Font = Enum.Font.GothamBold
-BtnOjo.Text = "👁️"
-BtnOjo.TextColor3 = Colores.Texto
-BtnOjo.TextSize = 26
-BtnOjo.Active = true
-BtnOjo.Draggable = true
-
--- 📦 VENTANA — 560×360 → COMPACTA ✅
+-- 🪟 VENTANA PRINCIPAL
 local MainWindow = Instance.new("Frame")
 MainWindow.Name = "MainWindow"
+MainWindow.Size = UDim2.new(0, ANCHO, 0, ALTO)
+MainWindow.Position = UDim2.new(0.5, -ANCHO/2, 0.5, -ALTO/2)
+MainWindow.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+MainWindow.BorderSizePixel = 2
+MainWindow.BorderColor3 = Color3.fromRGB(255, 255, 255)
+MainWindow.ClipsDescendants = true
 MainWindow.Parent = ScreenGui
-MainWindow.BackgroundColor3 = Colores.FondoVentana
-MainWindow.BorderColor3 = Colores.Borde
-MainWindow.BorderSizePixel = 1
-MainWindow.Position = UDim2.new(0.5, -280, 0.5, -180)
-MainWindow.Size = UDim2.new(0, 560, 0, 360)
-MainWindow.Active = true
-MainWindow.Draggable = true
-MainWindow.Visible = false
-Instance.new("UICorner", MainWindow).CornerRadius = UDim.new(0, 8)
 
--- 🔄 ABRIR/CIERRA CON EL OJITO ✅
-local MenuAbierto = false
-BtnOjo.MouseButton1Click:Connect(function()
-    MenuAbierto = not MenuAbierto
-    MainWindow.Visible = MenuAbierto
-end)
+-- 🎭 ÍCONO CENTRAL SUPERIOR
+local IconoCentral = Instance.new("Frame")
+IconoCentral.Name = "IconoCentral"
+IconoCentral.Size = UDim2.new(0, 50, 0, 50)
+IconoCentral.Position = UDim2.new(0.5, -25, 0, -25)
+IconoCentral.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+IconoCentral.BorderSizePixel = 2
+IconoCentral.BorderColor3 = Color3.fromRGB(60, 140, 220)
+IconoCentral.CornerRadius = UDim.new(0, 10)
+IconoCentral.Parent = MainWindow
 
--- 🏷️ TÍTULO — SIN ÍCONO NINJA ✅ SOLO TU NOMBRE
-local TituloVentana = Instance.new("TextLabel")
-TituloVentana.Parent = MainWindow
-TituloVentana.BackgroundTransparency = 1
-TituloVentana.Position = UDim2.new(0, 15, 0, 10)
-TituloVentana.Size = UDim2.new(0, 200, 0, 22)
-TituloVentana.Font = Enum.Font.GothamBold
-TituloVentana.Text = "GoldGuerrero Hub"
-TituloVentana.TextColor3 = Colores.Texto
-TituloVentana.TextSize = 15
+local ImagenIcono = Instance.new("ImageLabel")
+ImagenIcono.Size = UDim2.new(0, 36, 0, 36)
+ImagenIcono.Position = UDim2.new(0.5, -18, 0.5, -18)
+ImagenIcono.BackgroundTransparency = 1
+ImagenIcono.Image = "rbxassetid://13336093871"
+ImagenIcono.Parent = IconoCentral
 
--- 🪟 BOTONES − □ × ✅
-local BtnMin = Instance.new("TextButton")
-BtnMin.Parent = MainWindow
-BtnMin.BackgroundTransparency = 1
-BtnMin.Position = UDim2.new(1, -80, 0, 8)
-BtnMin.Size = UDim2.new(0, 18, 0, 18)
-BtnMin.Font = Enum.Font.GothamBold
-BtnMin.Text = "−"
-BtnMin.TextColor3 = Colores.TextoGris
-BtnMin.TextSize = 16
-BtnMin.MouseButton1Click:Connect(function()
-    MainWindow.Visible = false
-    MenuAbierto = false
-end)
+-- 📝 BARRA DE TÍTULO
+local TituloBar = Instance.new("Frame")
+TituloBar.Name = "TituloBar"
+TituloBar.Size = UDim2.new(1, 0, 0, 50)
+TituloBar.BackgroundTransparency = 1
+TituloBar.Parent = MainWindow
 
-local BtnSquare = Instance.new("TextButton")
-BtnSquare.Parent = MainWindow
-BtnSquare.BackgroundTransparency = 1
-BtnSquare.Position = UDim2.new(1, -52, 0, 8)
-BtnSquare.Size = UDim2.new(0, 18, 0, 18)
-BtnSquare.Font = Enum.Font.GothamBold
-BtnSquare.Text = "□"
-BtnSquare.TextColor3 = Colores.TextoGris
-BtnSquare.TextSize = 13
+local TituloTexto = Instance.new("TextLabel")
+TituloTexto.Name = "TituloTexto"
+TituloTexto.Size = UDim2.new(0, 180, 1, 0)
+TituloTexto.Position = UDim2.new(0, 15, 0, 0)
+TituloTexto.BackgroundTransparency = 1
+TituloTexto.Text = "Muscle Legends"
+TituloTexto.TextColor3 = Color3.fromRGB(255, 255, 255)
+TituloTexto.Font = Enum.Font.GothamBold
+TituloTexto.TextSize = 18
+TituloTexto.TextXAlignment = Enum.TextXAlignment.Left
+TituloTexto.Parent = TituloBar
 
-local BtnCerrar = Instance.new("TextButton")
-BtnCerrar.Parent = MainWindow
-BtnCerrar.BackgroundTransparency = 1
-BtnCerrar.Position = UDim2.new(1, -25, 0, 8)
-BtnCerrar.Size = UDim2.new(0, 18, 0, 18)
-BtnCerrar.Font = Enum.Font.GothamBold
-BtnCerrar.Text = "×"
-BtnCerrar.TextColor3 = Colores.AcentoRojo
-BtnCerrar.TextSize = 18
-BtnCerrar.MouseButton1Click:Connect(function()
-    MainWindow.Visible = false
-    MenuAbierto = false
-end)
+-- BOTONES DE VENTANA ─ □ ✕
+local function BotonVentana(posX, texto)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(0, 30, 0, 30)
+    btn.Position = UDim2.new(1, posX, 0.5, -15)
+    btn.BackgroundTransparency = 1
+    btn.Text = texto
+    btn.TextColor3 = Color3.fromRGB(200, 200, 200)
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 18
+    btn.AutoLocalize = false
+    btn.Parent = TituloBar
+    return btn
+end
 
--- 📏 LÍNEA SEPARADORA
-local Separador = Instance.new("Frame")
-Separador.Parent = MainWindow
-Separador.BackgroundColor3 = Colores.Borde
-Separador.Position = UDim2.new(0, 0, 0, 45)
-Separador.Size = UDim2.new(1, 0, 0, 1)
+local btnMin = BotonVentana(-90, "─")
+local btnMax = BotonVentana(-55, "□")
+local btnClose = BotonVentana(-20, "✕")
+btnClose.TextColor3 = Color3.fromRGB(255, 80, 80)
 
--- 📂 BARRA LATERAL — MÁS ANCHA → TEXTO SIN CORTAR ✅
-local BarraLateral = Instance.new("Frame")
-BarraLateral.Parent = MainWindow
-BarraLateral.BackgroundColor3 = Colores.FondoBarraLateral
-BarraLateral.Position = UDim2.new(0, 0, 0, 46)
-BarraLateral.Size = UDim2.new(0, 150, 1, -46)
+-- 📂 BARRA LATERAL IZQUIERDA
+local Sidebar = Instance.new("Frame")
+Sidebar.Name = "Sidebar"
+Sidebar.Size = UDim2.new(0, 160, 1, -50)
+Sidebar.Position = UDim2.new(0, 0, 0, 50)
+Sidebar.BackgroundTransparency = 1
+Sidebar.Parent = MainWindow
 
-local SeparadorVertical = Instance.new("Frame")
-SeparadorVertical.Parent = MainWindow
-SeparadorVertical.BackgroundColor3 = Colores.Borde
-SeparadorVertical.Position = UDim2.new(0, 150, 0, 46)
-SeparadorVertical.Size = UDim2.new(0, 1, 1, -46)
-
--- 📄 ÁREA DE CONTENIDO
-local AreaContenido = Instance.new("Frame")
-AreaContenido.Parent = MainWindow
-AreaContenido.BackgroundTransparency = 1
-AreaContenido.Position = UDim2.new(0, 155, 0, 46)
-AreaContenido.Size = UDim2.new(1, -160, 1, -46)
-
--- Título de sección
-local TituloSeccion = Instance.new("TextLabel")
-TituloSeccion.Parent = AreaContenido
-TituloSeccion.BackgroundTransparency = 1
-TituloSeccion.Position = UDim2.new(0, 10, 0, 12)
-TituloSeccion.Size = UDim2.new(0, 300, 0, 30)
-TituloSeccion.Font = Enum.Font.GothamBold
-TituloSeccion.Text = "🏠 Main"
-TituloSeccion.TextColor3 = Colores.Texto
-TituloSeccion.TextSize = 22
-
--- ⚙️ VARIABLES
-local BotonesLateral = {}
-local SeccionActiva = "Main"
-
--- 📦 FUNCIÓN BOTÓN LATERAL — TEXTO COMPLETO, SIN CORTAR ✅
-local function CrearPestana(Nombre, Icono, ContenidoFunc)
-    local Btn = Instance.new("TextButton")
-    Btn.Parent = BarraLateral
-    Btn.BackgroundTransparency = 1
-    Btn.Size = UDim2.new(1, 0, 0, 40)
-    Btn.Font = Enum.Font.Gotham -- ✅ FUENTE LIMPIA, SIN LETRAS RARAS
-    Btn.Text = "  " .. Icono .. "  " .. Nombre -- ✅ ESPACIO SUFICIENTE → NO SE CORTA
-    Btn.TextColor3 = Nombre == "Main" and Colores.Texto or Colores.TextoGris
-    Btn.TextSize = 12 -- ✅ TAMAÑO PERFECTO → TODO SE VE CLARO
-    Btn.TextXAlignment = Enum.TextXAlignment.Left
-    Btn.AutoLocalize = false
-
-    local Barrita = Instance.new("Frame")
-    Barrita.Parent = Btn
-    Barrita.BackgroundColor3 = Nombre == "Main" and Colores.AcentoAzul or Color3.fromRGB(60,60,80)
-    Barrita.Position = UDim2.new(0, 0, 0.5, -12)
-    Barrita.Size = UDim2.new(0, 3, 0, 24)
-
-    BotonesLateral[Nombre] = {Btn = Btn, Barrita = Barrita, Contenido = ContenidoFunc}
-
-    Btn.MouseButton1Click:Connect(function()
-        -- Restaurar anterior
-        if BotonesLateral[SeccionActiva] then
-            BotonesLateral[SeccionActiva].Btn.TextColor3 = Colores.TextoGris
-            BotonesLateral[SeccionActiva].Barrita.BackgroundColor3 = Color3.fromRGB(60,60,80)
+-- 📋 ITEMS DEL MENÚ LATERAL (GRANDES PARA DEDO)
+local seccionActiva = "Main"
+local function CrearItemLateral(nombre, icono, posY, activo)
+    local item = Instance.new("TextButton")
+    item.Name = nombre
+    item.Size = UDim2.new(1, -15, 0, 48) -- ALTOS PARA CELULAR
+    item.Position = UDim2.new(0, 8, 0, posY)
+    item.BackgroundColor3 = activo and Color3.fromRGB(40, 90, 160) or Color3.fromRGB(25, 25, 25)
+    item.BorderSizePixel = 0
+    item.CornerRadius = UDim.new(0, 8)
+    item.Text = "  " .. icono .. "  " .. nombre
+    item.TextColor3 = Color3.fromRGB(240, 240, 240)
+    item.Font = Enum.Font.Gotham
+    item.TextSize = 14
+    item.TextXAlignment = Enum.TextXAlignment.Left
+    item.AutoLocalize = false
+    item.Parent = Sidebar
+    
+    item.MouseButton1Click:Connect(function()
+        seccionActiva = nombre
+        for _, v in pairs(Sidebar:GetChildren()) do
+            if v:IsA("TextButton") then
+                v.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+            end
         end
-        -- Activar actual
-        SeccionActiva = Nombre
-        Btn.TextColor3 = Colores.Texto
-        Barrita.BackgroundColor3 = Colores.AcentoAzul
-        TituloSeccion.Text = Icono .. " " .. Nombre
-        -- Limpiar y cargar contenido
-        for _, v in pairs(AreaContenido:GetChildren()) do
-            if v ~= TituloSeccion then v:Destroy() end
-        end
-        ContenidoFunc()
+        item.BackgroundColor3 = Color3.fromRGB(40, 90, 160)
+        ActualizarContenido(nombre)
     end)
+    
+    return item
 end
 
--- 📦 FUNCIÓN BOTÓN DERECHO — CUADRITO CON FLECHA › ✅
-local function CrearBotonDerecho(texto, funcion)
-    local BtnFrame = Instance.new("Frame")
-    BtnFrame.BackgroundColor3 = Colores.FondoBotonDerecha
-    BtnFrame.BorderColor3 = Colores.Borde
-    BtnFrame.BorderSizePixel = 1
-    BtnFrame.Size = UDim2.new(1, -20, 0, 46)
-    Instance.new("UICorner", BtnFrame).CornerRadius = UDim.new(0, 6)
+-- CREAR TODOS LOS ITEMS (IGUAL A LA IMAGEN)
+local itemInfo = CrearItemLateral("Information", "🔔", 5, false)
+local itemMain = CrearItemLateral("Main", "🏠", 63, true)
+local itemAutoBuy = CrearItemLateral("Auto Buy", "🛒", 121, false)
+local itemAutoStuff = CrearItemLateral("Auto Stuff", "⚙️", 179, false)
+local itemAutoFarm = CrearItemLateral("Auto Farm", "📊", 237, false)
+local itemRebirth = CrearItemLateral("Rebirth", "🔄", 295, false)
+local itemKiller = CrearItemLateral("Killer", "⚔️", 353, false)
 
-    local TextoBtn = Instance.new("TextLabel")
-    TextoBtn.Parent = BtnFrame
-    TextoBtn.BackgroundTransparency = 1
-    TextoBtn.Position = UDim2.new(0, 15, 0, 0)
-    TextoBtn.Size = UDim2.new(0.85, 0, 1, 0)
-    TextoBtn.Font = Enum.Font.Gotham
-    TextoBtn.Text = texto
-    TextoBtn.TextColor3 = Colores.Texto
-    TextoBtn.TextSize = 13
-    TextoBtn.TextXAlignment = Enum.TextXAlignment.Left
+-- 📄 ÁREA DE CONTENIDO DERECHA
+local ContentArea = Instance.new("Frame")
+ContentArea.Name = "ContentArea"
+ContentArea.Size = UDim2.new(1, -180, 1, -60)
+ContentArea.Position = UDim2.new(0, 175, 0, 55)
+ContentArea.BackgroundTransparency = 1
+ContentArea.Parent = MainWindow
 
-    local Flecha = Instance.new("TextLabel")
-    Flecha.Parent = BtnFrame
-    Flecha.BackgroundTransparency = 1
-    Flecha.Position = UDim2.new(0.93, 0, 0, 0)
-    Flecha.Size = UDim2.new(0, 16, 1, 0)
-    Flecha.Font = Enum.Font.GothamBold
-    Flecha.Text = "›"
-    Flecha.TextColor3 = Colores.TextoGris
-    Flecha.TextSize = 18
+local TituloSeccion = Instance.new("TextLabel")
+TituloSeccion.Name = "TituloSeccion"
+TituloSeccion.Size = UDim2.new(1, 0, 0, 45)
+TituloSeccion.Position = UDim2.new(0, 0, 0, 0)
+TituloSeccion.BackgroundTransparency = 1
+TituloSeccion.Text = "Main"
+TituloSeccion.TextColor3 = Color3.fromRGB(255, 255, 255)
+TituloSeccion.Font = Enum.Font.GothamBold
+TituloSeccion.TextSize = 28
+TituloSeccion.TextXAlignment = Enum.TextXAlignment.Left
+TituloSeccion.Parent = ContentArea
 
-    local BtnClick = Instance.new("TextButton")
-    BtnClick.Parent = BtnFrame
-    BtnClick.BackgroundTransparency = 1
-    BtnClick.Size = UDim2.new(1, 0, 1, 0)
-    BtnClick.Text = ""
-    BtnClick.MouseButton1Click:Connect(funcion)
-
-    return BtnFrame
+-- BOTONES DE CONTENIDO (GRANDES PARA CELULAR)
+local botonesContenido = {}
+local function CrearBotonDerecho(texto, posY)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(1, -10, 0, 52) -- ALTOS PARA TOCAR
+    btn.Position = UDim2.new(0, 0, 0, posY)
+    btn.BackgroundColor3 = Color3.fromRGB(20, 22, 30)
+    btn.BorderSizePixel = 1
+    btn.BorderColor3 = Color3.fromRGB(60, 140, 220)
+    btn.CornerRadius = UDim.new(0, 8)
+    btn.Text = texto
+    btn.TextColor3 = Color3.fromRGB(220, 220, 220)
+    btn.Font = Enum.Font.Gotham
+    btn.TextSize = 15
+    btn.TextXAlignment = Enum.TextXAlignment.Left
+    btn.AutoLocalize = false
+    
+    local flecha = Instance.new("TextLabel")
+    flecha.Size = UDim2.new(0, 25, 1, 0)
+    flecha.Position = UDim2.new(1, -30, 0, 0)
+    flecha.BackgroundTransparency = 1
+    flecha.Text = "›"
+    flecha.TextColor3 = Color3.fromRGB(150, 150, 150)
+    flecha.Font = Enum.Font.GothamBold
+    flecha.TextSize = 22
+    flecha.Parent = btn
+    
+    btn.Parent = ContentArea
+    table.insert(botonesContenido, btn)
+    return btn
 end
 
--- ==================================================
--- 📋 TODAS LAS SECCIONES — TODO EN ESPAÑOL ✅
--- ==================================================
+-- ACTUALIZAR CONTENIDO AL CAMBIAR SECCIÓN
+function ActualizarContenido(nombre)
+    TituloSeccion.Text = nombre
+    for _, v in pairs(botonesContenido) do v:Destroy() end
+    botonesContenido = {}
+    
+    if nombre == "Main" then
+        CrearBotonDerecho("Copy", 55)
+        local etiqueta = Instance.new("TextLabel")
+        etiqueta.Size = UDim2.new(1, 0, 0, 30)
+        etiqueta.Position = UDim2.new(0, 0, 0, 115)
+        etiqueta.BackgroundTransparency = 1
+        etiqueta.Text = "Main Features"
+        etiqueta.TextColor3 = Color3.fromRGB(200, 200, 200)
+        etiqueta.Font = Enum.Font.GothamBold
+        etiqueta.TextSize = 16
+        etiqueta.TextXAlignment = Enum.TextXAlignment.Left
+        etiqueta.Parent = ContentArea
+        table.insert(botonesContenido, etiqueta)
+        CrearBotonDerecho("Copy All Code", 150)
+        CrearBotonDerecho("Copy All Code", 212)
+        CrearBotonDerecho("Copy All Code", 274)
+    elseif nombre == "Auto Farm" then
+        CrearBotonDerecho("Activar Auto Farm", 55)
+        CrearBotonDerecho("Velocidad: 90", 117)
+        CrearBotonDerecho("Rango de recolección", 179)
+    elseif nombre == "Rebirth" then
+        CrearBotonDerecho("Auto Rebirth", 55)
+        CrearBotonDerecho("Solo cuando supere", 117)
+    end
+end
 
--- 🏠 MAIN
-CrearPestana("Main", "🏠", function()
-    local Texto = Instance.new("TextLabel")
-    Texto.Parent = AreaContenido
-    Texto.BackgroundTransparency = 1
-    Texto.Position = UDim2.new(0, 15, 0, 50)
-    Texto.Size = UDim2.new(1, -30, 0, 280)
-    Texto.Font = Enum.Font.Gotham
-    Texto.Text = [[
-══════════════════════════
-⚔️  Creado por: GoldGuerrero
-💚  Gracias a: Dola (guía y ayuda)
-══════════════════════════
+-- CARGAR SECCIÓN PRINCIPAL
+ActualizarContenido("Main")
 
-📌 Versión: 1.0.0
-🎮 Juego: Muscle Legends
-📅 Preparado para: 05/09/2026
-
-Selecciona una opción de la barra ⬅️
-]]
-    Texto.TextColor3 = Colores.TextoGris
-    Texto.TextSize = 13
-    Texto.TextWrapped = true
-    Texto.TextXAlignment = Enum.TextXAlignment.Left
+-- 🖱️ ARRASTRAR CON DEDO (FUNCIONA EN PANTALLA TÁCTIL)
+local drag, inicioPos, inicioCursor
+TituloBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        drag = true
+        inicioPos = MainWindow.Position
+        inicioCursor = UIS:GetMouseLocation()
+    end
 end)
-
--- 🏋️ AUTO ENTRENAMIENTO
-CrearPestana("Auto Entrenar", "🏋️", function()
-    local y = 50
-    local Opciones = {
-        "Auto pesas pequeñas", "Auto pesas medianas",
-        "Auto pesas grandes", "Auto entrenamiento alto",
-        "Auto portal de fuerza", "Todos los ejercicios"
-    }
-    for _, opcion in pairs(Opciones) do
-        local Btn = CrearBotonDerecho(opcion, function()
-            print("[GoldGuerrero] Activado:", opcion)
-        end)
-        Btn.Parent = AreaContenido
-        Btn.Position = UDim2.new(0, 10, 0, y)
-        y += 52
+TituloBar.InputEnded:Connect(function() drag = false end)
+RunService.RenderStepped:Connect(function()
+    if drag then
+        local delta = UIS:GetMouseLocation() - inicioCursor
+        MainWindow.Position = UDim2.new(
+            inicioPos.X.Scale, inicioPos.X.Offset + delta.X,
+            inicioPos.Y.Scale, inicioPos.Y.Offset + delta.Y
+        )
     end
 end)
 
--- ⚡ PELEAS
-CrearPestana("Peleas", "⚡", function()
-    local y = 50
-    local Opciones = {
-        "Auto unirse a peleas", "Auto farmear peleas",
-        "Teletransportar a portal de pelea", "Modo automático"
-    }
-    for _, opcion in pairs(Opciones) do
-        local Btn = CrearBotonDerecho(opcion, function()
-            print("[GoldGuerrero] Activado:", opcion)
-        end)
-        Btn.Parent = AreaContenido
-        Btn.Position = UDim2.new(0, 10, 0, y)
-        y += 52
-    end
+-- ❌ CERRAR
+btnClose.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
 end)
 
--- 🌍 TELETRANSPORT
-CrearPestana("Teletransport", "🌍", function()
-    local y = 50
-    local Gimnasios = {
-        "Gimnasio inicial", "Gimnasio de piedra",
-        "Gimnasio de hierro", "Gimnasio de oro",
-        "Gimnasio de diamante", "Gimnasio de maestro"
-    }
-    for _, gimnasio in pairs(Gimnasios) do
-        local Btn = CrearBotonDerecho(gimnasio .. " ✅ Sin requisitos", function()
-            print("[GoldGuerrero] Teletransportado a:", gimnasio)
-        end)
-        Btn.Parent = AreaContenido
-        Btn.Position = UDim2.new(0, 10, 0, y)
-        y += 52
-    end
-end)
-
--- 🔄 RENACIMIENTO
-CrearPestana("Renacimiento", "🔄", function()
-    local y = 50
-    local Opciones = {
-        "Auto renacer", "Mantener mascotas al renacer",
-        "Mantener pesas al renacer", "Fuerza mínima para renacer"
-    }
-    for _, opcion in pairs(Opciones) do
-        local Btn = CrearBotonDerecho(opcion, function()
-            print("[GoldGuerrero] Activado:", opcion)
-        end)
-        Btn.Parent = AreaContenido
-        Btn.Position = UDim2.new(0, 10, 0, y)
-        y += 52
-    end
-end)
-
--- 🐾 MASCOTAS
-CrearPestana("Mascotas", "🐾", function()
-    local y = 50
-    local Opciones = {
-        "Auto equipar mejor mascota", "Lista de mascotas",
-        "Auras gratis", "Multiplicadores de ganancia"
-    }
-    for _, opcion in pairs(Opciones) do
-        local Btn = CrearBotonDerecho(opcion, function()
-            print("[GoldGuerrero] Activado:", opcion)
-        end)
-        Btn.Parent = AreaContenido
-        Btn.Position = UDim2.new(0, 10, 0, y)
-        y += 52
-    end
-end)
-
--- 🗡️ KILLER
-CrearPestana("Killer", "🗡️", function()
-    local y = 50
-    local Opciones = {
-        "Auto atacar cercanos", "Rango de detección",
-        "Ignorar amigos", "Auto teletransportar al objetivo"
-    }
-    for _, opcion in pairs(Opciones) do
-        local Btn = CrearBotonDerecho(opcion, function()
-            print("[GoldGuerrero] Activado:", opcion)
-        end)
-        Btn.Parent = AreaContenido
-        Btn.Position = UDim2.new(0, 10, 0, y)
-        y += 52
-    end
-end)
-
--- ⚙️ AJUSTES
-CrearPestana("Ajustes", "⚙️", function()
-    local y = 50
-    local Opciones = {
-        "Notificaciones ON/OFF", "Sonidos ON/OFF",
-        "Tema oscuro/claro", "Reiniciar configuración"
-    }
-    for _, opcion in pairs(Opciones) do
-        local Btn = CrearBotonDerecho(opcion, function()
-            print("[GoldGuerrero] Cambiado:", opcion)
-        end)
-        Btn.Parent = AreaContenido
-        Btn.Position = UDim2.new(0, 10, 0, y)
-        y += 52
-    end
-end)
-
--- ✅ ACTIVAR MAIN POR DEFECTO
-task.wait(0.1)
-BotonesLateral.Main.Btn.TextColor3 = Colores.Texto
-BotonesLateral.Main.Barrita.BackgroundColor3 = Colores.AcentoAzul
-
--- ✅ CONFIRMACIÓN
-print("========================================")
-print("✅ GOLD GUERRERO HUB — LETRAS CLARAS ✅")
-print("⚔️ Creado por: GoldGuerrero")
-print("🔤 Todo en español — SIN letras raras")
-print("❌ SIN ícono ninja — SOLO TU NOMBRE")
-print("📐 560×360 — compacto para celular")
-print("👁️ Ojo 👁️ — abre/cierra siempre igual")
-print("========================================")
+print("✅ Muscle Legends Hub | CELULAR LISTO! 📱")
