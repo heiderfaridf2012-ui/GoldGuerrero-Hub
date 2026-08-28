@@ -1,176 +1,124 @@
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+--[[
+    Muscle Legends Simple Hub
+    Estilo limpio - Auto Farm + Auto Rebirth + Auto Hatch
+]]
 
-local Window = Rayfield:CreateWindow({
-   Name = "Muscle Legends Hub",
-   LoadingTitle = "Cargando Script...",
-   LoadingSubtitle = "Modo Celular / Mobile",
-   ConfigurationSaving = { Enabled = false },
-   KeySystem = false,
-   -- Mantiene la ventana ajustada y manejable en pantallas pequeñas
-   DisableRayfieldPrompts = true,
-   DisableBuildWarnings = true,
-})
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
 
--- Variables de control
-local AutoWeight = false
-local AutoPushups = false
-local AutoHandstands = false
-local AutoSitups = false
-local AutoRebirth = false
-local AutoBrawl = false
-local AntiAFK = true
+local LocalPlayer = Players.LocalPlayer
 
--- Pestaña: Auto Farm
-local FarmTab = Window:CreateTab("Auto Farm", 4483362458)
+-- Variables
+local autoStrength = false
+local autoRebirth = false
+local fastPunch = false
+local autoHatch = false
+local selectedCrystal = "Blue Crystal" -- Cambia esto si quieres otro por defecto
+local lockPosition = false
+local savedCFrame = nil
+local antiAFK = true
 
-FarmTab:CreateToggle({
-   Name = "Auto Weight (Pesas)",
-   CurrentValue = false,
-   Callback = function(Value)
-      AutoWeight = Value
-      task.spawn(function()
-         while AutoWeight do
-            task.wait(0.1)
+-- Anti AFK
+if antiAFK then
+    local VirtualUser = game:GetService("VirtualUser")
+    LocalPlayer.Idled:Connect(function()
+        VirtualUser:CaptureController()
+        VirtualUser:ClickButton2(Vector2.new())
+    end)
+end
+
+-- Función para equipar herramienta
+local function equipTool(toolName)
+    local backpack = LocalPlayer.Backpack
+    local char = LocalPlayer.Character
+    if not char then return end
+    
+    for _, tool in pairs(backpack:GetChildren()) do
+        if tool:IsA("Tool") and tool.Name == toolName then
+            tool.Parent = char
+            return true
+        end
+    end
+    return false
+end
+
+-- Auto Strength
+task.spawn(function()
+    while true do
+        if autoStrength then
             pcall(function()
-               local tool = game.Players.LocalPlayer.Backpack:FindFirstChild("Weight") or game.Players.LocalPlayer.Character:FindFirstChild("Weight")
-               if tool then
-                  tool.Parent = game.Players.LocalPlayer.Character
-                  tool:Activate()
-               end
+                equipTool("Weight")
+                equipTool("Heavy Weight")
+                if LocalPlayer:FindFirstChild("muscleEvent") then
+                    LocalPlayer.muscleEvent:FireServer("rep")
+                end
             end)
-         end
-      end)
-   end,
-})
-
-FarmTab:CreateToggle({
-   Name = "Auto Pushups (Lagartijas)",
-   CurrentValue = false,
-   Callback = function(Value)
-      AutoPushups = Value
-      task.spawn(function()
-         while AutoPushups do
-            task.wait(0.1)
-            pcall(function()
-               local tool = game.Players.LocalPlayer.Backpack:FindFirstChild("Pushups") or game.Players.LocalPlayer.Character:FindFirstChild("Pushups")
-               if tool then
-                  tool.Parent = game.Players.LocalPlayer.Character
-                  tool:Activate()
-               end
-            end)
-         end
-      end)
-   end,
-})
-
-FarmTab:CreateToggle({
-   Name = "Auto Handstands (Parada de manos)",
-   CurrentValue = false,
-   Callback = function(Value)
-      AutoHandstands = Value
-      task.spawn(function()
-         while AutoHandstands do
-            task.wait(0.1)
-            pcall(function()
-               local tool = game.Players.LocalPlayer.Backpack:FindFirstChild("Handstands") or game.Players.LocalPlayer.Character:FindFirstChild("Handstands")
-               if tool then
-                  tool.Parent = game.Players.LocalPlayer.Character
-                  tool:Activate()
-               end
-            end)
-         end
-      end)
-   end,
-})
-
-FarmTab:CreateToggle({
-   Name = "Auto Situps (Abdominales)",
-   CurrentValue = false,
-   Callback = function(Value)
-      AutoSitups = Value
-      task.spawn(function()
-         while AutoSitups do
-            task.wait(0.1)
-            pcall(function()
-               local tool = game.Players.LocalPlayer.Backpack:FindFirstChild("Situps") or game.Players.LocalPlayer.Character:FindFirstChild("Situps")
-               if tool then
-                  tool.Parent = game.Players.LocalPlayer.Character
-                  tool:Activate()
-               end
-            end)
-         end
-      end)
-   end,
-})
-
--- Pestaña: Rebirth
-local RebirthTab = Window:CreateTab("Rebirth", 4483362458)
-
-RebirthTab:CreateToggle({
-   Name = "Auto Rebirth",
-   CurrentValue = false,
-   Callback = function(Value)
-      AutoRebirth = Value
-      task.spawn(function()
-         while AutoRebirth do
-            task.wait(1)
-            pcall(function()
-               game:GetService("ReplicatedStorage").rEvents.rebirthEvent:FireServer("rebirthRequest")
-            end)
-         end
-      end)
-   end,
-})
-
--- Pestaña: Killer / Brawl
-local KillerTab = Window:CreateTab("Killer", 4483362458)
-
-KillerTab:CreateToggle({
-   Name = "Auto Join Brawl",
-   CurrentValue = false,
-   Callback = function(Value)
-      AutoBrawl = Value
-      task.spawn(function()
-         while AutoBrawl do
-            task.wait(2)
-            pcall(function()
-               game:GetService("ReplicatedStorage").rEvents.brawlEvent:FireServer("joinBrawl")
-            end)
-         end
-      end)
-   end,
-})
-
--- Pestaña: Ajustes & Seguridad
-local SettingsTab = Window:CreateTab("Settings", 4483362458)
-
-SettingsTab:CreateToggle({
-   Name = "Anti-AFK (Evita desconexión)",
-   CurrentValue = true,
-   Callback = function(Value)
-      AntiAFK = Value
-   end,
-})
-
--- Lógica Anti-AFK para Móvil
-local VirtualUser = game:GetService("VirtualUser")
-game:GetService("Players").LocalPlayer.Idled:Connect(function()
-   if AntiAFK then
-      VirtualUser:CaptureController()
-      VirtualUser:ClickButton2(Vector2.new())
-   end
+        end
+        task.wait(0.1)
+    end
 end)
 
--- Lógica Anti-Ban
-local rawmetatable = getrawmetatable(game)
-local oldNamecall = rawmetatable.__namecall
-setreadonly(rawmetatable, false)
-
-rawmetatable.__namecall = newcclosure(function(self, ...)
-   local method = getnamecallmethod()
-   if method == "FireServer" and tostring(self):find("Ban") then
-      return nil
-   end
-   return oldNamecall(self, ...)
+-- Auto Rebirth
+task.spawn(function()
+    while true do
+        if autoRebirth then
+            pcall(function()
+                local rEvents = ReplicatedStorage:FindFirstChild("rEvents")
+                if rEvents and rEvents:FindFirstChild("rebirthRemote") then
+                    rEvents.rebirthRemote:InvokeServer("rebirthRequest")
+                end
+            end)
+        end
+        task.wait(0.5)
+    end
 end)
-setreadonly(rawmetatable, true)
+
+-- Fast Punch
+task.spawn(function()
+    while true do
+        if fastPunch then
+            pcall(function()
+                if LocalPlayer:FindFirstChild("muscleEvent") then
+                    LocalPlayer.muscleEvent:FireServer("rep")
+                end
+            end)
+        end
+        task.wait(0.05)
+    end
+end)
+
+-- Auto Hatch (Pets)
+task.spawn(function()
+    while true do
+        if autoHatch then
+            pcall(function()
+                local rEvents = ReplicatedStorage:FindFirstChild("rEvents")
+                if rEvents and rEvents:FindFirstChild("openCrystalRemote") then
+                    rEvents.openCrystalRemote:InvokeServer("openCrystal", selectedCrystal)
+                end
+            end)
+        end
+        task.wait(0.8) -- Un poco más lento para no gastar gems demasiado rápido
+    end
+end)
+
+-- Lock Position
+task.spawn(function()
+    while true do
+        if lockPosition and savedCFrame and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            LocalPlayer.Character.HumanoidRootPart.CFrame = savedCFrame
+        end
+        task.wait(0.1)
+    end
+end)
+
+-- ==================== GUI ====================
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "MuscleHub"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = game:GetService("CoreGui")
+
+local MainFrame = Instance.new("Frame")
+MainFrame.Size = UDim2.new(0, 290, 0, 420)
+MainFrame.Position =
