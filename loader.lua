@@ -1,18 +1,18 @@
 -- ==================================================
---        ⚔️ GOLD GUERRERO HUB — VERSIÓN FINAL ✅
---  ✅ Ventana: 470px × 380px → TAMAÑO FIJO
---  ✅ TODAS LAS TARJETAS APARECEN AL CARGAR → SIN OCULTARSE
---  ✅ Barra deslizante DELGADA 4px → ESPACIOS SIMÉTRICOS
---  ✅ 5 Tarjetas completas → Fast Glitch 90, Public Training,
---     Auto Renacimientos, Killing, Free Pet Shop ✅
---  ✅ Botones ABRIR funcionales | Todo en español | PlayerGui ✅ MÓVIL
---  ✅ SIN ERRORES → LISTO PARA USAR Y COMPARTIR
+--        ⚔️ GOLD GUERRERO HUB — VERSIÓN DEFINITIVA
+--  ✅ 👁️ OJO → AL DAR CLIC ABRE/OCULTA TODO EL MENÚ
+--  ✅ Barra Lateral CON BARRA DESLIZANTE → TODAS LAS CATEGORÍAS
+--  ✅ Área de contenido a la derecha | Botones − □ ×
+--  ✅ Categorías: Información, Principal, Auto Entrenamiento, Fast Glitch 90,
+--     Auto Renacimiento, Mascotas, Asesino, Ajustes
+--  ✅ Empieza OCULTO → SOLO SE VE EL OJO AL CARGAR
+--  ✅ Diseño oscuro moderno | Todo en ESPAÑOL | PlayerGui ✅ MÓVIL
 -- ==================================================
 
 local Players = game:GetService("Players")
 local PlayerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
 
--- ✅ Borra duplicados al cargar
+-- ✅ Borra duplicados
 if PlayerGui:FindFirstChild("GoldGuerreroHub") then
     PlayerGui.GoldGuerreroHub:Destroy()
 end
@@ -23,172 +23,253 @@ ScreenGui.Parent = PlayerGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
 
--- 🎨 COLORES ESTILO YOUNG0X
+-- 🎨 COLORES ESTILO MODERNO
 local Colores = {
-    Fondo = Color3.fromRGB(12, 12, 15),
-    Borde = Color3.fromRGB(200, 0, 0),
-    TarjetaRoja = Color3.fromRGB(200, 0, 0),
-    TarjetaOscura = Color3.fromRGB(25, 25, 35),
-    BordeTarjeta = Color3.fromRGB(60, 15, 25),
-    BotonRojo = Color3.fromRGB(210, 0, 0),
+    FondoVentana = Color3.fromRGB(30, 30, 35),
+    FondoBarraLateral = Color3.fromRGB(22, 22, 26),
+    FondoBotonActivo = Color3.fromRGB(45, 45, 55),
+    Borde = Color3.fromRGB(60, 60, 70),
+    AcentoAzul = Color3.fromRGB(40, 120, 240),
+    AcentoRojo = Color3.fromRGB(200, 0, 0),
     Texto = Color3.fromRGB(255, 255, 255),
-    TextoGris = Color3.fromRGB(140, 140, 140),
-    BarraScroll = Color3.fromRGB(180, 0, 0)
+    TextoGris = Color3.fromRGB(160, 160, 170),
+    Separador = Color3.fromRGB(50, 50, 60)
 }
 
--- 📦 VENTANA PRINCIPAL — TAMAÑO FIJO Y CENTRADO
+-- 👁️ BOTÓN DEL OJO — SIEMPRE VISIBLE, ABRE/OCULTA EL MENÚ
+local BtnOjo = Instance.new("TextButton")
+BtnOjo.Parent = ScreenGui
+BtnOjo.BackgroundColor3 = Colores.FondoBarraLateral
+BtnOjo.BorderColor3 = Colores.AcentoAzul
+BtnOjo.BorderSizePixel = 2
+BtnOjo.Position = UDim2.new(0.5, -25, 0.5, -25)
+BtnOjo.Size = UDim2.new(0, 50, 0, 50)
+BtnOjo.Font = Enum.Font.GothamBold
+BtnOjo.Text = "👁️"
+BtnOjo.TextSize = 28
+BtnOjo.Active = true
+BtnOjo.Draggable = true
+Instance.new("UICorner", BtnOjo).CornerRadius = UDim.new(0, 12)
+
+-- 📦 VENTANA PRINCIPAL — EMPIEZA OCULTA
 local MainWindow = Instance.new("Frame")
 MainWindow.Name = "MainWindow"
 MainWindow.Parent = ScreenGui
-MainWindow.BackgroundColor3 = Colores.Fondo
+MainWindow.BackgroundColor3 = Colores.FondoVentana
 MainWindow.BorderColor3 = Colores.Borde
-MainWindow.BorderSizePixel = 3
-MainWindow.Position = UDim2.new(0.5, -235, 0.5, -190)
-MainWindow.Size = UDim2.new(0, 470, 0, 380)
+MainWindow.BorderSizePixel = 2
+MainWindow.Position = UDim2.new(0.5, -300, 0.5, -220)
+MainWindow.Size = UDim2.new(0, 600, 0, 440)
 MainWindow.Active = true
 MainWindow.Draggable = true
-Instance.new("UICorner", MainWindow).CornerRadius = UDim.new(0, 16)
+MainWindow.Visible = false -- ✅ EMPIEZA OCULTA
+Instance.new("UICorner", MainWindow).CornerRadius = UDim.new(0, 12)
 
--- 🏆 TÍTULO
-local TituloHub = Instance.new("TextLabel")
-TituloHub.Parent = MainWindow
-TituloHub.BackgroundTransparency = 1
-TituloHub.Position = UDim2.new(0.5, -110, 0, 8)
-TituloHub.Size = UDim2.new(0, 220, 0, 22)
-TituloHub.Font = Enum.Font.GothamBold
-TituloHub.Text = "GoldGuerrero Hub"
-TituloHub.TextColor3 = Colores.Texto
-TituloHub.TextSize = 20
-
-local Subtitulo = Instance.new("TextLabel")
-Subtitulo.Parent = MainWindow
-Subtitulo.BackgroundTransparency = 1
-Subtitulo.Position = UDim2.new(0.5, -75, 0, 32)
-Subtitulo.Size = UDim2.new(0, 150, 0, 12)
-Subtitulo.Font = Enum.Font.Gotham
-Subtitulo.Text = "Leyendas Musculares"
-Subtitulo.TextColor3 = Colores.TextoGris
-Subtitulo.TextSize = 11
-
--- 📜 BARRA DESLIZANTE — TAMAÑO FIJO → TODO SE VE DESDE EL PRINCIPIO
-local ScrollFrame = Instance.new("ScrollingFrame")
-ScrollFrame.Name = "ScrollFrame"
-ScrollFrame.Parent = MainWindow
-ScrollFrame.BackgroundTransparency = 1
-ScrollFrame.Position = UDim2.new(0, 12, 0, 50)  -- ✅ 12px IZQUIERDA → SIMÉTRICO
-ScrollFrame.Size = UDim2.new(1, -24, 1, -105)   -- ✅ 12px DERECHA → IGUAL A AMBOS LADOS
-ScrollFrame.CanvasSize = UDim2.new(0, 0, 0, 330) -- ✅ ALTURA SUFICIENTE PARA TODAS LAS TARJETAS
-ScrollFrame.ScrollBarThickness = 4              -- ✅ BARRA DELGADA Y ELEGANTE
-ScrollFrame.ScrollBarColor3 = Colores.BarraScroll
-ScrollFrame.ScrollBarPosition = Enum.ScrollBarPosition.Right
-ScrollFrame.ScrollingEnabled = true
-ScrollFrame.AutomaticCanvasSize = Enum.AutomaticSize.None -- ✅ DESACTIVADO → NO FALLA
-
--- 📦 CONTENEDOR DE TARJETAS — TAMAÑO FIJO → NUNCA SE OCULTA
-local TarjetasContainer = Instance.new("Frame")
-TarjetasContainer.Parent = ScrollFrame
-TarjetasContainer.BackgroundTransparency = 1
-TarjetasContainer.Position = UDim2.new(0, 0, 0, 0)
-TarjetasContainer.Size = UDim2.new(1, -12, 0, 320) -- ✅ ESPACIO EXACTO PARA 5 TARJETAS
-TarjetasContainer.AutomaticSize = Enum.AutomaticSize.None
-
-local Layout = Instance.new("UIListLayout")
-Layout.Parent = TarjetasContainer
-Layout.Padding = UDim.new(0, 10)       -- ✅ ESPACIO ENTRE TARJETAS
-Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-Layout.FillDirection = Enum.FillDirection.Vertical
-Layout.VerticalAlignment = Enum.VerticalAlignment.Top -- ✅ EMPIEZA DESDE ARRIBA → NO SE PIERDE
-
--- 📦 FUNCIÓN CREAR TARJETA — TODO CENTRADO Y FUNCIONAL
-local function CrearTarjeta(ColorFondo, Texto, Descripcion, Icono, NombreFuncion)
-    local Tarjeta = Instance.new("Frame")
-    Tarjeta.Parent = TarjetasContainer
-    Tarjeta.BackgroundColor3 = ColorFondo
-    Tarjeta.BorderColor3 = Colores.BordeTarjeta
-    Tarjeta.BorderSizePixel = 2
-    Tarjeta.Size = UDim2.new(1, 0, 0, 52) -- ✅ TARJETA COMPACTA
-    Instance.new("UICorner", Tarjeta).CornerRadius = UDim.new(0, 10)
-
-    local Icon = Instance.new("TextLabel")
-    Icon.Parent = Tarjeta
-    Icon.BackgroundTransparency = 1
-    Icon.Position = UDim2.new(0, 10, 0.5, -13)
-    Icon.Size = UDim2.new(0, 26, 0, 26)
-    Icon.Font = Enum.Font.GothamBold
-    Icon.Text = Icono
-    Icon.TextColor3 = Colores.Texto
-    Icon.TextSize = 20
-
-    local TituloTarjeta = Instance.new("TextLabel")
-    TituloTarjeta.Parent = Tarjeta
-    TituloTarjeta.BackgroundTransparency = 1
-    TituloTarjeta.Position = UDim2.new(0, 48, 0.5, -8)
-    TituloTarjeta.Size = UDim2.new(0, 250, 0, 18)
-    TituloTarjeta.Font = Enum.Font.GothamBold
-    TituloTarjeta.Text = Texto
-    TituloTarjeta.TextColor3 = Colores.Texto
-    TituloTarjeta.TextSize = 15
-
-    local Desc = Instance.new("TextLabel")
-    Desc.Parent = Tarjeta
-    Desc.BackgroundTransparency = 1
-    Desc.Position = UDim2.new(0, 48, 0.5, 6)
-    Desc.Size = UDim2.new(0, 250, 0, 12)
-    Desc.Font = Enum.Font.Gotham
-    Desc.Text = Descripcion
-    Desc.TextColor3 = Colores.TextoGris
-    Desc.TextSize = 11
-
-    -- 🔘 BOTÓN ABRIR — FUNCIONAL
-    local BtnAbrir = Instance.new("TextButton")
-    BtnAbrir.Parent = Tarjeta
-    BtnAbrir.BackgroundColor3 = Colores.BotonRojo
-    BtnAbrir.Position = UDim2.new(1, -82, 0.5, -13)
-    BtnAbrir.Size = UDim2.new(0, 72, 0, 26)
-    BtnAbrir.Font = Enum.Font.GothamBold
-    BtnAbrir.Text = "ABRIR"
-    BtnAbrir.TextColor3 = Colores.Texto
-    BtnAbrir.TextSize = 12
-    BtnAbrir.AutoLocalize = false
-    Instance.new("UICorner", BtnAbrir).CornerRadius = UDim.new(0, 8)
-
-    BtnAbrir.MouseButton1Click:Connect(function()
-        print("✅ Abierto: " .. NombreFuncion)
-    end)
-
-    return Tarjeta
-end
-
--- 📋 TODAS LAS TARJETAS — APARECEN DE UNA VEZ ✅
-CrearTarjeta(Colores.TarjetaRoja, "Fast Glitch 90", "Script de pelea muy OP", "⚡", "Fast Glitch 90")
-CrearTarjeta(Colores.TarjetaOscura, "Public Training", "Script gratuito para Auto Farm", "🏋️", "Public Training")
-CrearTarjeta(Colores.TarjetaOscura, "Auto Renacimientos", "Renacimientos automáticos", "🔄", "Auto Renacimientos")
-CrearTarjeta(Colores.TarjetaOscura, "Killing", "Auto Kills + Server Hop", "🎯", "Killing")
-CrearTarjeta(Colores.TarjetaOscura, "Free Pet Shop", "¡Mascotas y auras gratis!", "🐾", "Free Pet Shop")
-
--- ❌ BOTÓN SALIR — FIJO Y FUNCIONAL
-local BtnSalir = Instance.new("TextButton")
-BtnSalir.Parent = MainWindow
-BtnSalir.BackgroundColor3 = Colores.BotonRojo
-BtnSalir.Position = UDim2.new(0, 12, 1, -48)
-BtnSalir.Size = UDim2.new(1, -24, 0, 38)
-BtnSalir.Font = Enum.Font.GothamBold
-BtnSalir.Text = "❌ SALIR"
-BtnSalir.TextColor3 = Colores.Texto
-BtnSalir.TextSize = 16
-BtnSalir.AutoLocalize = false
-Instance.new("UICorner", BtnSalir).CornerRadius = UDim.new(0, 10)
-
-BtnSalir.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-    print("❌ Cerrado GoldGuerrero Hub")
+-- 🔄 FUNCIÓN MOSTRAR/OCULTAR CON EL OJO
+local MenuAbierto = false
+BtnOjo.MouseButton1Click:Connect(function()
+    MenuAbierto = not MenuAbierto
+    MainWindow.Visible = MenuAbierto
+    BtnOjo.Text = MenuAbierto and "🙈" or "👁️"
 end)
 
--- ✅ CONFIRMACIÓN FINAL
+-- 🏷️ TÍTULO DE LA VENTANA
+local TituloVentana = Instance.new("TextLabel")
+TituloVentana.Parent = MainWindow
+TituloVentana.BackgroundTransparency = 1
+TituloVentana.Position = UDim2.new(0, 15, 0, 8)
+TituloVentana.Size = UDim2.new(0, 180, 0, 24)
+TituloVentana.Font = Enum.Font.GothamBold
+TituloVentana.Text = "GoldGuerrero Hub"
+TituloVentana.TextColor3 = Colores.Texto
+TituloVentana.TextSize = 16
+
+-- 🪟 BOTONES DE VENTANA − □ ×
+local BtnMinimizar = Instance.new("TextButton")
+BtnMinimizar.Parent = MainWindow
+BtnMinimizar.BackgroundTransparency = 1
+BtnMinimizar.Position = UDim2.new(1, -90, 0, 5)
+BtnMinimizar.Size = UDim2.new(0, 25, 0, 25)
+BtnMinimizar.Font = Enum.Font.GothamBold
+BtnMinimizar.Text = "−"
+BtnMinimizar.TextColor3 = Colores.Texto
+BtnMinimizar.TextSize = 18
+
+local BtnMaximizar = Instance.new("TextButton")
+BtnMaximizar.Parent = MainWindow
+BtnMaximizar.BackgroundTransparency = 1
+BtnMaximizar.Position = UDim2.new(1, -60, 0, 5)
+BtnMaximizar.Size = UDim2.new(0, 25, 0, 25)
+BtnMaximizar.Font = Enum.Font.GothamBold
+BtnMaximizar.Text = "□"
+BtnMaximizar.TextColor3 = Colores.Texto
+BtnMaximizar.TextSize = 14
+
+local BtnCerrar = Instance.new("TextButton")
+BtnCerrar.Parent = MainWindow
+BtnCerrar.BackgroundTransparency = 1
+BtnCerrar.Position = UDim2.new(1, -30, 0, 5)
+BtnCerrar.Size = UDim2.new(0, 25, 0, 25)
+BtnCerrar.Font = Enum.Font.GothamBold
+BtnCerrar.Text = "×"
+BtnCerrar.TextColor3 = Colores.AcentoRojo
+BtnCerrar.TextSize = 20
+
+BtnCerrar.MouseButton1Click:Connect(function()
+    MainWindow.Visible = false
+    MenuAbierto = false
+    BtnOjo.Text = "👁️"
+end)
+
+-- 📏 LÍNEA SEPARADORA
+local Separador = Instance.new("Frame")
+Separador.Parent = MainWindow
+Separador.BackgroundColor3 = Colores.Separador
+Separador.Position = UDim2.new(0, 0, 0, 35)
+Separador.Size = UDim2.new(1, 0, 0, 1)
+
+-- 📂 BARRA LATERAL CON BARRA DESLIZANTE ✅
+local BarraLateral = Instance.new("ScrollingFrame")
+BarraLateral.Name = "BarraLateral"
+BarraLateral.Parent = MainWindow
+BarraLateral.BackgroundColor3 = Colores.FondoBarraLateral
+BarraLateral.Position = UDim2.new(0, 0, 0, 36)
+BarraLateral.Size = UDim2.new(0, 160, 1, -36)
+BarraLateral.CanvasSize = UDim2.new(0, 0, 0, 360)
+BarraLateral.ScrollBarThickness = 4
+BarraLateral.ScrollBarColor3 = Colores.AcentoAzul
+BarraLateral.ScrollBarPosition = Enum.ScrollBarPosition.Right
+BarraLateral.ScrollingEnabled = true
+
+-- Contenedor de botones de categorías
+local ContenedorCategorias = Instance.new("Frame")
+ContenedorCategorias.Parent = BarraLateral
+ContenedorCategorias.BackgroundTransparency = 1
+ContenedorCategorias.Size = UDim2.new(1, -8, 0, 360)
+
+local LayoutCategorias = Instance.new("UIListLayout")
+LayoutCategorias.Parent = ContenedorCategorias
+LayoutCategorias.Padding = UDim.new(0, 5)
+LayoutCategorias.HorizontalAlignment = Enum.HorizontalAlignment.Center
+LayoutCategorias.FillDirection = Enum.FillDirection.Vertical
+
+-- 📄 ÁREA DE CONTENIDO A LA DERECHA
+local AreaContenido = Instance.new("Frame")
+AreaContenido.Name = "AreaContenido"
+AreaContenido.Parent = MainWindow
+AreaContenido.BackgroundTransparency = 1
+AreaContenido.Position = UDim2.new(0, 160, 0, 36)
+AreaContenido.Size = UDim2.new(1, -160, 1, -36)
+
+-- 📦 PANELES DE CONTENIDO (cada categoría tiene su panel)
+local Paneles = {}
+local Botones = {}
+local CategoriaActiva = nil
+
+-- Función para crear paneles
+local function CrearPanel(Nombre)
+    local Panel = Instance.new("ScrollingFrame")
+    Panel.Name = Nombre
+    Panel.Parent = AreaContenido
+    Panel.BackgroundTransparency = 1
+    Panel.Position = UDim2.new(0, 20, 0, 10)
+    Panel.Size = UDim2.new(1, -40, 1, -20)
+    Panel.CanvasSize = UDim2.new(0, 0, 0, 500)
+    Panel.ScrollBarThickness = 4
+    Panel.ScrollBarColor3 = Colores.AcentoAzul
+    Panel.Visible = false
+
+    local Contenido = Instance.new("Frame")
+    Contenido.Parent = Panel
+    Contenido.BackgroundTransparency = 1
+    Contenido.Size = UDim2.new(1, -12, 0, 0)
+    Contenido.AutomaticSize = Enum.AutomaticSize.Y
+
+    local Layout = Instance.new("UIListLayout")
+    Layout.Parent = Contenido
+    Layout.Padding = UDim.new(0, 12)
+    Layout.HorizontalAlignment = Enum.HorizontalAlignment.Left
+    Layout.FillDirection = Enum.FillDirection.Vertical
+
+    -- Título del panel
+    local TituloPanel = Instance.new("TextLabel")
+    TituloPanel.Parent = Contenido
+    TituloPanel.BackgroundTransparency = 1
+    TituloPanel.Size = UDim2.new(1, 0, 0, 30)
+    TituloPanel.Font = Enum.Font.GothamBold
+    TituloPanel.Text = Nombre
+    TituloPanel.TextColor3 = Colores.Texto
+    TituloPanel.TextSize = 22
+    TituloPanel.TextXAlignment = Enum.TextXAlignment.Left
+
+    Paneles[Nombre] = {Panel = Panel, Contenido = Contenido}
+    return Paneles[Nombre]
+end
+
+-- Función para crear botón de categoría
+local function CrearBotonCategoria(Nombre, Icono)
+    local Btn = Instance.new("TextButton")
+    Btn.Parent = ContenedorCategorias
+    Btn.BackgroundTransparency = 1
+    Btn.Size = UDim2.new(1, 0, 0, 40)
+    Btn.Font = Enum.Font.Gotham
+    Btn.Text = "  " .. Icono .. "  " .. Nombre
+    Btn.TextColor3 = Colores.TextoGris
+    Btn.TextSize = 13
+    Btn.TextXAlignment = Enum.TextXAlignment.Left
+    Btn.AutoLocalize = false
+
+    Botones[Nombre] = Btn
+
+    Btn.MouseButton1Click:Connect(function()
+        -- Restaurar botón anterior
+        if CategoriaActiva then
+            Botones[CategoriaActiva].BackgroundColor3 = Color3.fromRGB(0,0,0,0)
+            Botones[CategoriaActiva].TextColor3 = Colores.TextoGris
+            Paneles[CategoriaActiva].Panel.Visible = false
+        end
+        -- Activar nuevo
+        CategoriaActiva = Nombre
+        Btn.BackgroundColor3 = Colores.FondoBotonActivo
+        Btn.TextColor3 = Colores.Texto
+        Paneles[Nombre].Panel.Visible = true
+    end)
+
+    return Btn
+end
+
+-- 📋 CREAR TODAS LAS CATEGORÍAS Y PANELES
+CrearPanel("ℹ️ Información")
+CrearPanel("🏠 Principal")
+CrearPanel("🏋️ Auto Entrenamiento")
+CrearPanel("⚡ Fast Glitch 90")
+CrearPanel("🔄 Auto Renacimiento")
+CrearPanel("🐾 Mascotas")
+CrearPanel("🗡️ Asesino")
+CrearPanel("⚙️ Ajustes")
+
+CrearBotonCategoria("ℹ️ Información", "ℹ️")
+CrearBotonCategoria("🏠 Principal", "🏠")
+CrearBotonCategoria("🏋️ Auto Entrenamiento", "🏋️")
+CrearBotonCategoria("⚡ Fast Glitch 90", "⚡")
+CrearBotonCategoria("🔄 Auto Renacimiento", "🔄")
+CrearBotonCategoria("🐾 Mascotas", "🐾")
+CrearBotonCategoria("🗡️ Asesino", "🗡️")
+CrearBotonCategoria("⚙️ Ajustes", "⚙️")
+
+-- ✅ ACTIVAR PANEL POR DEFECTO AL ABRIR
+task.wait(0.1)
+if Botones["ℹ️ Información"] then
+    Botones["ℹ️ Información"].BackgroundColor3 = Colores.FondoBotonActivo
+    Botones["ℹ️ Información"].TextColor3 = Colores.Texto
+    Paneles["ℹ️ Información"].Panel.Visible = true
+    CategoriaActiva = "ℹ️ Información"
+end
+
+-- ✅ CONFIRMACIÓN
 print("========================================")
-print("✅ GOLD GUERRERO HUB — VERSIÓN FINAL ✅")
-print("📏 Tamaño: 470×380px | Barra: 4px delgada")
-print("📦 5 Tarjetas → TODAS VISIBLES AL CARGAR")
-print("🔘 Botones ABRIR funcionales | Todo en español")
-print("📱 Optimizado para MÓVIL | SIN ERRORES")
+print("✅ GOLD GUERRERO HUB — VERSIÓN DEFINITIVA ✅")
+print("👁️ Ojo para abrir/ocultar | Barra deslizante")
+print("📂 8 Categorías | Estilo moderno oscuro")
+print("📱 Optimizado para MÓVIL | Todo en ESPAÑOL")
 print("========================================")
