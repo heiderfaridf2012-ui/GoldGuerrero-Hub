@@ -1,6 +1,6 @@
 --[[
     GOLD GUERRERO HUB
-    Muscle Legends - Estilo Speed Hub X + Enchanted
+    Muscle Legends - Versión Corregida
 ]]
 
 local Players = game:GetService("Players")
@@ -70,7 +70,9 @@ task.spawn(function()
                 local current = getRebirths()
                 if targetRebirth == 0 or current < targetRebirth then
                     local remote = ReplicatedStorage:FindFirstChild("rEvents") and ReplicatedStorage.rEvents:FindFirstChild("rebirthRemote")
-                    if remote then remote:InvokeServer("rebirthRequest") end
+                    if remote then
+                        remote:InvokeServer("rebirthRequest")
+                    end
                 end
             end)
         end
@@ -96,7 +98,9 @@ task.spawn(function()
         if autoHatch then
             pcall(function()
                 local remote = ReplicatedStorage:FindFirstChild("rEvents") and ReplicatedStorage.rEvents:FindFirstChild("openCrystalRemote")
-                if remote then remote:InvokeServer("openCrystal", selectedCrystal) end
+                if remote then
+                    remote:InvokeServer("openCrystal", selectedCrystal)
+                end
             end)
         end
         task.wait(0.7)
@@ -126,7 +130,6 @@ task.spawn(function()
     end
 end)
 
--- Kill
 task.spawn(function()
     while true do
         if killAura or autoKill then
@@ -273,7 +276,6 @@ local function createToggle(page, text, y, callback)
         end
         callback(on)
     end)
-    return button
 end
 
 local function pageTitle(page, text)
@@ -288,7 +290,6 @@ local function pageTitle(page, text)
     label.Parent = page
 end
 
--- Páginas
 local Home = createPage("Home")
 local Main = createPage("Main")
 local Rebirths = createPage("Rebirths")
@@ -315,12 +316,11 @@ pageTitle(Crystal, "💎 Crystal")
 pageTitle(Status, "📊 Status")
 pageTitle(Misc, "🛠️ Miscellaneous")
 
--- Home
 local homeInfo = Instance.new("TextLabel")
 homeInfo.Size = UDim2.new(1, -20, 0, 160)
 homeInfo.Position = UDim2.new(0, 10, 0, 50)
 homeInfo.BackgroundTransparency = 1
-homeInfo.Text = "Bienvenido a Gold Guerrero Hub\n\nEstilo Speed Hub X + Enchanted\n\n• Auto Strength + Fast Punch + Auto Size\n• Target Rebirth (llegar y parar)\n• Auto Hatch + más cristales\n• Kill Aura + Auto Kill\n• Lock Position"
+homeInfo.Text = "Bienvenido a Gold Guerrero Hub\n\nVersión corregida\n\n• Auto Strength + Fast Punch + Auto Size\n• Target Rebirth\n• Auto Hatch + cristales\n• Kill Aura + Auto Kill"
 homeInfo.TextColor3 = Color3.fromRGB(200, 200, 200)
 homeInfo.TextSize = 15
 homeInfo.Font = Enum.Font.Gotham
@@ -328,7 +328,6 @@ homeInfo.TextXAlignment = Enum.TextXAlignment.Left
 homeInfo.TextYAlignment = Enum.TextYAlignment.Top
 homeInfo.Parent = Home
 
--- Main
 createToggle(Main, "💪 Auto Strength", 50, function(v) autoStrength = v end)
 createToggle(Main, "👊 Fast Punch", 100, function(v) fastPunch = v end)
 createToggle(Main, "📍 Lock Position", 150, function(v)
@@ -339,7 +338,6 @@ createToggle(Main, "📍 Lock Position", 150, function(v)
 end)
 createToggle(Main, "📏 Auto Size 1", 200, function(v) autoSize = v end)
 
--- Rebirths
 createToggle(Rebirths, "🔄 Auto Rebirth", 50, function(v) autoRebirth = v end)
 
 local targetLabel = Instance.new("TextLabel")
@@ -378,11 +376,9 @@ for i, num in ipairs(targets) do
     if i % 3 == 0 then ty = ty + 40 end
 end
 
--- Killer
 createToggle(Killer, "⚔️ Auto Kill (TP + Punch)", 50, function(v) autoKill = v end)
 createToggle(Killer, "🔥 Kill Aura (25 studs)", 100, function(v) killAura = v end)
 
--- Crystal
 createToggle(Crystal, "💎 Auto Hatch Pets", 50, function(v) autoHatch = v end)
 
 local crystalLabel = Instance.new("TextLabel")
@@ -425,7 +421,6 @@ for i, name in ipairs(crystals) do
     if i % 2 == 0 then cy = cy + 36 end
 end
 
--- Status
 local statusLabel = Instance.new("TextLabel")
 statusLabel.Size = UDim2.new(1, -20, 0, 250)
 statusLabel.Position = UDim2.new(0, 10, 0, 50)
@@ -456,8 +451,7 @@ task.spawn(function()
     end
 end)
 
--- Misc
 createToggle(Misc, "🚀 Reduce Lag (próximamente)", 50, function() end)
 createToggle(Misc, "✨ Disable Effects (próximamente)", 100, function() end)
 
-print("✅ Gold Guerrero Hub cargado - Estilo Speed + Enchanted")
+print("✅ Gold Guerrero Hub cargado correctamente")
