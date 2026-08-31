@@ -1,6 +1,6 @@
 --[[
     GOLD GUERRERO HUB
-    Muscle Legends - Versión Funcional
+    Muscle Legends - Estilo Speed Hub X + Enchanted
 ]]
 
 local Players = game:GetService("Players")
@@ -13,7 +13,11 @@ local autoRebirth = false
 local fastPunch = false
 local autoHatch = false
 local lockPosition = false
+local autoKill = false
+local killAura = false
+local autoSize = false
 local selectedCrystal = "Blue Crystal"
+local targetRebirth = 0
 local savedCFrame = nil
 
 -- Anti AFK
@@ -36,6 +40,13 @@ local function equipTool(name)
     end
 end
 
+local function getRebirths()
+    local success, result = pcall(function()
+        return player.leaderstats and player.leaderstats:FindFirstChild("Rebirths") and player.leaderstats.Rebirths.Value or 0
+    end)
+    return success and result or 0
+end
+
 -- Loops
 task.spawn(function()
     while true do
@@ -56,8 +67,11 @@ task.spawn(function()
     while true do
         if autoRebirth then
             pcall(function()
-                local remote = ReplicatedStorage:FindFirstChild("rEvents") and ReplicatedStorage.rEvents:FindFirstChild("rebirthRemote")
-                if remote then remote:InvokeServer("rebirthRequest") end
+                local current = getRebirths()
+                if targetRebirth == 0 or current < targetRebirth then
+                    local remote = ReplicatedStorage:FindFirstChild("rEvents") and ReplicatedStorage.rEvents:FindFirstChild("rebirthRemote")
+                    if remote then remote:InvokeServer("rebirthRequest") end
+                end
             end)
         end
         task.wait(0.4)
@@ -95,6 +109,47 @@ task.spawn(function()
             player.Character.HumanoidRootPart.CFrame = savedCFrame
         end
         task.wait(0.1)
+    end
+end)
+
+task.spawn(function()
+    while true do
+        if autoSize then
+            pcall(function()
+                local remote = ReplicatedStorage:FindFirstChild("rEvents") and ReplicatedStorage.rEvents:FindFirstChild("changeSpeedSizeRemote")
+                if remote then
+                    remote:InvokeServer("changeSize", 1)
+                end
+            end)
+        end
+        task.wait(1)
+    end
+end)
+
+-- Kill
+task.spawn(function()
+    while true do
+        if killAura or autoKill then
+            pcall(function()
+                local myChar = player.Character
+                if not myChar or not myChar:FindFirstChild("HumanoidRootPart") then return end
+                
+                for _, plr in pairs(Players:GetPlayers()) do
+                    if plr \~= player and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and plr.Character:FindFirstChild("Humanoid") and plr.Character.Humanoid.Health > 0 then
+                        local dist = (myChar.HumanoidRootPart.Position - plr.Character.HumanoidRootPart.Position).Magnitude
+                        if dist < 25 then
+                            if player:FindFirstChild("muscleEvent") then
+                                player.muscleEvent:FireServer("rep")
+                            end
+                            if autoKill and dist > 8 then
+                                myChar.HumanoidRootPart.CFrame = plr.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+        task.wait(0.15)
     end
 end)
 
@@ -218,6 +273,7 @@ local function createToggle(page, text, y, callback)
         end
         callback(on)
     end)
+    return button
 end
 
 local function pageTitle(page, text)
@@ -232,7 +288,7 @@ local function pageTitle(page, text)
     label.Parent = page
 end
 
--- Crear páginas
+-- Páginas
 local Home = createPage("Home")
 local Main = createPage("Main")
 local Rebirths = createPage("Rebirths")
@@ -252,8 +308,8 @@ createTab("Misc", "🛠️")
 Home.Visible = true
 
 pageTitle(Home, "🏠 Home")
-pageTitle(Main, "💪 Main - Strength")
-pageTitle(Rebirths, "🔄 Rebirths")
+pageTitle(Main, "💪 Main - Fuerza")
+pageTitle(Rebirths, "🔄 Renacimientos")
 pageTitle(Killer, "⚔️ Killer")
 pageTitle(Crystal, "💎 Crystal")
 pageTitle(Status, "📊 Status")
@@ -261,10 +317,10 @@ pageTitle(Misc, "🛠️ Miscellaneous")
 
 -- Home
 local homeInfo = Instance.new("TextLabel")
-homeInfo.Size = UDim2.new(1, -20, 0, 100)
+homeInfo.Size = UDim2.new(1, -20, 0, 160)
 homeInfo.Position = UDim2.new(0, 10, 0, 50)
 homeInfo.BackgroundTransparency = 1
-homeInfo.Text = "Bienvenido a Gold Guerrero Hub\n\nSelecciona una pestaña para usar las funciones.\n\nAuto Strength y Auto Hatch ya están listos."
+homeInfo.Text = "Bienvenido a Gold Guerrero Hub\n\nEstilo Speed Hub X + Enchanted\n\n• Auto Strength + Fast Punch + Auto Size\n• Target Rebirth (llegar y parar)\n• Auto Hatch + más cristales\n• Kill Aura + Auto Kill\n• Lock Position"
 homeInfo.TextColor3 = Color3.fromRGB(200, 200, 200)
 homeInfo.TextSize = 15
 homeInfo.Font = Enum.Font.Gotham
@@ -273,24 +329,65 @@ homeInfo.TextYAlignment = Enum.TextYAlignment.Top
 homeInfo.Parent = Home
 
 -- Main
-createToggle(Main, "💪 Auto Strength", 55, function(v) autoStrength = v end)
-createToggle(Main, "👊 Fast Punch", 105, function(v) fastPunch = v end)
-createToggle(Main, "📍 Lock Position", 155, function(v)
+createToggle(Main, "💪 Auto Strength", 50, function(v) autoStrength = v end)
+createToggle(Main, "👊 Fast Punch", 100, function(v) fastPunch = v end)
+createToggle(Main, "📍 Lock Position", 150, function(v)
     lockPosition = v
     if v and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         savedCFrame = player.Character.HumanoidRootPart.CFrame
     end
 end)
+createToggle(Main, "📏 Auto Size 1", 200, function(v) autoSize = v end)
 
 -- Rebirths
-createToggle(Rebirths, "🔄 Auto Rebirth", 55, function(v) autoRebirth = v end)
+createToggle(Rebirths, "🔄 Auto Rebirth", 50, function(v) autoRebirth = v end)
+
+local targetLabel = Instance.new("TextLabel")
+targetLabel.Size = UDim2.new(1, -20, 0, 25)
+targetLabel.Position = UDim2.new(0, 10, 0, 105)
+targetLabel.BackgroundTransparency = 1
+targetLabel.Text = "Target Rebirth: Ilimitado"
+targetLabel.TextColor3 = Color3.fromRGB(120, 180, 255)
+targetLabel.TextSize = 14
+targetLabel.Font = Enum.Font.Gotham
+targetLabel.TextXAlignment = Enum.TextXAlignment.Left
+targetLabel.Parent = Rebirths
+
+local targets = {0, 100, 500, 1000, 5000, 10000, 50000}
+local ty = 140
+for i, num in ipairs(targets) do
+    local b = Instance.new("TextButton")
+    b.Size = UDim2.new(0.3, -5, 0, 32)
+    b.Position = UDim2.new(((i-1) % 3) * 0.33 + 0.02, 0, 0, ty)
+    b.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
+    b.Text = num == 0 and "∞" or tostring(num)
+    b.TextColor3 = Color3.fromRGB(220, 220, 220)
+    b.Font = Enum.Font.Gotham
+    b.TextSize = 13
+    b.Parent = Rebirths
+
+    local bc = Instance.new("UICorner")
+    bc.CornerRadius = UDim.new(0, 6)
+    bc.Parent = b
+
+    b.MouseButton1Click:Connect(function()
+        targetRebirth = num
+        targetLabel.Text = "Target Rebirth: " .. (num == 0 and "Ilimitado" or num)
+    end)
+
+    if i % 3 == 0 then ty = ty + 40 end
+end
+
+-- Killer
+createToggle(Killer, "⚔️ Auto Kill (TP + Punch)", 50, function(v) autoKill = v end)
+createToggle(Killer, "🔥 Kill Aura (25 studs)", 100, function(v) killAura = v end)
 
 -- Crystal
-createToggle(Crystal, "💎 Auto Hatch Pets", 55, function(v) autoHatch = v end)
+createToggle(Crystal, "💎 Auto Hatch Pets", 50, function(v) autoHatch = v end)
 
 local crystalLabel = Instance.new("TextLabel")
 crystalLabel.Size = UDim2.new(1, -20, 0, 25)
-crystalLabel.Position = UDim2.new(0, 10, 0, 110)
+crystalLabel.Position = UDim2.new(0, 10, 0, 100)
 crystalLabel.BackgroundTransparency = 1
 crystalLabel.Text = "Crystal actual: Blue Crystal"
 crystalLabel.TextColor3 = Color3.fromRGB(120, 180, 255)
@@ -299,17 +396,21 @@ crystalLabel.Font = Enum.Font.Gotham
 crystalLabel.TextXAlignment = Enum.TextXAlignment.Left
 crystalLabel.Parent = Crystal
 
-local crystals = {"Blue Crystal", "Green Crystal", "Frost Crystal", "Mythical Crystal", "Inferno Crystal", "Legends Crystal"}
-local cy = 145
+local crystals = {
+    "Blue Crystal", "Green Crystal", "Frost Crystal",
+    "Mythical Crystal", "Inferno Crystal", "Legends Crystal",
+    "Muscle Elite Crystal", "Galaxy Oracle Crystal"
+}
+local cy = 135
 for i, name in ipairs(crystals) do
     local b = Instance.new("TextButton")
-    b.Size = UDim2.new(0.48, -5, 0, 32)
+    b.Size = UDim2.new(0.48, -5, 0, 30)
     b.Position = UDim2.new(i % 2 == 1 and 0.02 or 0.52, 0, 0, cy)
     b.BackgroundColor3 = Color3.fromRGB(45, 45, 55)
     b.Text = name:gsub(" Crystal", "")
     b.TextColor3 = Color3.fromRGB(220, 220, 220)
     b.Font = Enum.Font.Gotham
-    b.TextSize = 13
+    b.TextSize = 12
     b.Parent = Crystal
 
     local bc = Instance.new("UICorner")
@@ -321,11 +422,42 @@ for i, name in ipairs(crystals) do
         crystalLabel.Text = "Crystal actual: " .. name
     end)
 
-    if i % 2 == 0 then cy = cy + 40 end
+    if i % 2 == 0 then cy = cy + 36 end
 end
 
--- Misc
-createToggle(Misc, "🚀 Reduce Lag (próximamente)", 55, function() end)
-createToggle(Misc, "✨ Disable Effects (próximamente)", 105, function() end)
+-- Status
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Size = UDim2.new(1, -20, 0, 250)
+statusLabel.Position = UDim2.new(0, 10, 0, 50)
+statusLabel.BackgroundTransparency = 1
+statusLabel.Text = "Cargando..."
+statusLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+statusLabel.TextSize = 14
+statusLabel.Font = Enum.Font.Gotham
+statusLabel.TextXAlignment = Enum.TextXAlignment.Left
+statusLabel.TextYAlignment = Enum.TextYAlignment.Top
+statusLabel.Parent = Status
 
-print("✅ Gold Guerrero Hub cargado correctamente")
+task.spawn(function()
+    while true do
+        local str = "Estado actual:\n\n"
+        str = str .. "Auto Strength: " .. (autoStrength and "ON" or "OFF") .. "\n"
+        str = str .. "Fast Punch: " .. (fastPunch and "ON" or "OFF") .. "\n"
+        str = str .. "Auto Size: " .. (autoSize and "ON" or "OFF") .. "\n"
+        str = str .. "Auto Rebirth: " .. (autoRebirth and "ON" or "OFF") .. "\n"
+        str = str .. "Target: " .. (targetRebirth == 0 and "Ilimitado" or targetRebirth) .. "\n"
+        str = str .. "Auto Hatch: " .. (autoHatch and "ON" or "OFF") .. "\n"
+        str = str .. "Kill Aura: " .. (killAura and "ON" or "OFF") .. "\n"
+        str = str .. "Auto Kill: " .. (autoKill and "ON" or "OFF") .. "\n"
+        str = str .. "Lock Position: " .. (lockPosition and "ON" or "OFF") .. "\n\n"
+        str = str .. "Crystal: " .. selectedCrystal
+        statusLabel.Text = str
+        task.wait(1)
+    end
+end)
+
+-- Misc
+createToggle(Misc, "🚀 Reduce Lag (próximamente)", 50, function() end)
+createToggle(Misc, "✨ Disable Effects (próximamente)", 100, function() end)
+
+print("✅ Gold Guerrero Hub cargado - Estilo Speed + Enchanted")
